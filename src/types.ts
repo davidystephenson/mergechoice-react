@@ -22,6 +22,7 @@ export interface State {
   finalized: boolean
 }
 export interface ListContextValue {
+  defaultOptionIndex: number | undefined
   state: State
   applyChoice: ({ optionIndex }: { optionIndex: number }) => void
 }

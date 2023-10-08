@@ -2,8 +2,7 @@ import { useContext } from 'react'
 import { Center, HStack, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
 import OptionView from './view/Option'
 import listContext from './context/list'
-import findById from './service/findById'
-import { Item } from './types'
+import DeferView from './view/Defer'
 
 export default function Movies (): JSX.Element {
   const listContextValue = useContext(listContext)
@@ -19,29 +18,6 @@ export default function Movies (): JSX.Element {
       </Tr>
     )
   })
-  if (listContextValue.state.finalized) {
-    console.log('finalized', listContextValue.state)
-  }
-  const choiceItems = listContextValue.state.choice.options.map(option => {
-    return findById({
-      items: listContextValue.state.items,
-      id: option
-    })
-  })
-  const [firstItem, secondItem] = choiceItems
-  const defaultItem = firstItem.score === secondItem.score
-    ? undefined 
-    : firstItem.score > secondItem.score
-      ? firstItem
-      : secondItem
-  const defaultOptionIndex = listContextValue.state.choice.options.findIndex(option => {
-    return option === defaultItem?.id
-  })
-  const deferView = defaultOptionIndex !== -1 && (
-    <OptionView optionIndex={defaultOptionIndex}>
-      Defer
-    </OptionView>
-  )
   return (
     <>
       <HStack>
@@ -52,7 +28,7 @@ export default function Movies (): JSX.Element {
           optionIndex={listContextValue.state.choice.rightIndex}
         />
       </HStack>
-      {deferView}
+      <DeferView />
       <Center>
         <Table>
           <Thead>

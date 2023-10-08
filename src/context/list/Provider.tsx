@@ -3,6 +3,7 @@ import { ListContextValue, State } from "../../types"
 import listContext from "."
 import chooseOption from "../../service/chooseOption"
 import initializeState from "../../service/initializeState"
+import getDefaultOptionIndex from "../../service/getDefaultOptionIndex"
 
 export default function ListProvider({
   children
@@ -20,7 +21,9 @@ export default function ListProvider({
       state: current, optionIndex
     }))
   }
+  const defaultOptionIndex = getDefaultOptionIndex(state)
   const value: ListContextValue = {
+    defaultOptionIndex,
     state,
     applyChoice
   }
