@@ -1,8 +1,15 @@
 export interface Item {
   id: string
+  score: number
   title: string
   points: number
-  score: number
+}
+export interface CritickerMovie extends Item {
+  date: Date
+  imdbId: string
+  review: string
+  year: number
+  url: string
 }
 export interface Operation {
   input: string[][]
@@ -22,7 +29,17 @@ export interface State {
   finalized: boolean
 }
 export interface ListContextValue {
+  applyChoice: ({ optionIndex }: { optionIndex: number }) => void
   defaultOptionIndex: number | undefined
   state: State
-  applyChoice: ({ optionIndex }: { optionIndex: number }) => void
+  populate: ({ items }: { items: Item[] }) => void
+}
+export interface CritickerRow {
+  ' Date Rated': string
+  ' Film Name': string
+  ' Year': string
+  ' Mini Review': string
+  ' URL': string
+  ' IMDB ID': string
+  Score: string
 }

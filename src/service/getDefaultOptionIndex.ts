@@ -8,6 +8,9 @@ export default function getDefaultOptionIndex ({
   choice: Choice
   items: Item[]
 }): number | undefined {
+  if (choice.options.length == 0) {
+    return undefined
+  }
   const choiceItems = choice.options.map(option => {
     return findById({
       items,
