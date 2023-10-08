@@ -32,7 +32,7 @@ export default function OptionView ({
   }
   return (
     <Button onClick={handleClick} {...restProps}>
-      {children ?? item.title}
+      {children} {item.title}
     </Button>
   )
 }

@@ -12,7 +12,7 @@ export default function DeferView (): JSX.Element {
   }
   return (
     <OptionView optionIndex={listContextValue.defaultOptionIndex}>
-      Defer
+      [D]efer:
     </OptionView>
   )
 }
