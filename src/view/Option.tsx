@@ -25,7 +25,7 @@ export default function OptionView ({
       throw new Error('listContextValue is null')
     }
     listContextValue.applyChoice({
-      optionIndex: listContextValue.state.choice.leftIndex
+      optionIndex
     })
   }
   return (
