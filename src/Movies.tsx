@@ -18,7 +18,7 @@ export default function Movies (): JSX.Element {
       throw new Error('There is no list context.')
     }
     listContextValue.applyChoice({
-      optionIndex: listContextValue.state.choice.leftIndex
+      optionIndex: listContextValue.choice.leftIndex
     })
   })
   useHotkeys('b', () => {
@@ -26,7 +26,7 @@ export default function Movies (): JSX.Element {
       throw new Error('There is no list context.')
     }
     listContextValue.applyChoice({
-      optionIndex: listContextValue.state.choice.rightIndex
+      optionIndex: listContextValue.choice.rightIndex
     })
   })
   useHotkeys('d', () => {
@@ -78,7 +78,7 @@ export default function Movies (): JSX.Element {
       }
     })
   }
-  const sortedItems = listContextValue.state.items.sort(compareItems)
+  const sortedItems = listContextValue.items.sort(compareItems)
   const itemViews = sortedItems.map(item => {
     return (
       <Tr key={item.id}>
@@ -91,12 +91,12 @@ export default function Movies (): JSX.Element {
   return (
     <>
       <HStack flexWrap='wrap' justifyContent='center'>
-        <OptionProvider optionIndex={listContextValue.state.choice.leftIndex}>
+        <OptionProvider optionIndex={listContextValue.choice.leftIndex}>
           <OptionView>
             [A]
           </OptionView>
         </OptionProvider>
-        <OptionProvider optionIndex={listContextValue.state.choice.rightIndex}>
+        <OptionProvider optionIndex={listContextValue.choice.rightIndex}>
           <OptionView>
             [B]
           </OptionView>

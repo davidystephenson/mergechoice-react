@@ -39,12 +39,11 @@ export interface Review {
   betterId: string
   worseId: string
 }
-export interface ListContextValue {
+export interface ListContextValue extends State {
   applyChoice: ({ optionIndex }: { optionIndex: number }) => void
   choosing: boolean
   defaultOptionIndex: number | undefined
   populate: ({ items }: { items: Item[] }) => void
-  state: State
   review: Review | undefined
 }
 export interface OptionContextValue {

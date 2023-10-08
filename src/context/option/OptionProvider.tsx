@@ -13,9 +13,9 @@ export default function OptionProvider ({ children, optionIndex }: {
     return <></>
   }
   const item = findByOption({
-    choice: listContextValue.state.choice,
-    finalized: listContextValue.state.finalized,
-    items: listContextValue.state.items,
+    choice: listContextValue.choice,
+    finalized: listContextValue.finalized,
+    items: listContextValue.items,
     optionIndex
   })
   if (item == null) {

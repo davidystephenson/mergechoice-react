@@ -41,12 +41,12 @@ export default function ListProvider ({
   }
   const defaultOptionIndex = getDefaultOptionIndex(state)
   const value: ListContextValue = {
+    ...state,
     applyChoice,
     choosing,
     defaultOptionIndex,
     populate,
-    review,
-    state
+    review
   }
   return (
     <listContext.Provider value={value}>
