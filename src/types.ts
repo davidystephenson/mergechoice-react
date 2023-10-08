@@ -35,12 +35,17 @@ export interface State {
   choice: Choice
   finalized: boolean
 }
+export interface Review {
+  betterId: string
+  worseId: string
+}
 export interface ListContextValue {
   applyChoice: ({ optionIndex }: { optionIndex: number }) => void
   choosing: boolean
   defaultOptionIndex: number | undefined
   populate: ({ items }: { items: Item[] }) => void
   state: State
+  review: Review | undefined
 }
 export interface OptionContextValue {
   item: Item
