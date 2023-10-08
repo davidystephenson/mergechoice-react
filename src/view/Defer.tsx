@@ -1,5 +1,6 @@
-import OptionView from "./Option"
-import useListContext from "../context/list/use"
+import OptionView from './Option'
+import useListContext from '../context/list/useListContext'
+import OptionProvider from '../context/option/OptionProvider'
 
 export default function DeferView (): JSX.Element {
   const listContextValue = useListContext()
@@ -7,8 +8,10 @@ export default function DeferView (): JSX.Element {
     return <></>
   }
   return (
-    <OptionView optionIndex={listContextValue.defaultOptionIndex}>
-      [D]efer:
-    </OptionView>
+    <OptionProvider optionIndex={listContextValue.defaultOptionIndex}>
+      <OptionView>
+        [D]efer:
+      </OptionView>
+    </OptionProvider>
   )
 }

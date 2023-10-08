@@ -6,7 +6,8 @@ import DeferView from './view/Defer'
 import { Item, CritickerRow } from './types'
 import { useHotkeys } from 'react-hotkeys-hook'
 import compareItems from './service/compareItems'
-import useListContext from './context/list/use'
+import useListContext from './context/list/useListContext'
+import OptionProvider from './context/option/OptionProvider'
 
 export default function Movies (): JSX.Element {
   const listContextValue = useListContext()
@@ -90,16 +91,16 @@ export default function Movies (): JSX.Element {
   return (
     <>
       <HStack flexWrap='wrap' justifyContent='center'>
-        <OptionView
-          optionIndex={listContextValue.state.choice.leftIndex}
-        >
-          [A]
-        </OptionView>
-        <OptionView
-          optionIndex={listContextValue.state.choice.rightIndex}
-        >
-          [B]
-        </OptionView>
+        <OptionProvider optionIndex={listContextValue.state.choice.leftIndex}>
+          <OptionView>
+            [A]
+          </OptionView>
+        </OptionProvider>
+        <OptionProvider optionIndex={listContextValue.state.choice.rightIndex}>
+          <OptionView>
+            [B]
+          </OptionView>
+        </OptionProvider>
       </HStack>
       <DeferView />
       <Button

@@ -1,8 +1,8 @@
 import { Container, Heading } from '@chakra-ui/react'
-import ListProvider from './context/list/Provider'
+import ListProvider from './context/list/ListProvider'
 import Movies from './Movies'
 
-function App() {
+export default function App (): JSX.Element {
   return (
     <Container>
       <Heading textAlign='center'>Mergechoice (React)</Heading>
@@ -12,5 +12,3 @@ function App() {
     </Container>
   )
 }
-
-export default App

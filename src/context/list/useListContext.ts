@@ -1,6 +1,6 @@
-import { useContext } from "react"
-import listContext from "."
-import { ListContextValue } from "../../types"
+import { useContext } from 'react'
+import listContext from './listContext'
+import { ListContextValue } from '../../types'
 
 export default function useListContext (): ListContextValue {
   const context = useContext(listContext)
