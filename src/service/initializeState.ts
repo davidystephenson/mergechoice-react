@@ -6,7 +6,7 @@ import range from "./range"
 
 export default function initializeState(): State { 
     const nitems = 5
-    const labels = [
+    const titles = [
       'Schindler\'s List',
       'The Silence of the Lambs',
       'Back to the Future',
@@ -28,7 +28,7 @@ export default function initializeState(): State {
       'Alien'
     ]
 
-    const shuffledLabels = getShuffled(labels).slice(0, nitems)
+    const shuffledTitles = getShuffled(titles).slice(0, nitems)
 
     const initialState: State = {
       items: [],
@@ -44,8 +44,9 @@ export default function initializeState(): State {
     initialState.items = range(nitems).map(i => {
       const item: Item = {
         id: String(Math.random()),
-        label: shuffledLabels[i],
-        points: 0
+        title: shuffledTitles[i],
+        points: 0,
+        score: Number(Math.random().toFixed(1))
       }
       return item
     })

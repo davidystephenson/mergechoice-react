@@ -1,7 +1,8 @@
 export interface Item {
   id: string
-  label: string
+  title: string
   points: number
+  score: number
 }
 export interface Operation {
   input: string[][]

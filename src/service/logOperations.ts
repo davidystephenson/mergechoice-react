@@ -9,17 +9,17 @@ export default function logOperations({ items, operations }: {
     console.log(`operation steps: ${operation.steps}`)
     const firstLabels = operation.input[0].map(id => {
       const item = findById({ items, id })
-      return item.label
+      return item.title
     })
     console.log('first input items', firstLabels)
     const secondLabels = operation.input[1].map(id => {
       const item = findById({ items, id })
-      return item.label
+      return item.title
     })
     console.log('second input items', secondLabels)
     const outputLabels = operation.output.map(id => {
       const item = findById({ items, id })
-      return item.label
+      return item.title
     })
     console.log('output items', outputLabels)
   })

@@ -1,12 +1,14 @@
 import { Button, ButtonProps } from "@chakra-ui/react"
 import findById from "../service/findById"
-import { useContext } from "react"
+import { ReactNode, useContext } from "react"
 import listContext from "../context/list"
 
 export default function OptionView ({
+  children,
   optionIndex,
   ...restProps
 }: {
+  children?: ReactNode
   optionIndex: number
 } & ButtonProps): JSX.Element {
   const listContextValue = useContext(listContext)
@@ -30,7 +32,7 @@ export default function OptionView ({
   }
   return (
     <Button onClick={handleClick} {...restProps}>
-      {item.label}
+      {children ?? item.title}
     </Button>
   )
 }
