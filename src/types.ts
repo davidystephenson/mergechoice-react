@@ -20,3 +20,7 @@ export interface State {
   choice: Choice
   finalized: boolean
 }
+export interface ListContextValue {
+  state: State
+  applyChoice: ({ optionIndex }: { optionIndex: number }) => void
+}
