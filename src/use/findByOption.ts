@@ -1,20 +1,20 @@
-import useListContext from "../context/list/useListContext"
-import findById from "../service/findById"
-import { Item } from "../types"
+import useListContext from '../context/list/useListContext'
+import findById from '../service/findById'
+import { Movie } from '../types'
 
 export default function useFindByOption ({ optionIndex }: {
   optionIndex: number
-}): Item | undefined {
+}): Movie | undefined {
   const listContextValue = useListContext()
-  if (listContextValue.state.finalized) {
+  if (listContextValue.finalized) {
     return undefined
   }
-  const itemId = listContextValue.state.choice.options[optionIndex]
+  const itemId = listContextValue.choice.options[optionIndex]
   if (itemId == null) {
     return undefined
   }
   const item = findById({
-    items: listContextValue.state.items, id: itemId
+    items: listContextValue.movies, id: itemId
   })
   return item
 }

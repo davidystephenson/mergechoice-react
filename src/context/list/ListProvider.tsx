@@ -1,5 +1,5 @@
 import { ReactNode, useState } from 'react'
-import { Item, ListContextValue, Review, State } from '../../types'
+import { Movie, ListContextValue, Review, State } from '../../types'
 import listContext from './listContext'
 import chooseOption from '../../service/chooseOption'
 import getDefaultOptionIndex from '../../service/getDefaultOptionIndex'
@@ -15,7 +15,7 @@ export default function ListProvider ({
   const [choosing] = useState(false)
   const [review, setReview] = useState<Review>()
   function populate ({ items }: {
-    items: Item[]
+    items: Movie[]
   }): void {
     const initialState = initializeState({ items })
     setState(initialState)
@@ -39,7 +39,10 @@ export default function ListProvider ({
       return newState
     })
   }
-  const defaultOptionIndex = getDefaultOptionIndex(state)
+  const defaultOptionIndex = getDefaultOptionIndex({
+    items: state.movies,
+    choice: state.choice
+  })
   const value: ListContextValue = {
     ...state,
     applyChoice,

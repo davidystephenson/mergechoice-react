@@ -1,7 +1,7 @@
-import { State } from "./types";
+import { State } from './types'
 
 export const STATE: State = {
-  items: [],
+  movies: [],
   operations: [],
   choice: {
     options: [],

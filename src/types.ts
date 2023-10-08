@@ -7,7 +7,7 @@ export interface CritickerRow {
   ' IMDB ID': string
   Score: string
 }
-export interface Item {
+export interface Movie {
   id: string
   score: number
   title: string
@@ -30,7 +30,7 @@ export interface Choice {
   rightIndex: number
 }
 export interface State {
-  items: Item[]
+  movies: Movie[]
   operations: Operation[]
   choice: Choice
   finalized: boolean
@@ -43,10 +43,15 @@ export interface ListContextValue extends State {
   applyChoice: ({ optionIndex }: { optionIndex: number }) => void
   choosing: boolean
   defaultOptionIndex: number | undefined
-  populate: ({ items }: { items: Item[] }) => void
+  populate: ({ items }: { items: Movie[] }) => void
   review: Review | undefined
 }
+export interface MovieContextValue extends Movie {
+  url: string
+  open: () => void
+}
 export interface OptionContextValue {
-  item: Item
+  choose: () => void
+  item: Movie
   optionIndex: number
 }

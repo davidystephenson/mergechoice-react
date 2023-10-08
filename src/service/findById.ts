@@ -1,9 +1,9 @@
-import { Item } from "../types"
+import { Movie } from '../types'
 
-export default function findById({ id, items }: {
+export default function findById ({ id, items }: {
   id: string
-  items: Item[]
-}): Item {
+  items: Movie[]
+}): Movie {
   const found = items.find(item => item.id === id)
   if (found == null) {
     throw new Error(`id ${id} not found in items`)

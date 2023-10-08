@@ -1,16 +1,16 @@
 import { STATE } from "../constants"
-import { State, Item } from "../types"
+import { State, Movie } from "../types"
 import clone from "./clone"
 import createChoice from "./createChoice"
 import getOperations from "./getOperations"
 import getShuffled from "./getShuffled"
 
 export default function initializeState({ items }: {
-  items: Item[]
+  items: Movie[]
 }): State {
   const initialState = clone(STATE)
-  initialState.items = getShuffled(items)
-  initialState.operations = initialState.items.map(item => ({
+  initialState.movies = getShuffled(items)
+  initialState.operations = initialState.movies.map(item => ({
     input: [[], []],
     output: [item.id],
     steps: 0

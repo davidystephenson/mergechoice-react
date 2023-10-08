@@ -3,7 +3,7 @@ import { Button, Center, HStack, Table, Tbody, Td, Th, Thead, Tr } from '@chakra
 import Papa from 'papaparse'
 import OptionView from './view/Option'
 import DeferView from './view/Defer'
-import { Item, CritickerRow } from './types'
+import { Movie, CritickerRow } from './types'
 import { useHotkeys } from 'react-hotkeys-hook'
 import compareItems from './service/compareItems'
 import useListContext from './context/list/useListContext'
@@ -57,7 +57,7 @@ export default function Movies (): JSX.Element {
       header: true,
       skipEmptyLines: true,
       complete: function (results) {
-        const items: Item[] = results.data.map((row: CritickerRow) => {
+        const movies: Movie[] = results.data.map((row: CritickerRow) => {
           const date = new Date(row[' Date Rated'])
           const score = Number(row.Score)
           const year = Number(row[' Year'])
@@ -73,18 +73,18 @@ export default function Movies (): JSX.Element {
             points: 0
           }
         })
-        listContextValue.populate({ items })
+        listContextValue.populate({ items: movies })
         setInitializing(false)
       }
     })
   }
-  const sortedItems = listContextValue.items.sort(compareItems)
-  const itemViews = sortedItems.map(item => {
+  const sortedMovies = listContextValue.movies.sort(compareItems)
+  const movieViews = sortedMovies.map(movie => {
     return (
-      <Tr key={item.id}>
-        <Td>{item.title}</Td>
-        <Td>{item.points}</Td>
-        <Td>{item.score}</Td>
+      <Tr key={movie.id}>
+        <Td>{movie.title}</Td>
+        <Td>{movie.points}</Td>
+        <Td>{movie.score}</Td>
       </Tr>
     )
   })
@@ -119,13 +119,13 @@ export default function Movies (): JSX.Element {
         <Table>
           <Thead>
             <Tr>
-              <Th>Title</Th>
+              <Th>Movie ({listContextValue.movies.length})</Th>
               <Th>Points</Th>
               <Th>Score</Th>
             </Tr>
           </Thead>
           <Tbody>
-            {itemViews}
+            {movieViews}
           </Tbody>
         </Table>
       </Center>

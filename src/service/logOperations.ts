@@ -1,8 +1,8 @@
-import { Item, Operation } from "../types"
+import { Movie, Operation } from "../types"
 import findById from "./findById"
 
 export default function logOperations({ items, operations }: {
-  items: Item[]
+  items: Movie[]
   operations: Operation[]
 }): void {
   operations.forEach(operation => {

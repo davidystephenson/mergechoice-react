@@ -6,7 +6,7 @@ import getOperations from "./getOperations"
 
 export default function chooseOption({
   state: {
-    items,
+    movies: items,
     operations,
     choice
   },
@@ -40,7 +40,7 @@ export default function chooseOption({
       operations: newOperations
     })
     return {
-      items: newItems,
+      movies: newItems,
       operations: newOperations,
       choice: newChoice,
       finalized: false
@@ -53,14 +53,14 @@ export default function chooseOption({
         operations: nextOperations,
       })
       return {
-        items: newItems,
+        movies: newItems,
         operations: nextOperations,
         choice: nextChoice,
         finalized: false
       }
     } else {
       return {
-        items: newItems,
+        movies: newItems,
         operations: nextOperations,
         choice,
         finalized: true

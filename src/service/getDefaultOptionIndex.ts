@@ -1,14 +1,14 @@
-import { Choice, Item } from "../types"
-import findById from "./findById"
+import { Choice, Movie } from '../types'
+import findById from './findById'
 
 export default function getDefaultOptionIndex ({
   choice,
   items
 }: {
   choice: Choice
-  items: Item[]
+  items: Movie[]
 }): number | undefined {
-  if (choice.options.length == 0) {
+  if (choice.options.length === 0) {
     return undefined
   }
   const choiceItems = choice.options.map(option => {
@@ -19,7 +19,7 @@ export default function getDefaultOptionIndex ({
   })
   const [firstItem, secondItem] = choiceItems
   const defaultItem = firstItem.score === secondItem.score
-    ? undefined 
+    ? undefined
     : firstItem.score > secondItem.score
       ? firstItem
       : secondItem

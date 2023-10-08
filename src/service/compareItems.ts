@@ -1,6 +1,6 @@
-import { Item } from "../types"
+import { Movie } from "../types"
 
-export default function compareItems(a: Item, b: Item): number {
+export default function compareItems(a: Movie, b: Movie): number {
   if (b.points === a.points) {
     if (b.score === a.score) {
       return b.title.localeCompare(a.title) * -1
