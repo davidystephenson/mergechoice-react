@@ -1,12 +1,8 @@
-import { useContext } from "react"
-import listContext from "../context/list"
 import OptionView from "./Option"
+import useListContext from "../context/list/use"
 
 export default function DeferView (): JSX.Element {
-  const listContextValue = useContext(listContext)
-  if (listContextValue == null) {
-    throw new Error('listContextValue is null')
-  }
+  const listContextValue = useListContext()
   if (listContextValue.defaultOptionIndex == null) {
     return <></>
   }

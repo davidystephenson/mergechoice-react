@@ -1,7 +1,10 @@
-import { Button, ButtonProps } from "@chakra-ui/react"
-import findById from "../service/findById"
-import { ReactNode, useContext } from "react"
-import listContext from "../context/list"
+import { Button, ButtonProps, HStack, Text, VStack } from "@chakra-ui/react"
+import { MouseEvent, ReactNode } from "react"
+import Clink from 'clink-react'
+import { ExternalLinkIcon } from '@chakra-ui/icons'
+import useListContext from "../context/list/use"
+import useFindByOption from "../use/findByOption"
+
 
 export default function OptionView ({
   children,
@@ -11,17 +14,14 @@ export default function OptionView ({
   children?: ReactNode
   optionIndex: number
 } & ButtonProps): JSX.Element {
-  const listContextValue = useContext(listContext)
+  const listContextValue = useListContext()
   if (listContextValue == null) {
     throw new Error('listContextValue is null')
   }
-  const itemId = listContextValue.state.choice.options[optionIndex]
-  if (itemId == null || listContextValue.state.finalized) {
+  const item = useFindByOption({ optionIndex })
+  if (item == null) {
     return <></>
   }
-  const item = findById({
-    items: listContextValue.state.items, id: itemId
-  })
   function handleClick(): void {
     if (listContextValue == null) {
       throw new Error('listContextValue is null')
@@ -30,9 +30,22 @@ export default function OptionView ({
       optionIndex
     })
   }
+  const url = `https://www.imdb.com/title/${item.imdbId}`
+  function handleLinkClick(event: MouseEvent<HTMLAnchorElement>): void {
+    event.preventDefault()
+    window.open(url,'_blank')
+  }
   return (
-    <Button onClick={handleClick} {...restProps}>
-      {children} {item.title}
-    </Button>
+    <VStack>
+      <Button isLoading={listContextValue.choosing} onClick={handleClick} {...restProps}>
+        {children} {item.title}
+      </Button>
+      <Clink to={url} target='_blank' onClick={handleLinkClick}>
+        <HStack alignItems='baseline'>
+          <Text>{item.imdbId}</Text>
+          <ExternalLinkIcon />
+        </HStack>
+      </Clink>
+    </VStack>
   )
 }

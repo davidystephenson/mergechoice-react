@@ -3,8 +3,6 @@ export interface Item {
   score: number
   title: string
   points: number
-}
-export interface CritickerMovie extends Item {
   date: Date
   imdbId: string
   review: string
@@ -30,9 +28,12 @@ export interface State {
 }
 export interface ListContextValue {
   applyChoice: ({ optionIndex }: { optionIndex: number }) => void
+  choosing: boolean
   defaultOptionIndex: number | undefined
-  state: State
   populate: ({ items }: { items: Item[] }) => void
+  leftItem: Item | undefined
+  rightItem: Item | undefined
+  state: State
 }
 export interface CritickerRow {
   ' Date Rated': string

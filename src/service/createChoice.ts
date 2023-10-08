@@ -1,14 +1,10 @@
-import { Operation, Item, Choice } from "../types"
+import { Operation, Choice } from "../types"
 import getOperationIndex from "./getOperationIndex"
 import getRandom from "./getRandom"
-import logChoice from "./logChoice"
-import logOperations from "./logOperations"
 
-export default function createChoice({ operations, items }: {
+export default function createChoice({ operations }: {
   operations: Operation[]
-  items: Item[]
 }): Choice {
-  logOperations({ items, operations })
   const newChoice: Choice = {
     options: [],
     currentOperationIndex: 0,
@@ -21,6 +17,5 @@ export default function createChoice({ operations, items }: {
   newChoice.options[1] = currentOperation.input[1][0]
   newChoice.leftIndex = getRandom([0, 1])
   newChoice.rightIndex = 1 - newChoice.leftIndex
-  logChoice({ choice: newChoice, items })
   return newChoice
 }

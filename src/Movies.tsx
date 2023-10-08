@@ -1,15 +1,15 @@
-import { ChangeEvent, useContext, useRef, useState } from 'react'
+import { ChangeEvent, useRef, useState } from 'react'
 import { Button, Center, HStack, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
 import Papa from 'papaparse'
 import OptionView from './view/Option'
-import listContext from './context/list'
 import DeferView from './view/Defer'
-import { CritickerMovie, CritickerRow } from './types'
+import { Item, CritickerRow } from './types'
 import { useHotkeys } from 'react-hotkeys-hook'
-
+import compareItems from './service/compareItems'
+import useListContext from './context/list/use'
 
 export default function Movies (): JSX.Element {
-  const listContextValue = useContext(listContext)
+  const listContextValue = useListContext()
   const [initializing, setInitializing] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   useHotkeys('a', () => {
@@ -56,7 +56,7 @@ export default function Movies (): JSX.Element {
       header: true,
       skipEmptyLines: true,
       complete: function (results) {
-        const items: CritickerMovie[] = results.data.map((row: CritickerRow) => {
+        const items: Item[] = results.data.map((row: CritickerRow) => {
           const date = new Date(row[' Date Rated'])
           const score = Number(row.Score)
           const year = Number(row[' Year'])
@@ -77,7 +77,8 @@ export default function Movies (): JSX.Element {
       }
     })
   }
-  const itemViews = listContextValue.state.items.map(item => {
+  const sortedItems = listContextValue.state.items.sort(compareItems)
+  const itemViews = sortedItems.map(item => {
     return (
       <Tr key={item.id}>
         <Td>{item.title}</Td>
@@ -88,7 +89,7 @@ export default function Movies (): JSX.Element {
   })
   return (
     <>
-      <HStack flexWrap='wrap'>
+      <HStack flexWrap='wrap' justifyContent='center'>
         <OptionView
           optionIndex={listContextValue.state.choice.leftIndex}
         >
