@@ -15,8 +15,9 @@ export interface Movie {
   date: Date
   imdbId: string
   review: string
-  year: number
+  updatedAt: number
   url: string
+  year: number
 }
 export interface Operation {
   input: string[][]

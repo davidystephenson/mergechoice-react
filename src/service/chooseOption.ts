@@ -28,6 +28,7 @@ export default function chooseOption ({
   currentOperation.output.push(chosenId)
   const chosenItem = findById({ items: newItems, id: chosenId })
   chosenItem.points = currentOperation.steps
+  chosenItem.updatedAt = Date.now()
   currentOperation.steps -= 1
   if (currentOperation.input[optionIndex].length === 0) {
     currentOperation.output.push(...currentOperation.input[1 - optionIndex])

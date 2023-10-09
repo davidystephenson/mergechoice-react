@@ -1,5 +1,5 @@
 import { ChangeEvent, useRef, useState } from 'react'
-import { Button, HStack, Table, Tbody, Th, Thead, Tr, VStack } from '@chakra-ui/react'
+import { Button, HStack, Table, Tbody, Td, Th, Thead, Tr, VStack } from '@chakra-ui/react'
 import Papa from 'papaparse'
 import OptionView from './view/Option'
 import DeferView from './view/Defer'
@@ -28,6 +28,7 @@ export default function Movies (): JSX.Element {
       header: true,
       skipEmptyLines: true,
       complete: function (results) {
+        const updatedAt = Date.now()
         const movies: Movie[] = results.data.map((row: CritickerRow) => {
           const date = new Date(row[' Date Rated'])
           const score = Number(row.Score)
@@ -40,6 +41,7 @@ export default function Movies (): JSX.Element {
             score,
             title: row[' Film Name'],
             year,
+            updatedAt,
             url: row[' URL'],
             points: 0
           }
@@ -76,19 +78,7 @@ export default function Movies (): JSX.Element {
         </OptionProvider>
       </HStack>
       <DeferView />
-      <ReviewView />
-      <Button
-        isLoading={initializing}
-        onClick={() => inputRef.current?.click()}
-      >
-        Import
-      </Button>
-      <input
-        hidden
-        type='file'
-        ref={inputRef}
-        onChange={handleFileChange}
-      />
+
       <Table>
         <Thead>
           <Tr>
@@ -98,6 +88,23 @@ export default function Movies (): JSX.Element {
           </Tr>
         </Thead>
         <Tbody>
+          <ReviewView />
+          <Tr>
+            <Td colSpan={3} textAlign='center'>
+              <Button
+                isLoading={initializing}
+                onClick={() => inputRef.current?.click()}
+              >
+                Import
+              </Button>
+              <input
+                hidden
+                type='file'
+                ref={inputRef}
+                onChange={handleFileChange}
+              />
+            </Td>
+          </Tr>
           {movieViews}
         </Tbody>
       </Table>

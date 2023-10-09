@@ -1,8 +1,8 @@
-import { Alert, Heading, VStack } from '@chakra-ui/react'
+import { Heading, Td, Tr } from '@chakra-ui/react'
 import useMoviesContext from '../context/movies/useMoviesContext'
 import MovieProvider from '../context/movie/MovieProvider'
 import findById from '../service/findById'
-import ReviewMovieView from './ReviewMovie'
+import MovieRow from './MovieRow'
 
 export default function ReviewView (): JSX.Element {
   const moviesContextValue = useMoviesContext()
@@ -24,16 +24,18 @@ export default function ReviewView (): JSX.Element {
     throw new Error('There is no worse movie.')
   }
   return (
-    <Alert status='info' justifyContent='center'>
-      <VStack>
-        <MovieProvider movie={betterMovie}>
-          <ReviewMovieView />
-        </MovieProvider>
-        <Heading size='md'>&gt;</Heading>
-        <MovieProvider movie={worseMovie}>
-          <ReviewMovieView />
-        </MovieProvider>
-      </VStack>
-    </Alert>
+    <>
+      <MovieProvider movie={betterMovie}>
+        <MovieRow />
+      </MovieProvider>
+      <Tr>
+        <Td colSpan={3} textAlign='center'>
+          <Heading size='sm'>&gt;</Heading>
+        </Td>
+      </Tr>
+      <MovieProvider movie={worseMovie}>
+        <MovieRow />
+      </MovieProvider>
+    </>
   )
 }
