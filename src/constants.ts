@@ -1,7 +1,7 @@
 import { State } from './types'
 
 export const STATE: State = {
-  movies: [],
+  items: [],
   operations: [],
   choice: {
     options: [],

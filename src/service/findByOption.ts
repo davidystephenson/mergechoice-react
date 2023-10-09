@@ -1,7 +1,7 @@
-import { Choice, Movie } from "../types"
-import findById from "./findById"
+import { Choice, Movie } from '../types'
+import findById from './findById'
 
-export default function findByOption({
+export default function findByOption ({
   choice,
   finalized,
   items,

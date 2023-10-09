@@ -14,7 +14,7 @@ export default function useFindByOption ({ optionIndex }: {
     return undefined
   }
   const item = findById({
-    items: listContextValue.movies, id: itemId
+    items: listContextValue.items, id: itemId
   })
   return item
 }

@@ -14,10 +14,10 @@ export default function ListProvider ({
   const [state, setState] = useState<State>(STATE)
   const [choosing] = useState(false)
   const [review, setReview] = useState<Review>()
-  function populate ({ items }: {
-    items: Movie[]
+  function populate ({ movies }: {
+    movies: Movie[]
   }): void {
-    const initialState = initializeState({ items })
+    const initialState = initializeState({ items: movies })
     setState(initialState)
   }
   function applyChoice ({ optionIndex }: {
@@ -40,7 +40,7 @@ export default function ListProvider ({
     })
   }
   const defaultOptionIndex = getDefaultOptionIndex({
-    items: state.movies,
+    items: state.items,
     choice: state.choice
   })
   const value: ListContextValue = {

@@ -1,12 +1,12 @@
-import { State } from "../types"
-import clone from "./clone"
-import createChoice from "./createChoice"
-import findById from "./findById"
-import getOperations from "./getOperations"
+import { State } from '../types'
+import clone from './clone'
+import createChoice from './createChoice'
+import findById from './findById'
+import getOperations from './getOperations'
 
-export default function chooseOption({
+export default function chooseOption ({
   state: {
-    movies: items,
+    items,
     operations,
     choice
   },
@@ -40,7 +40,7 @@ export default function chooseOption({
       operations: newOperations
     })
     return {
-      movies: newItems,
+      items: newItems,
       operations: newOperations,
       choice: newChoice,
       finalized: false
@@ -50,17 +50,17 @@ export default function chooseOption({
     const maxSteps = Math.max(...nextOperations.map(operation => operation.steps))
     if (maxSteps > 0) {
       const nextChoice = createChoice({
-        operations: nextOperations,
+        operations: nextOperations
       })
       return {
-        movies: newItems,
+        items: newItems,
         operations: nextOperations,
         choice: nextChoice,
         finalized: false
       }
     } else {
       return {
-        movies: newItems,
+        items: newItems,
         operations: nextOperations,
         choice,
         finalized: true

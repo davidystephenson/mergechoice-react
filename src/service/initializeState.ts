@@ -9,8 +9,8 @@ export default function initializeState({ items }: {
   items: Movie[]
 }): State {
   const initialState = clone(STATE)
-  initialState.movies = getShuffled(items)
-  initialState.operations = initialState.movies.map(item => ({
+  initialState.items = getShuffled(items)
+  initialState.operations = initialState.items.map(item => ({
     input: [[], []],
     output: [item.id],
     steps: 0

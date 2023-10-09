@@ -3,9 +3,9 @@ import { MovieContextValue } from '../../types'
 import movieContext from './movieContext'
 
 export default function useMovieContext (): MovieContextValue {
-  const itemContextValue = useContext(movieContext)
-  if (itemContextValue == null) {
-    throw new Error('useItemContext must be used within an ItemContextProvider')
+  const movieContextValue = useContext(movieContext)
+  if (movieContextValue == null) {
+    throw new Error('useMovieContext must be used within a MovieContextProvider')
   }
-  return itemContextValue
+  return movieContextValue
 }

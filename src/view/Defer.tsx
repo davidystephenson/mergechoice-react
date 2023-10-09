@@ -8,9 +8,12 @@ export default function DeferView (): JSX.Element {
     return <></>
   }
   return (
-    <OptionProvider optionIndex={listContextValue.defaultOptionIndex}>
+    <OptionProvider
+      chooseHotkey='d'
+      optionIndex={listContextValue.defaultOptionIndex}
+    >
       <OptionView>
-        [D]efer:
+        [d]efer
       </OptionView>
     </OptionProvider>
   )

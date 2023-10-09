@@ -30,7 +30,7 @@ export interface Choice {
   rightIndex: number
 }
 export interface State {
-  movies: Movie[]
+  items: Movie[]
   operations: Operation[]
   choice: Choice
   finalized: boolean
@@ -43,7 +43,7 @@ export interface ListContextValue extends State {
   applyChoice: ({ optionIndex }: { optionIndex: number }) => void
   choosing: boolean
   defaultOptionIndex: number | undefined
-  populate: ({ items }: { items: Movie[] }) => void
+  populate: ({ movies }: { movies: Movie[] }) => void
   review: Review | undefined
 }
 export interface MovieContextValue extends Movie {
@@ -52,6 +52,8 @@ export interface MovieContextValue extends Movie {
 }
 export interface OptionContextValue {
   choose: () => void
-  item: Movie
+  chooseHotkey: string
+  movie: Movie
   optionIndex: number
+  openHotkey?: string
 }

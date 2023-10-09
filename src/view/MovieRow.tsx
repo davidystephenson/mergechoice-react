@@ -1,6 +1,6 @@
-import { Td, Tr } from "@chakra-ui/react";
+import { Td, Tr } from '@chakra-ui/react'
 
-export default function ItemRow({
+export default function MovieRow ({
   title,
   points,
   score

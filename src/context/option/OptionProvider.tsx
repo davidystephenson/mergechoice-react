@@ -4,18 +4,25 @@ import { OptionContextValue } from '../../types'
 import useListContext from '../list/useListContext'
 import findByOption from '../../service/findByOption'
 
-export default function OptionProvider ({ children, optionIndex }: {
+export default function OptionProvider ({
+  children,
+  chooseHotkey,
+  openHotkey,
+  optionIndex
+}: {
   children: ReactNode
+  chooseHotkey: string
+  openHotkey?: string
   optionIndex?: number
 }): JSX.Element {
   const listContextValue = useListContext()
   if (optionIndex == null) {
     return <></>
   }
-  const item = findByOption({
+  const movie = findByOption({
     choice: listContextValue.choice,
     finalized: listContextValue.finalized,
-    items: listContextValue.movies,
+    items: listContextValue.items,
     optionIndex
   })
   function choose (): void {
@@ -24,12 +31,14 @@ export default function OptionProvider ({ children, optionIndex }: {
     }
     listContextValue.applyChoice({ optionIndex })
   }
-  if (item == null) {
+  if (movie == null) {
     return <></>
   }
   const value: OptionContextValue = {
     choose,
-    item,
+    chooseHotkey,
+    movie,
+    openHotkey,
     optionIndex
   }
   return (

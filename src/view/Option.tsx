@@ -1,9 +1,9 @@
-import { Button, ButtonProps, VStack } from '@chakra-ui/react'
+import { ButtonProps, VStack } from '@chakra-ui/react'
 import { ReactNode } from 'react'
 import useOptionContext from '../context/option/useOptionContext'
-import useListContext from '../context/list/useListContext'
 import MovieProvider from '../context/movie/MovieProvider'
-import MovieLink from './MovieLink'
+import HotkeyLink from './HotkeyLink'
+import OptionButtonView from './OptionButton'
 
 export default function OptionView ({
   children,
@@ -11,22 +11,17 @@ export default function OptionView ({
 }: {
   children?: ReactNode
 } & ButtonProps): JSX.Element {
-  const listContextValue = useListContext()
   const optionContextValue = useOptionContext()
-  function handleClick (): void {
-    optionContextValue.choose()
-  }
+  const linkView = optionContextValue.openHotkey != null && (
+    <HotkeyLink openHotkey={optionContextValue.openHotkey} />
+  )
   return (
-    <MovieProvider movie={optionContextValue.item}>
+    <MovieProvider movie={optionContextValue.movie}>
       <VStack>
-        <Button
-          isLoading={listContextValue.choosing}
-          onClick={handleClick}
-          {...restProps}
-        >
-          {children} {optionContextValue.item.title}
-        </Button>
-        <MovieLink />
+        <OptionButtonView {...restProps}>
+          {children}
+        </OptionButtonView>
+        {linkView}
       </VStack>
     </MovieProvider>
   )

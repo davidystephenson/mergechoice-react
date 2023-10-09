@@ -4,8 +4,7 @@ import Papa from 'papaparse'
 import OptionView from './view/Option'
 import DeferView from './view/Defer'
 import { Movie, CritickerRow } from './types'
-import { useHotkeys } from 'react-hotkeys-hook'
-import compareItems from './service/compareItems'
+import compareMovies from './service/compareMovies'
 import useListContext from './context/list/useListContext'
 import OptionProvider from './context/option/OptionProvider'
 
@@ -13,34 +12,6 @@ export default function Movies (): JSX.Element {
   const listContextValue = useListContext()
   const [initializing, setInitializing] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
-  useHotkeys('a', () => {
-    if (listContextValue == null) {
-      throw new Error('There is no list context.')
-    }
-    listContextValue.applyChoice({
-      optionIndex: listContextValue.choice.leftIndex
-    })
-  })
-  useHotkeys('b', () => {
-    if (listContextValue == null) {
-      throw new Error('There is no list context.')
-    }
-    listContextValue.applyChoice({
-      optionIndex: listContextValue.choice.rightIndex
-    })
-  })
-  useHotkeys('d', () => {
-    if (listContextValue == null) {
-      throw new Error('There is no list context.')
-    }
-    if (listContextValue.defaultOptionIndex == null) {
-      console.warn('There is no default option index.')
-      return
-    }
-    listContextValue.applyChoice({
-      optionIndex: listContextValue.defaultOptionIndex
-    })
-  })
   if (listContextValue == null) {
     throw new Error('There is no list context.')
   }
@@ -73,12 +44,12 @@ export default function Movies (): JSX.Element {
             points: 0
           }
         })
-        listContextValue.populate({ items: movies })
+        listContextValue.populate({ movies })
         setInitializing(false)
       }
     })
   }
-  const sortedMovies = listContextValue.movies.sort(compareItems)
+  const sortedMovies = listContextValue.items.sort(compareMovies)
   const movieViews = sortedMovies.map(movie => {
     return (
       <Tr key={movie.id}>
@@ -91,15 +62,19 @@ export default function Movies (): JSX.Element {
   return (
     <>
       <HStack flexWrap='wrap' justifyContent='center'>
-        <OptionProvider optionIndex={listContextValue.choice.leftIndex}>
-          <OptionView>
-            [A]
-          </OptionView>
+        <OptionProvider
+          chooseHotkey='a'
+          openHotkey='s'
+          optionIndex={listContextValue.choice.leftIndex}
+        >
+          <OptionView />
         </OptionProvider>
-        <OptionProvider optionIndex={listContextValue.choice.rightIndex}>
-          <OptionView>
-            [B]
-          </OptionView>
+        <OptionProvider
+          optionIndex={listContextValue.choice.rightIndex}
+          chooseHotkey='b'
+          openHotkey='f'
+        >
+          <OptionView />
         </OptionProvider>
       </HStack>
       <DeferView />
@@ -119,7 +94,7 @@ export default function Movies (): JSX.Element {
         <Table>
           <Thead>
             <Tr>
-              <Th>Movie ({listContextValue.movies.length})</Th>
+              <Th>Movie ({listContextValue.items.length})</Th>
               <Th>Points</Th>
               <Th>Score</Th>
             </Tr>
