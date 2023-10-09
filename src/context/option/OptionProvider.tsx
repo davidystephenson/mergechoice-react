@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 import optionContext from './optionContext'
 import { OptionContextValue } from '../../types'
-import useListContext from '../list/useListContext'
+import useMoviesContext from '../movies/useMoviesContext'
 import findByOption from '../../service/findByOption'
 
 export default function OptionProvider ({
@@ -15,21 +15,21 @@ export default function OptionProvider ({
   openHotkey?: string
   optionIndex?: number
 }): JSX.Element {
-  const listContextValue = useListContext()
+  const moviesContextValue = useMoviesContext()
   if (optionIndex == null) {
     return <></>
   }
   const movie = findByOption({
-    choice: listContextValue.choice,
-    finalized: listContextValue.finalized,
-    items: listContextValue.items,
+    choice: moviesContextValue.choice,
+    finalized: moviesContextValue.finalized,
+    items: moviesContextValue.items,
     optionIndex
   })
   function choose (): void {
     if (optionIndex == null) {
       throw new Error('optionIndex is null')
     }
-    listContextValue.applyChoice({ optionIndex })
+    moviesContextValue.applyChoice({ optionIndex })
   }
   if (movie == null) {
     return <></>

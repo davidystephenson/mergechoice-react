@@ -1,9 +1,9 @@
 import { Stack } from '@chakra-ui/react'
-import useListContext from '../context/list/useListContext'
+import useMoviesContext from '../context/movies/useMoviesContext'
 
 export default function ReviewView (): JSX.Element {
-  const listContextValue = useListContext()
-  if (listContextValue.review == null) {
+  const moviesContextValue = useMoviesContext()
+  if (moviesContextValue.review == null) {
     return <></>
   }
   return (

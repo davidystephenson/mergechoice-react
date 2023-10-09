@@ -39,7 +39,7 @@ export interface Review {
   betterId: string
   worseId: string
 }
-export interface ListContextValue extends State {
+export interface MoviesContextValue extends State {
   applyChoice: ({ optionIndex }: { optionIndex: number }) => void
   choosing: boolean
   defaultOptionIndex: number | undefined

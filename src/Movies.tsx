@@ -5,18 +5,15 @@ import OptionView from './view/Option'
 import DeferView from './view/Defer'
 import { Movie, CritickerRow } from './types'
 import compareMovies from './service/compareMovies'
-import useListContext from './context/list/useListContext'
+import useMoviesContext from './context/movies/useMoviesContext'
 import OptionProvider from './context/option/OptionProvider'
 
 export default function Movies (): JSX.Element {
-  const listContextValue = useListContext()
+  const moviesContextValue = useMoviesContext()
   const [initializing, setInitializing] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
-  if (listContextValue == null) {
-    throw new Error('There is no list context.')
-  }
   function handleFileChange (e: ChangeEvent<HTMLInputElement>): void {
-    if (listContextValue == null) {
+    if (moviesContextValue == null) {
       throw new Error('There is no criticker state.')
     }
     const file = e.target.files?.[0]
@@ -44,12 +41,12 @@ export default function Movies (): JSX.Element {
             points: 0
           }
         })
-        listContextValue.populate({ movies })
+        moviesContextValue.populate({ movies })
         setInitializing(false)
       }
     })
   }
-  const sortedMovies = listContextValue.items.sort(compareMovies)
+  const sortedMovies = moviesContextValue.items.sort(compareMovies)
   const movieViews = sortedMovies.map(movie => {
     return (
       <Tr key={movie.id}>
@@ -65,12 +62,12 @@ export default function Movies (): JSX.Element {
         <OptionProvider
           chooseHotkey='a'
           openHotkey='s'
-          optionIndex={listContextValue.choice.leftIndex}
+          optionIndex={moviesContextValue.choice.leftIndex}
         >
           <OptionView />
         </OptionProvider>
         <OptionProvider
-          optionIndex={listContextValue.choice.rightIndex}
+          optionIndex={moviesContextValue.choice.rightIndex}
           chooseHotkey='b'
           openHotkey='f'
         >
@@ -94,7 +91,7 @@ export default function Movies (): JSX.Element {
         <Table>
           <Thead>
             <Tr>
-              <Th>Movie ({listContextValue.items.length})</Th>
+              <Th>Movie ({moviesContextValue.items.length})</Th>
               <Th>Points</Th>
               <Th>Score</Th>
             </Tr>

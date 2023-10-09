@@ -1,12 +1,12 @@
 import { ReactNode, useState } from 'react'
-import { Movie, ListContextValue, Review, State } from '../../types'
-import listContext from './listContext'
+import { Movie, MoviesContextValue, Review, State } from '../../types'
+import moviesContext from './moviesContext'
 import chooseOption from '../../service/chooseOption'
 import getDefaultOptionIndex from '../../service/getDefaultOptionIndex'
 import { STATE } from '../../constants'
 import initializeState from '../../service/initializeState'
 
-export default function ListProvider ({
+export default function MoviesProvider ({
   children
 }: {
   children: ReactNode
@@ -43,7 +43,7 @@ export default function ListProvider ({
     items: state.items,
     choice: state.choice
   })
-  const value: ListContextValue = {
+  const value: MoviesContextValue = {
     ...state,
     applyChoice,
     choosing,
@@ -52,8 +52,8 @@ export default function ListProvider ({
     review
   }
   return (
-    <listContext.Provider value={value}>
+    <moviesContext.Provider value={value}>
       {children}
-    </listContext.Provider>
+    </moviesContext.Provider>
   )
 }
