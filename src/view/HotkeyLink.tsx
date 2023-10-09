@@ -10,6 +10,8 @@ export default function OptionLinkView ({
   const movieContextValue = useMovieContext()
   useHotkeys(openHotkey, movieContextValue.open)
   return (
-    <MovieLink />
+    <MovieLink>
+      ({openHotkey}) {movieContextValue.imdbId}
+    </MovieLink>
   )
 }

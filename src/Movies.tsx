@@ -1,5 +1,5 @@
 import { ChangeEvent, useRef, useState } from 'react'
-import { Button, Center, HStack, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
+import { Button, HStack, Table, Tbody, Th, Thead, Tr, VStack } from '@chakra-ui/react'
 import Papa from 'papaparse'
 import OptionView from './view/Option'
 import DeferView from './view/Defer'
@@ -7,6 +7,9 @@ import { Movie, CritickerRow } from './types'
 import compareMovies from './service/compareMovies'
 import useMoviesContext from './context/movies/useMoviesContext'
 import OptionProvider from './context/option/OptionProvider'
+import ReviewView from './view/Review'
+import MovieProvider from './context/movie/MovieProvider'
+import MovieRow from './view/MovieRow'
 
 export default function Movies (): JSX.Element {
   const moviesContextValue = useMoviesContext()
@@ -49,15 +52,13 @@ export default function Movies (): JSX.Element {
   const sortedMovies = moviesContextValue.items.sort(compareMovies)
   const movieViews = sortedMovies.map(movie => {
     return (
-      <Tr key={movie.id}>
-        <Td>{movie.title}</Td>
-        <Td>{movie.points}</Td>
-        <Td>{movie.score}</Td>
-      </Tr>
+      <MovieProvider key={movie.id} movie={movie}>
+        <MovieRow />
+      </MovieProvider>
     )
   })
   return (
-    <>
+    <VStack>
       <HStack flexWrap='wrap' justifyContent='center'>
         <OptionProvider
           chooseHotkey='a'
@@ -75,6 +76,7 @@ export default function Movies (): JSX.Element {
         </OptionProvider>
       </HStack>
       <DeferView />
+      <ReviewView />
       <Button
         isLoading={initializing}
         onClick={() => inputRef.current?.click()}
@@ -87,20 +89,18 @@ export default function Movies (): JSX.Element {
         ref={inputRef}
         onChange={handleFileChange}
       />
-      <Center>
-        <Table>
-          <Thead>
-            <Tr>
-              <Th>Movie ({moviesContextValue.items.length})</Th>
-              <Th>Points</Th>
-              <Th>Score</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {movieViews}
-          </Tbody>
-        </Table>
-      </Center>
-    </>
+      <Table>
+        <Thead>
+          <Tr>
+            <Th>Movie ({moviesContextValue.items.length})</Th>
+            <Th>Points</Th>
+            <Th>Score</Th>
+          </Tr>
+        </Thead>
+        <Tbody>
+          {movieViews}
+        </Tbody>
+      </Table>
+    </VStack>
   )
 }

@@ -1,19 +1,14 @@
 import { Td, Tr } from '@chakra-ui/react'
+import useMovieContext from '../context/movie/useMovieContext'
+import MovieLink from './MovieLink'
 
-export default function MovieRow ({
-  title,
-  points,
-  score
-}: {
-  title: string
-  points: number
-  score: number
-}): JSX.Element {
+export default function MovieRow (): JSX.Element {
+  const movieContextValue = useMovieContext()
   return (
     <Tr>
-      <Td>{title}</Td>
-      <Td>{points}</Td>
-      <Td>{score}</Td>
+      <Td><MovieLink /></Td>
+      <Td>{movieContextValue.points}</Td>
+      <Td>{movieContextValue.score}</Td>
     </Tr>
   )
 }

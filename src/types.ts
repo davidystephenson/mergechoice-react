@@ -43,12 +43,15 @@ export interface MoviesContextValue extends State {
   applyChoice: ({ optionIndex }: { optionIndex: number }) => void
   choosing: boolean
   defaultOptionIndex: number | undefined
+  movies: Movie[]
   populate: ({ movies }: { movies: Movie[] }) => void
   review: Review | undefined
+  state: State
 }
 export interface MovieContextValue extends Movie {
-  url: string
+  label: string
   open: () => void
+  url: string
 }
 export interface OptionContextValue {
   choose: () => void

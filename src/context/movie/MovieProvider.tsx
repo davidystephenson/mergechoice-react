@@ -13,8 +13,10 @@ export default function MovieProvider ({ children, movie }: {
   function open (): void {
     window.open(url, '_blank')
   }
+  const label = `${movie.title} (${movie.year})`
   const value: MovieContextValue = {
     ...movie,
+    label,
     open,
     url
   }

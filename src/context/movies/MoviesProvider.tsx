@@ -48,8 +48,10 @@ export default function MoviesProvider ({
     applyChoice,
     choosing,
     defaultOptionIndex,
+    movies: state.items,
     populate,
-    review
+    review,
+    state
   }
   return (
     <moviesContext.Provider value={value}>
