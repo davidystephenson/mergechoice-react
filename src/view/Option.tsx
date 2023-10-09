@@ -1,10 +1,9 @@
-import { Button, ButtonProps, HStack, Text, VStack } from '@chakra-ui/react'
-import { MouseEvent, ReactNode } from 'react'
-import Clink from 'clink-react'
-import { ExternalLinkIcon } from '@chakra-ui/icons'
+import { Button, ButtonProps, VStack } from '@chakra-ui/react'
+import { ReactNode } from 'react'
 import useOptionContext from '../context/option/useOptionContext'
 import useListContext from '../context/list/useListContext'
 import MovieProvider from '../context/movie/MovieProvider'
+import MovieLink from './MovieLink'
 
 export default function OptionView ({
   children,
@@ -14,11 +13,6 @@ export default function OptionView ({
 } & ButtonProps): JSX.Element {
   const listContextValue = useListContext()
   const optionContextValue = useOptionContext()
-  const url = `https://www.imdb.com/title/${optionContextValue.item.imdbId}`
-  function open (event: MouseEvent<HTMLAnchorElement>): void {
-    event.preventDefault()
-    window.open(url, '_blank')
-  }
   function handleClick (): void {
     optionContextValue.choose()
   }
@@ -32,12 +26,7 @@ export default function OptionView ({
         >
           {children} {optionContextValue.item.title}
         </Button>
-        <Clink to={url} target='_blank' onClick={open}>
-          <HStack alignItems='baseline'>
-            <Text>{optionContextValue.item.imdbId}</Text>
-            <ExternalLinkIcon />
-          </HStack>
-        </Clink>
+        <MovieLink />
       </VStack>
     </MovieProvider>
   )

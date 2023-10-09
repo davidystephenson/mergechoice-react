@@ -1,8 +1,8 @@
 import { useContext } from 'react'
-import { Movie } from '../../types'
+import { MovieContextValue } from '../../types'
 import movieContext from './movieContext'
 
-export default function useMovieContext (): Movie {
+export default function useMovieContext (): MovieContextValue {
   const itemContextValue = useContext(movieContext)
   if (itemContextValue == null) {
     throw new Error('useItemContext must be used within an ItemContextProvider')
