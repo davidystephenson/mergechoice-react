@@ -13,8 +13,16 @@ export default function createChoice ({ operations }: {
   }
   newChoice.currentOperationIndex = getOperationIndex({ operations })
   const currentOperation = operations[newChoice.currentOperationIndex]
-  newChoice.options[0] = currentOperation.input[0][0]
-  newChoice.options[1] = currentOperation.input[1][0]
+  const firstOption = currentOperation.input[0][0]
+  if (firstOption == null) {
+    throw new Error('There is no first option.')
+  }
+  const secondOption = currentOperation.input[1][0]
+  if (secondOption == null) {
+    throw new Error('There is no second option.')
+  }
+  newChoice.options[0] = firstOption
+  newChoice.options[1] = secondOption
   newChoice.leftIndex = getRandom([0, 1])
   newChoice.rightIndex = 1 - newChoice.leftIndex
   return newChoice

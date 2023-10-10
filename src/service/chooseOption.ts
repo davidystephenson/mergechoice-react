@@ -69,7 +69,7 @@ export default function chooseOption ({
       return {
         items: newItems,
         operations: nextOperations,
-        choice,
+        choice: undefined,
         finalized: true
       }
     }

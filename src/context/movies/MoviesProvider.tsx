@@ -7,6 +7,9 @@ import { STATE } from '../../constants'
 import initializeState from '../../service/initializeState'
 import getStorage from '../../service/getStorage'
 import findById from '../../service/findById'
+import clone from '../../service/clone'
+import createChoice from '../../service/createChoice'
+import getOperations from '../../service/getOperations'
 
 export default function MoviesProvider ({
   children
@@ -16,6 +19,7 @@ export default function MoviesProvider ({
   const [state, setState] = useState(() => {
     return getStorage({ key: 'state-reverse', defaultValue: STATE })
   })
+  console.log('MoviesProvider state', state)
   const [choosing] = useState(false)
   const [review, setReview] = useState(() => {
     return getStorage<Review | undefined>({
@@ -32,6 +36,9 @@ export default function MoviesProvider ({
   function applyChoice ({ optionIndex }: {
     optionIndex: number
   }): void {
+    if (state.choice == null) {
+      throw new Error('There is no choice.')
+    }
     const betterId = state.choice.options[optionIndex]
     const leftBetter = optionIndex === state.choice.leftIndex
     const worseId = leftBetter
@@ -41,20 +48,119 @@ export default function MoviesProvider ({
     const betterItem = findById({ items: state.items, id: betterId })
     const worseItem = findById({ items: state.items, id: worseId })
     console.log(`${betterItem.title} > ${worseItem.title}`)
-    localStorage.setItem('review-reverse', JSON.stringify(newReview))
+    // localStorage.setItem('review-reverse', JSON.stringify(newReview))
     setReview(newReview)
     setState(current => {
       const newState = chooseOption({
         state: current, betterIndex: optionIndex
       })
-      localStorage.setItem('state-reverse', JSON.stringify(newState))
+      // localStorage.setItem('state-reverse', JSON.stringify(newState))
       return newState
     })
   }
-  const defaultOptionIndex = getDefaultOptionIndex({
-    items: state.items,
-    choice: state.choice
-  })
+  function removeMovie ({ id }: { id: string }): void {
+    setState(current => {
+      const newState = clone(current)
+      const newItems = newState.items.filter(item => item.id !== id)
+      newState.items = newItems
+      let emptiedOperationIndex = -1
+      const xOperations = newState.operations.filter((operation) => {
+        const newOperation = clone(operation)
+        const inOutput = newOperation.output.includes(id)
+        if (inOutput) {
+          if (newOperation.steps === 0) {
+            return false
+          }
+        }
+        return true
+      })
+      const newOperations = xOperations.map((operation, index) => {
+        const newOperation = clone(operation)
+        const inFirstInput = newOperation.input[0].includes(id)
+        const inSecondInput = newOperation.input[1].includes(id)
+        const inOutput = newOperation.output.includes(id)
+        const inAny = inFirstInput || inSecondInput || inOutput
+        if (!inAny) {
+          return newOperation
+        }
+        if (inFirstInput) {
+          newOperation.input[0] = newOperation.input[0].filter(existingId => existingId !== id)
+          newOperation.steps = newOperation.steps - 1
+          if (newOperation.input[0].length === 0) {
+            emptiedOperationIndex = index
+            newOperation.output.push(...newOperation.input[1])
+            newOperation.input[1] = []
+            newOperation.steps = 0
+          }
+        }
+        if (inSecondInput) {
+          newOperation.input[1] = newOperation.input[1].filter(existingId => existingId !== id)
+          newOperation.steps = newOperation.steps - 1
+          if (newOperation.input[1].length === 0) {
+            emptiedOperationIndex = index
+            newOperation.output.push(...newOperation.input[0])
+            newOperation.input[1] = []
+            newOperation.steps = 0
+          }
+        }
+        return newOperation
+      })
+      newState.operations = newOperations
+
+      const emptiedCurrentOperation = emptiedOperationIndex === newState.choice?.currentOperationIndex
+      if (emptiedCurrentOperation) {
+        const maxSteps = Math.max(...newOperations.map(operation => operation.steps))
+        if (maxSteps > 0) {
+          const newChoice = createChoice({
+            operations: newOperations
+          })
+          return {
+            items: newItems,
+            operations: newOperations,
+            choice: newChoice,
+            finalized: false
+          }
+        } else {
+          const nextOperations = getOperations({ operations: newOperations })
+          const maxSteps = Math.max(...nextOperations.map(operation => operation.steps))
+          if (maxSteps > 0) {
+            const nextChoice = createChoice({
+              operations: nextOperations
+            })
+            return {
+              items: newItems,
+              operations: nextOperations,
+              choice: nextChoice,
+              finalized: false
+            }
+          } else {
+            return {
+              items: newItems,
+              operations: nextOperations,
+              choice: undefined,
+              finalized: true
+            }
+          }
+        }
+      } else if (newState.choice?.options.includes(id) === true) {
+        newState.choice = createChoice(newState)
+      }
+      // localStorage.setItem('state-reverse', JSON.stringify(newState))
+      return newState
+    })
+    setReview(current => {
+      if (current?.betterId === id || current?.worseId === id) {
+        return undefined
+      }
+      return current
+    })
+  }
+  const defaultOptionIndex = state.choice == null
+    ? undefined
+    : getDefaultOptionIndex({
+      items: state.items,
+      choice: state.choice
+    })
   const value: MoviesContextValue = {
     ...state,
     applyChoice,
@@ -62,6 +168,7 @@ export default function MoviesProvider ({
     defaultOptionIndex,
     movies: state.items,
     populate,
+    removeMovie,
     review,
     state
   }

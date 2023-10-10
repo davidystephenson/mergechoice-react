@@ -25,12 +25,12 @@ export default function MoviesView (): JSX.Element {
         <OptionProvider
           chooseHotkey='a'
           openHotkey='s'
-          optionIndex={moviesContextValue.choice.leftIndex}
+          optionIndex={moviesContextValue.choice?.leftIndex}
         >
           <OptionView />
         </OptionProvider>
         <OptionProvider
-          optionIndex={moviesContextValue.choice.rightIndex}
+          optionIndex={moviesContextValue.choice?.rightIndex}
           chooseHotkey='b'
           openHotkey='f'
         >

@@ -33,7 +33,7 @@ export interface Choice {
 export interface State {
   items: Movie[]
   operations: Operation[]
-  choice: Choice
+  choice?: Choice
   finalized: boolean
 }
 export interface Review {
@@ -46,12 +46,14 @@ export interface MoviesContextValue extends State {
   defaultOptionIndex: number | undefined
   movies: Movie[]
   populate: ({ movies }: { movies: Movie[] }) => void
+  removeMovie: ({ id }: { id: string }) => void
   review: Review | undefined
   state: State
 }
 export interface MovieContextValue extends Movie {
   label: string
   open: () => void
+  remove: () => void
   url: string
 }
 export interface OptionContextValue {

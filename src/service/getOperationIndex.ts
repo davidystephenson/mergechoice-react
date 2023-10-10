@@ -8,6 +8,9 @@ export default function getOperationIndex ({
   operations: Operation[]
 }): number {
   const maxSteps = Math.max(...operations.map(operation => operation.steps))
+  if (maxSteps === 0) {
+    throw new Error('All operations are complete.')
+  }
   const indices = range(operations.length)
   const maximalIndices = indices.filter(index => operations[index].steps === maxSteps)
   return getRandom(maximalIndices)
