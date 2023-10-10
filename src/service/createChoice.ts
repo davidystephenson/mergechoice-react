@@ -1,8 +1,8 @@
-import { Operation, Choice } from "../types"
-import getOperationIndex from "./getOperationIndex"
-import getRandom from "./getRandom"
+import { Operation, Choice } from '../types'
+import getOperationIndex from './getOperationIndex'
+import getRandom from './getRandom'
 
-export default function createChoice({ operations }: {
+export default function createChoice ({ operations }: {
   operations: Operation[]
 }): Choice {
   const newChoice: Choice = {

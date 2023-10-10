@@ -10,10 +10,10 @@ export default function chooseOption ({
     operations,
     choice
   },
-  optionIndex
+  betterIndex
 }: {
   state: State
-  optionIndex: number
+  betterIndex: number
 }): State {
   const newItems = clone(items)
   const newOperations = clone(operations)
@@ -21,18 +21,24 @@ export default function chooseOption ({
     throw new Error('choice is null')
   }
   const currentOperation = newOperations[choice.currentOperationIndex]
-  const chosenId = currentOperation.input[optionIndex].shift()
-  if (chosenId == null) {
-    throw new Error('chosenId is null')
+  const betterInput = currentOperation.input[betterIndex]
+  const worseIndex = 1 - betterIndex
+  const worseInput = currentOperation.input[worseIndex]
+  const worseId = worseInput.shift()
+  if (worseId == null) {
+    throw new Error('worseId is null')
   }
-  currentOperation.output.push(chosenId)
-  const chosenItem = findById({ items: newItems, id: chosenId })
-  chosenItem.points = currentOperation.steps
-  chosenItem.updatedAt = Date.now()
+  const worseItem = findById({ items: newItems, id: worseId })
+  worseItem.updatedAt = Date.now()
+  betterInput.forEach(id => {
+    const item = findById({ items: newItems, id })
+    item.points += 1
+  })
+  currentOperation.output.push(worseId)
   currentOperation.steps -= 1
-  if (currentOperation.input[optionIndex].length === 0) {
-    currentOperation.output.push(...currentOperation.input[1 - optionIndex])
-    currentOperation.input[1 - optionIndex] = []
+  if (worseInput.length === 0) {
+    currentOperation.output.push(...betterInput)
+    currentOperation.input[betterIndex] = []
     currentOperation.steps = 0
   }
   const maxSteps = Math.max(...newOperations.map(operation => operation.steps))

@@ -1,8 +1,8 @@
-import { Operation } from "../types"
-import getRandom from "./getRandom"
-import range from "./range"
+import { Operation } from '../types'
+import getRandom from './getRandom'
+import range from './range'
 
-export default function getOperationIndex({
+export default function getOperationIndex ({
   operations
 }: {
   operations: Operation[]

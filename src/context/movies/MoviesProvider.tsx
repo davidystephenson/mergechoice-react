@@ -6,6 +6,7 @@ import getDefaultOptionIndex from '../../service/getDefaultOptionIndex'
 import { STATE } from '../../constants'
 import initializeState from '../../service/initializeState'
 import getStorage from '../../service/getStorage'
+import findById from '../../service/findById'
 
 export default function MoviesProvider ({
   children
@@ -13,12 +14,12 @@ export default function MoviesProvider ({
   children: ReactNode
 }): JSX.Element {
   const [state, setState] = useState(() => {
-    return getStorage({ key: 'state', defaultValue: STATE })
+    return getStorage({ key: 'state-reverse', defaultValue: STATE })
   })
   const [choosing] = useState(false)
   const [review, setReview] = useState(() => {
     return getStorage<Review | undefined>({
-      key: 'review', defaultValue: undefined
+      key: 'review-reverse', defaultValue: undefined
     })
   })
   function populate ({ movies }: {
@@ -26,6 +27,7 @@ export default function MoviesProvider ({
   }): void {
     const initialState = initializeState({ items: movies })
     setState(initialState)
+    setReview(undefined)
   }
   function applyChoice ({ optionIndex }: {
     optionIndex: number
@@ -36,16 +38,16 @@ export default function MoviesProvider ({
       ? state.choice.options[state.choice.rightIndex]
       : state.choice.options[state.choice.leftIndex]
     const newReview = { betterId, worseId }
-    localStorage.setItem('review', JSON.stringify(newReview))
+    const betterItem = findById({ items: state.items, id: betterId })
+    const worseItem = findById({ items: state.items, id: worseId })
+    console.log(`${betterItem.title} > ${worseItem.title}`)
+    localStorage.setItem('review-reverse', JSON.stringify(newReview))
     setReview(newReview)
     setState(current => {
-      console.time('applyChoice')
       const newState = chooseOption({
-        state: current, optionIndex
+        state: current, betterIndex: optionIndex
       })
-      console.log('newState', newState)
-      localStorage.setItem('state', JSON.stringify(newState))
-      console.timeEnd('applyChoice')
+      localStorage.setItem('state-reverse', JSON.stringify(newState))
       return newState
     })
   }
