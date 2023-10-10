@@ -1,8 +1,7 @@
 import { State } from '../types'
 import clone from './clone'
-import createChoice from './createChoice'
 import findById from './findById'
-import getOperations from './getOperations'
+import setupChoice from './setupChoice'
 
 export default function chooseOption ({
   state: {
@@ -41,37 +40,8 @@ export default function chooseOption ({
     currentOperation.input[betterIndex] = []
     currentOperation.steps = 0
   }
-  const maxSteps = Math.max(...newOperations.map(operation => operation.steps))
-  if (maxSteps > 0) {
-    const newChoice = createChoice({
-      operations: newOperations
-    })
-    return {
-      items: newItems,
-      operations: newOperations,
-      choice: newChoice,
-      finalized: false
-    }
-  } else {
-    const nextOperations = getOperations({ operations: newOperations })
-    const maxSteps = Math.max(...nextOperations.map(operation => operation.steps))
-    if (maxSteps > 0) {
-      const nextChoice = createChoice({
-        operations: nextOperations
-      })
-      return {
-        items: newItems,
-        operations: nextOperations,
-        choice: nextChoice,
-        finalized: false
-      }
-    } else {
-      return {
-        items: newItems,
-        operations: nextOperations,
-        choice: undefined,
-        finalized: true
-      }
-    }
-  }
+  return setupChoice({
+    operations: newOperations,
+    items: newItems
+  })
 }

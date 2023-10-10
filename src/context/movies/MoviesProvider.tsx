@@ -9,7 +9,7 @@ import getStorage from '../../service/getStorage'
 import findById from '../../service/findById'
 import clone from '../../service/clone'
 import createChoice from '../../service/createChoice'
-import getOperations from '../../service/getOperations'
+import setupChoice from '../../service/setupChoice'
 
 export default function MoviesProvider ({
   children
@@ -61,10 +61,8 @@ export default function MoviesProvider ({
   function removeMovie ({ id }: { id: string }): void {
     setState(current => {
       const newState = clone(current)
-      const newItems = newState.items.filter(item => item.id !== id)
-      newState.items = newItems
-      let emptiedOperationIndex = -1
-      const xOperations = newState.operations.filter((operation) => {
+      newState.items = newState.items.filter(item => item.id !== id)
+      const fullOutputOperations = newState.operations.filter((operation) => {
         const newOperation = clone(operation)
         const inOutput = newOperation.output.includes(id)
         if (inOutput) {
@@ -74,18 +72,18 @@ export default function MoviesProvider ({
         }
         return true
       })
-      const newOperations = xOperations.map((operation, index) => {
+      let emptiedOperationIndex = -1
+      newState.operations = fullOutputOperations.map((operation, index) => {
         const newOperation = clone(operation)
         const inFirstInput = newOperation.input[0].includes(id)
         const inSecondInput = newOperation.input[1].includes(id)
-        const inOutput = newOperation.output.includes(id)
-        const inAny = inFirstInput || inSecondInput || inOutput
-        if (!inAny) {
+        const inInput = inFirstInput || inSecondInput
+        if (!inInput) {
           return newOperation
         }
+        newOperation.steps = newOperation.steps - 1
         if (inFirstInput) {
           newOperation.input[0] = newOperation.input[0].filter(existingId => existingId !== id)
-          newOperation.steps = newOperation.steps - 1
           if (newOperation.input[0].length === 0) {
             emptiedOperationIndex = index
             newOperation.output.push(...newOperation.input[1])
@@ -95,7 +93,6 @@ export default function MoviesProvider ({
         }
         if (inSecondInput) {
           newOperation.input[1] = newOperation.input[1].filter(existingId => existingId !== id)
-          newOperation.steps = newOperation.steps - 1
           if (newOperation.input[1].length === 0) {
             emptiedOperationIndex = index
             newOperation.output.push(...newOperation.input[0])
@@ -105,43 +102,13 @@ export default function MoviesProvider ({
         }
         return newOperation
       })
-      newState.operations = newOperations
 
       const emptiedCurrentOperation = emptiedOperationIndex === newState.choice?.currentOperationIndex
       if (emptiedCurrentOperation) {
-        const maxSteps = Math.max(...newOperations.map(operation => operation.steps))
-        if (maxSteps > 0) {
-          const newChoice = createChoice({
-            operations: newOperations
-          })
-          return {
-            items: newItems,
-            operations: newOperations,
-            choice: newChoice,
-            finalized: false
-          }
-        } else {
-          const nextOperations = getOperations({ operations: newOperations })
-          const maxSteps = Math.max(...nextOperations.map(operation => operation.steps))
-          if (maxSteps > 0) {
-            const nextChoice = createChoice({
-              operations: nextOperations
-            })
-            return {
-              items: newItems,
-              operations: nextOperations,
-              choice: nextChoice,
-              finalized: false
-            }
-          } else {
-            return {
-              items: newItems,
-              operations: nextOperations,
-              choice: undefined,
-              finalized: true
-            }
-          }
-        }
+        return setupChoice({
+          operations: newState.operations,
+          items: newState.items
+        })
       } else if (newState.choice?.options.includes(id) === true) {
         newState.choice = createChoice(newState)
       }
