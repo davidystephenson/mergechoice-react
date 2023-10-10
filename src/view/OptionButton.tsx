@@ -31,6 +31,10 @@ export default function OptionButtonView ({
   )
   return (
     <Button
+      variant='ghost'
+      whiteSpace='normal'
+      height='fit-content'
+      py='10px'
       isLoading={moviesContextValue.choosing}
       onClick={handleClick}
       {...restProps}

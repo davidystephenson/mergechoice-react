@@ -5,15 +5,20 @@ import chooseOption from '../../service/chooseOption'
 import getDefaultOptionIndex from '../../service/getDefaultOptionIndex'
 import { STATE } from '../../constants'
 import initializeState from '../../service/initializeState'
+import getStorage from '../../service/getStorage'
 
 export default function MoviesProvider ({
   children
 }: {
   children: ReactNode
 }): JSX.Element {
-  const [state, setState] = useState<State>(STATE)
+  const [state, setState] = useState<State>(() => {
+    return getStorage({ key: 'state', defaultValue: STATE })
+  })
   const [choosing] = useState(false)
-  const [review, setReview] = useState<Review>()
+  const [review, setReview] = useState<Review | undefined>(() => {
+    return getStorage<Review | undefined>({ key: 'review', defaultValue: undefined })
+  })
   function populate ({ movies }: {
     movies: Movie[]
   }): void {
@@ -28,13 +33,16 @@ export default function MoviesProvider ({
     const worseId = leftBetter
       ? state.choice.options[state.choice.rightIndex]
       : state.choice.options[state.choice.leftIndex]
-    setReview({ betterId, worseId })
+    const newReview = { betterId, worseId }
+    localStorage.setItem('review', JSON.stringify(newReview))
+    setReview(newReview)
     setState(current => {
       console.time('applyChoice')
       const newState = chooseOption({
         state: current, optionIndex
       })
       console.log('newState', newState)
+      localStorage.setItem('state', JSON.stringify(newState))
       console.timeEnd('applyChoice')
       return newState
     })
