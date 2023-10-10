@@ -36,9 +36,15 @@ export interface State {
   choice?: Choice
   finalized: boolean
 }
-export interface Review {
+export interface HistoryEvent {
   betterId: string
+  betterItem: Movie
+  createdAt: number
+  id: string
+  previousHistory: HistoryEvent[]
+  previousState: State
   worseId: string
+  worseItem: Movie
 }
 export interface MoviesContextValue extends State {
   applyChoice: ({ optionIndex }: { optionIndex: number }) => void
@@ -47,7 +53,8 @@ export interface MoviesContextValue extends State {
   movies: Movie[]
   populate: ({ movies }: { movies: Movie[] }) => void
   removeMovie: ({ id }: { id: string }) => void
-  review: Review | undefined
+  history: HistoryEvent[]
+  rewind: ({ historyEventId }: { historyEventId: string }) => void
   state: State
 }
 export interface MovieContextValue extends Movie {
@@ -62,4 +69,9 @@ export interface OptionContextValue {
   movie: Movie
   optionIndex: number
   openHotkey?: string
+}
+export interface HistoryEventContextValue extends HistoryEvent {
+  betterMovie: Movie
+  rewind: () => void
+  worseMovie: Movie
 }

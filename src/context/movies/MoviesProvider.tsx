@@ -1,5 +1,5 @@
 import { ReactNode, useState } from 'react'
-import { Movie, MoviesContextValue, Review } from '../../types'
+import { Movie, MoviesContextValue, HistoryEvent } from '../../types'
 import moviesContext from './moviesContext'
 import chooseOption from '../../service/chooseOption'
 import getDefaultOptionIndex from '../../service/getDefaultOptionIndex'
@@ -10,6 +10,7 @@ import findById from '../../service/findById'
 import clone from '../../service/clone'
 import createChoice from '../../service/createChoice'
 import setupChoice from '../../service/setupChoice'
+import yeast from 'yeast'
 
 export default function MoviesProvider ({
   children
@@ -17,13 +18,12 @@ export default function MoviesProvider ({
   children: ReactNode
 }): JSX.Element {
   const [state, setState] = useState(() => {
-    return getStorage({ key: 'state-reverse', defaultValue: STATE })
+    return getStorage({ key: 'state', defaultValue: STATE })
   })
-  console.log('MoviesProvider state', state)
   const [choosing] = useState(false)
-  const [review, setReview] = useState(() => {
-    return getStorage<Review | undefined>({
-      key: 'review-reverse', defaultValue: undefined
+  const [history, setHistory] = useState(() => {
+    return getStorage<HistoryEvent[]>({
+      key: 'history', defaultValue: []
     })
   })
   function populate ({ movies }: {
@@ -31,7 +31,7 @@ export default function MoviesProvider ({
   }): void {
     const initialState = initializeState({ items: movies })
     setState(initialState)
-    setReview(undefined)
+    setHistory([])
   }
   function applyChoice ({ optionIndex }: {
     optionIndex: number
@@ -44,17 +44,29 @@ export default function MoviesProvider ({
     const worseId = leftBetter
       ? state.choice.options[state.choice.rightIndex]
       : state.choice.options[state.choice.leftIndex]
-    const newReview = { betterId, worseId }
     const betterItem = findById({ items: state.items, id: betterId })
     const worseItem = findById({ items: state.items, id: worseId })
     console.log(`${betterItem.title} > ${worseItem.title}`)
-    // localStorage.setItem('review-reverse', JSON.stringify(newReview))
-    setReview(newReview)
+    const newHistoryEvent = {
+      betterId,
+      betterItem,
+      createdAt: Date.now(),
+      id: yeast(),
+      previousHistory: history,
+      previousState: state,
+      worseId,
+      worseItem
+    }
+    setHistory(current => {
+      const newHistory = [newHistoryEvent, ...current]
+      // localStorage.setItem('history', JSON.stringify(newHistory))
+      return newHistory
+    })
     setState(current => {
       const newState = chooseOption({
         state: current, betterIndex: optionIndex
       })
-      // localStorage.setItem('state-reverse', JSON.stringify(newState))
+      // localStorage.setItem('state', JSON.stringify(newState))
       return newState
     })
   }
@@ -112,15 +124,20 @@ export default function MoviesProvider ({
       } else if (newState.choice?.options.includes(id) === true) {
         newState.choice = createChoice(newState)
       }
-      // localStorage.setItem('state-reverse', JSON.stringify(newState))
+      // localStorage.setItem('state', JSON.stringify(newState))
       return newState
     })
-    setReview(current => {
-      if (current?.betterId === id || current?.worseId === id) {
-        return undefined
-      }
-      return current
-    })
+  }
+  function rewind ({ historyEventId }: {
+    historyEventId: string
+  }): void {
+    const historyEvent = history.find(event => event.id === historyEventId)
+    if (historyEvent == null) {
+      const message = `There is no history event with id ${historyEventId}.`
+      throw new Error(message)
+    }
+    setState(historyEvent.previousState)
+    setHistory(historyEvent.previousHistory)
   }
   const defaultOptionIndex = state.choice == null
     ? undefined
@@ -133,10 +150,11 @@ export default function MoviesProvider ({
     applyChoice,
     choosing,
     defaultOptionIndex,
+    history,
     movies: state.items,
     populate,
     removeMovie,
-    review,
+    rewind,
     state
   }
   return (

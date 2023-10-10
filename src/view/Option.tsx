@@ -17,7 +17,7 @@ export default function OptionView ({
   )
   return (
     <MovieProvider movie={optionContextValue.movie}>
-      <VStack>
+      <VStack spacing='0'>
         <OptionButtonView {...restProps}>
           {children}
         </OptionButtonView>

@@ -59,6 +59,9 @@ export default function ImportButtonView (): JSX.Element {
       <Button
         isLoading={initializing}
         onClick={() => inputRef.current?.click()}
+        fontSize='sm'
+        size='xs'
+        variant='solid'
       >
         [i]mport
       </Button>

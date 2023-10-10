@@ -1,13 +1,14 @@
-import { HStack, Table, Tbody, Td, Th, Thead, Tr, VStack } from '@chakra-ui/react'
+import { HStack, Table, Tbody, VStack, Heading, Text, Th, Tr } from '@chakra-ui/react'
 import OptionView from './Option'
 import DeferView from './Defer'
 import compareMovies from '../service/compareMovies'
 import useMoviesContext from '../context/movies/useMoviesContext'
 import OptionProvider from '../context/option/OptionProvider'
-import ReviewView from './Review'
+import HistoryView from './History'
 import MovieProvider from '../context/movie/MovieProvider'
 import MovieRow from './MovieRow'
 import ImportButtonView from './ImportButton'
+import SingleRowView from './SingleRow'
 
 export default function MoviesView (): JSX.Element {
   const moviesContextValue = useMoviesContext()
@@ -19,8 +20,19 @@ export default function MoviesView (): JSX.Element {
       </MovieProvider>
     )
   })
+  const headingsView = moviesContextValue.items.length > 0 && (
+    <Tr>
+      <Th>
+        <HStack>
+          <Text w='max-content'>Movie ({moviesContextValue.items.length})</Text>
+        </HStack>
+      </Th>
+      <Th>Points</Th>
+      <Th>Score</Th>
+    </Tr>
+  )
   return (
-    <VStack>
+    <VStack spacing='0'>
       <HStack flexWrap='wrap' justifyContent='center'>
         <OptionProvider
           chooseHotkey='a'
@@ -38,22 +50,16 @@ export default function MoviesView (): JSX.Element {
         </OptionProvider>
       </HStack>
       <DeferView />
-
-      <Table>
-        <Thead>
-          <Tr>
-            <Th>Movie ({moviesContextValue.items.length})</Th>
-            <Th>Points</Th>
-            <Th>Score</Th>
-          </Tr>
-        </Thead>
+      <Table size='sm'>
         <Tbody>
-          <ReviewView />
-          <Tr>
-            <Td colSpan={3} textAlign='center'>
+          <HistoryView />
+          <SingleRowView cellProps={{ borderBottom: '1px solid lightgray', borderTop: '1px solid lightgray' }}>
+            <HStack justifyContent='center'>
+              <Heading size='sm'>List</Heading>
               <ImportButtonView />
-            </Td>
-          </Tr>
+            </HStack>
+          </SingleRowView>
+          {headingsView}
           {movieViews}
         </Tbody>
       </Table>
