@@ -1,5 +1,5 @@
 import { ReactNode, useState } from 'react'
-import { Movie, MoviesContextValue, Review, State } from '../../types'
+import { Movie, MoviesContextValue, Review } from '../../types'
 import moviesContext from './moviesContext'
 import chooseOption from '../../service/chooseOption'
 import getDefaultOptionIndex from '../../service/getDefaultOptionIndex'
@@ -12,12 +12,14 @@ export default function MoviesProvider ({
 }: {
   children: ReactNode
 }): JSX.Element {
-  const [state, setState] = useState<State>(() => {
+  const [state, setState] = useState(() => {
     return getStorage({ key: 'state', defaultValue: STATE })
   })
   const [choosing] = useState(false)
-  const [review, setReview] = useState<Review | undefined>(() => {
-    return getStorage<Review | undefined>({ key: 'review', defaultValue: undefined })
+  const [review, setReview] = useState(() => {
+    return getStorage<Review | undefined>({
+      key: 'review', defaultValue: undefined
+    })
   })
   function populate ({ movies }: {
     movies: Movie[]
