@@ -11,7 +11,7 @@ export default function SingleRowView ({
 } & TableRowProps): JSX.Element {
   return (
     <Tr {...restProps}>
-      <Td colSpan={3} textAlign='center' {...cellProps}>
+      <Td colSpan={4} textAlign='center' {...cellProps}>
         {children}
       </Td>
     </Tr>

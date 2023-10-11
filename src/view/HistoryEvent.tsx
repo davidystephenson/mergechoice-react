@@ -1,9 +1,9 @@
-import { HStack, Heading, IconButton } from '@chakra-ui/react'
+import { Heading, IconButton } from '@chakra-ui/react'
 import MovieProvider from '../context/movie/MovieProvider'
-import MovieRow from './MovieRow'
 import useHistoryEventContext from '../context/historyEvent/useHistoryEventContext'
-import SingleRowView from './SingleRow'
 import { ArrowLeftIcon } from '@chakra-ui/icons'
+import HeadingRowView from './HeadingRow'
+import HistoryRowView from './HistoryRow'
 
 export default function HistoryEventView (): JSX.Element {
   const historyEventContextValue = useHistoryEventContext()
@@ -12,7 +12,7 @@ export default function HistoryEventView (): JSX.Element {
     paddingBottom: 0,
     borderBottom: 0
   }
-  const bottomCellProps = {
+  const headingCellProps = {
     ...cellProps,
     borderBottom: '1px solid lightgray'
   }
@@ -21,26 +21,22 @@ export default function HistoryEventView (): JSX.Element {
   }
   return (
     <>
-      <MovieProvider movie={historyEventContextValue.betterMovie}>
-        <MovieRow cellProps={cellProps} />
+      <HeadingRowView cellProps={headingCellProps}>
+        <Heading size='xs'>{historyEventContextValue.timestamp}</Heading>
+        <IconButton
+          aria-label='Rewind choice'
+          icon={<ArrowLeftIcon />}
+          size='xs'
+          onClick={handleClick}
+          variant='link'
+        />
+      </HeadingRowView>
+      <MovieProvider movie={historyEventContextValue.aItem}>
+        <HistoryRowView />
       </MovieProvider>
-      <SingleRowView cellProps={cellProps}>
-        <Heading size='sm'>&gt;</Heading>
-      </SingleRowView>
-      <MovieProvider movie={historyEventContextValue.worseMovie}>
-        <MovieRow cellProps={cellProps} />
+      <MovieProvider movie={historyEventContextValue.bItem}>
+        <HistoryRowView />
       </MovieProvider>
-      <SingleRowView cellProps={bottomCellProps}>
-        <HStack justifyContent='center' spacing='0'>
-          <IconButton
-            aria-label='Rewind choice'
-            icon={<ArrowLeftIcon />}
-            size='xs'
-            onClick={handleClick}
-          />
-          <Heading size='xs'>{new Date(historyEventContextValue.createdAt).toLocaleString()}</Heading>
-        </HStack>
-      </SingleRowView>
     </>
   )
 }

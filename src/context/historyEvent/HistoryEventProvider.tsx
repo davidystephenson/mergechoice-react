@@ -16,11 +16,11 @@ export default function HistoryEventProvider ({
       historyEventId: historyEvent.id
     })
   }
+  const timestamp = new Date(historyEvent.createdAt).toLocaleString()
   const value: HistoryEventContextValue = {
     ...historyEvent,
-    betterMovie: historyEvent.betterItem,
-    worseMovie: historyEvent.worseItem,
-    rewind
+    rewind,
+    timestamp
   }
   return (
     <historyEventContext.Provider value={value}>

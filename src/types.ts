@@ -37,14 +37,15 @@ export interface State {
   finalized: boolean
 }
 export interface HistoryEvent {
-  betterId: string
-  betterItem: Movie
+  aBetter: boolean
+  aId: string
+  aItem: Movie
+  bId: string
+  bItem: Movie
   createdAt: number
   id: string
   previousHistory: HistoryEvent[]
   previousState: State
-  worseId: string
-  worseItem: Movie
 }
 export interface MoviesContextValue extends State {
   applyChoice: ({ optionIndex }: { optionIndex: number }) => void
@@ -70,8 +71,15 @@ export interface OptionContextValue {
   optionIndex: number
   openHotkey?: string
 }
+export interface HistoryContextValue {
+  events: HistoryEvent[]
+  expanded: boolean
+  firstEvent: HistoryEvent | undefined
+  isSingle: boolean
+  restEvents: HistoryEvent[]
+  toggleExpanded: () => void
+}
 export interface HistoryEventContextValue extends HistoryEvent {
-  betterMovie: Movie
   rewind: () => void
-  worseMovie: Movie
+  timestamp: string
 }

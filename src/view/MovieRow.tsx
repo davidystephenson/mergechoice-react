@@ -3,23 +3,32 @@ import useMovieContext from '../context/movie/useMovieContext'
 import MovieLink from './MovieLink'
 import { DeleteIcon } from '@chakra-ui/icons'
 
-export default function MovieRow ({ cellProps, ...restProps }: {
+export default function MovieRow ({ cellProps, endAdornment, ...restProps }: {
   cellProps?: TableCellProps
+  endAdornment?: JSX.Element
 } & TableRowProps): JSX.Element {
   const movieContextValue = useMovieContext()
   function handleDelete (): void {
     movieContextValue.remove()
   }
+  const end = endAdornment ?? (
+    <IconButton
+      aria-label='delete'
+      icon={<DeleteIcon />}
+      onClick={handleDelete}
+      minW='fit-content'
+    />
+  )
   return (
     <Tr {...restProps}>
       <Td {...cellProps}><MovieLink /></Td>
       <Td {...cellProps}>
         <Text>{movieContextValue.points}</Text>
       </Td>
-      <Td {...cellProps}>
-        <HStack alignItems='center'>
+      <Td colSpan={2} {...cellProps}>
+        <HStack alignItems='center' justifyContent='space-between'>
           <Text>{movieContextValue.score}</Text>
-          <IconButton aria-label='delete' icon={<DeleteIcon />} onClick={handleDelete} />
+          {end}
         </HStack>
       </Td>
     </Tr>

@@ -39,23 +39,20 @@ export default function MoviesProvider ({
     if (state.choice == null) {
       throw new Error('There is no choice.')
     }
-    const betterId = state.choice.options[optionIndex]
-    const leftBetter = optionIndex === state.choice.leftIndex
-    const worseId = leftBetter
-      ? state.choice.options[state.choice.rightIndex]
-      : state.choice.options[state.choice.leftIndex]
-    const betterItem = findById({ items: state.items, id: betterId })
-    const worseItem = findById({ items: state.items, id: worseId })
-    console.log(`${betterItem.title} > ${worseItem.title}`)
+    const [aId, bId] = state.choice.options
+    const aBetter = optionIndex === state.choice.leftIndex
+    const aItem = findById({ items: state.items, id: aId })
+    const bItem = findById({ items: state.items, id: bId })
     const newHistoryEvent = {
-      betterId,
-      betterItem,
+      aBetter,
+      aId,
+      aItem,
+      bId,
+      bItem,
       createdAt: Date.now(),
       id: yeast(),
       previousHistory: history,
-      previousState: state,
-      worseId,
-      worseItem
+      previousState: state
     }
     setHistory(current => {
       const newHistory = [newHistoryEvent, ...current]

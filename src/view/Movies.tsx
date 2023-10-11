@@ -8,7 +8,8 @@ import HistoryView from './History'
 import MovieProvider from '../context/movie/MovieProvider'
 import MovieRow from './MovieRow'
 import ImportButtonView from './ImportButton'
-import SingleRowView from './SingleRow'
+import HeadingRowView from './HeadingRow'
+import HistoryProvider from '../context/history/HistoryProvider'
 
 export default function MoviesView (): JSX.Element {
   const moviesContextValue = useMoviesContext()
@@ -28,7 +29,7 @@ export default function MoviesView (): JSX.Element {
         </HStack>
       </Th>
       <Th>Points</Th>
-      <Th>Score</Th>
+      <Th colSpan={2}>Score</Th>
     </Tr>
   )
   return (
@@ -52,13 +53,13 @@ export default function MoviesView (): JSX.Element {
       <DeferView />
       <Table size='sm'>
         <Tbody>
-          <HistoryView />
-          <SingleRowView cellProps={{ borderBottom: '1px solid lightgray', borderTop: '1px solid lightgray' }}>
-            <HStack justifyContent='center'>
-              <Heading size='sm'>List</Heading>
-              <ImportButtonView />
-            </HStack>
-          </SingleRowView>
+          <HistoryProvider>
+            <HistoryView />
+          </HistoryProvider>
+          <HeadingRowView>
+            <Heading size='sm'>List</Heading>
+            <ImportButtonView />
+          </HeadingRowView>
           {headingsView}
           {movieViews}
         </Tbody>
