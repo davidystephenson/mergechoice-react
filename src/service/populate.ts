@@ -13,12 +13,12 @@ export default function populate ({ movies, state }: {
     return state.items.every(item => item.id !== movie.id)
   })
   const newState = clone(STATE)
-  const importItems = getShuffled(newMovies).slice(0, 9)
-  const betterItems = importItems.slice(5, 7)
-  const worseItems = importItems.slice(7, 9)
+  const importItems = getShuffled(newMovies).slice(0, 5)
+  const betterItems: Movie[] = []
+  const worseItems: Movie[] = []
   const newItems = importItems.slice(0, 5)
   worseItems.forEach((item, index) => { item.points = index })
-  newItems.forEach(item => { item.points = 2 })
+  // newItems.forEach(item => { item.points = 2 })
   betterItems.forEach((item, index) => { item.points = 7 + index })
   console.log('newItems', newItems)
   newState.items = newItems
