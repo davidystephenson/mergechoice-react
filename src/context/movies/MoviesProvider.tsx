@@ -3,7 +3,6 @@ import { Movie, MoviesContextValue, HistoryEvent } from '../../types'
 import moviesContext from './moviesContext'
 import chooseOption from '../../service/chooseOption'
 import getDefaultOptionIndex from '../../service/getDefaultOptionIndex'
-import { STATE } from '../../constants'
 import getStorage from '../../service/getStorage'
 import findById from '../../service/findById'
 import clone from '../../service/clone'
@@ -12,6 +11,7 @@ import setupChoice from '../../service/setupChoice'
 import yeast from 'yeast'
 import logOperations from '../../service/logOperation'
 import populate from '../../service/populate'
+import { STATE } from '../../constants'
 
 export default function MoviesProvider ({
   children
@@ -177,8 +177,11 @@ export default function MoviesProvider ({
       const emptiedCurrentOperation = emptiedOperationIndex === newState.choice?.currentOperationIndex
       if (emptiedCurrentOperation) {
         return setupChoice({
+          betterItems: newState.betterItems,
+          items: newState.items,
+          oldOperations: newState.operations,
           operations: newState.operations,
-          items: newState.items
+          worseItems: newState.worseItems
         })
       } else if (newState.choice?.options.includes(id) === true) {
         newState.choice = createChoice(newState)

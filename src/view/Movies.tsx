@@ -1,26 +1,16 @@
 import { HStack, Table, Tbody, VStack, Heading, Text, Th, Tr } from '@chakra-ui/react'
 import OptionView from './Option'
 import DeferView from './Defer'
-import compareMovies from '../service/compareMovies'
 import useMoviesContext from '../context/movies/useMoviesContext'
 import OptionProvider from '../context/option/OptionProvider'
 import HistoryView from './History'
-import MovieProvider from '../context/movie/MovieProvider'
-import MovieRow from './MovieRow'
 import ImportButtonView from './ImportButton'
 import HeadingRowView from './HeadingRow'
 import HistoryProvider from '../context/history/HistoryProvider'
+import MovieRows from './MovieRows'
 
 export default function MoviesView (): JSX.Element {
   const moviesContextValue = useMoviesContext()
-  const sortedMovies = moviesContextValue.items.sort(compareMovies)
-  const movieViews = sortedMovies.map(movie => {
-    return (
-      <MovieProvider key={movie.id} movie={movie}>
-        <MovieRow />
-      </MovieProvider>
-    )
-  })
   const headingsView = moviesContextValue.items.length > 0 && (
     <Tr>
       <Th>
@@ -35,12 +25,13 @@ export default function MoviesView (): JSX.Element {
   const countView = moviesContextValue.items.length > 0 && (
     <>({moviesContextValue.items.length})</>
   )
+  console.log('moviesContextValue', moviesContextValue)
   return (
     <VStack spacing='0'>
       <HStack flexWrap='wrap' justifyContent='center'>
         <OptionProvider
           chooseHotkey='a'
-          openHotkey='s'
+          openHotkey='e'
           optionIndex={moviesContextValue.choice?.aIndex}
         >
           <OptionView />
@@ -48,7 +39,7 @@ export default function MoviesView (): JSX.Element {
         <OptionProvider
           optionIndex={moviesContextValue.choice?.bIndex}
           chooseHotkey='b'
-          openHotkey='f'
+          openHotkey='r'
         >
           <OptionView />
         </OptionProvider>
@@ -64,7 +55,9 @@ export default function MoviesView (): JSX.Element {
             <ImportButtonView />
           </HeadingRowView>
           {headingsView}
-          {movieViews}
+          <MovieRows movies={moviesContextValue.betterItems} />
+          <MovieRows movies={moviesContextValue.items} />
+          <MovieRows movies={moviesContextValue.worseItems} />
         </Tbody>
       </Table>
     </VStack>

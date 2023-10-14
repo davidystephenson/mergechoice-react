@@ -5,9 +5,12 @@ import setupChoice from './setupChoice'
 
 export default function chooseOption ({
   state: {
+    betterItems,
+    choice,
     items,
+    oldOperations,
     operations,
-    choice
+    worseItems
   },
   betterIndex
 }: {
@@ -41,7 +44,10 @@ export default function chooseOption ({
     currentOperation.steps = 0
   }
   return setupChoice({
+    betterItems,
+    items: newItems,
+    oldOperations,
     operations: newOperations,
-    items: newItems
+    worseItems
   })
 }

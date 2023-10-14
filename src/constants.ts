@@ -9,5 +9,8 @@ export const STATE: State = {
     aIndex: 0,
     bIndex: 1
   },
-  finalized: false
+  finalized: false,
+  betterItems: [],
+  worseItems: [],
+  oldOperations: []
 }

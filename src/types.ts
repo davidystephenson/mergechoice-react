@@ -32,7 +32,10 @@ export interface Choice {
 }
 export interface State {
   items: Movie[]
+  betterItems: Movie[]
+  worseItems: Movie[]
   operations: Operation[]
+  oldOperations: Operation[]
   choice?: Choice
   finalized: boolean
 }
