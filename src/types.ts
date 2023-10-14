@@ -34,6 +34,7 @@ export interface State {
   items: Movie[]
   betterItems: Movie[]
   worseItems: Movie[]
+  populatingItems: Movie[]
   operations: Operation[]
   oldOperations: Operation[]
   choice?: Choice

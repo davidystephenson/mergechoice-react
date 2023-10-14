@@ -12,5 +12,6 @@ export const STATE: State = {
   finalized: false,
   betterItems: [],
   worseItems: [],
-  oldOperations: []
+  oldOperations: [],
+  populatingItems: []
 }

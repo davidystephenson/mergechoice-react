@@ -13,36 +13,24 @@ export default function populate ({ movies, state }: {
     return state.items.every(item => item.id !== movie.id)
   })
   const newState = clone(STATE)
-  const importItems = getShuffled(newMovies).slice(0, 5)
-  const betterItems: Movie[] = []
-  const worseItems: Movie[] = []
-  const newItems = importItems.slice(0, 5)
-  worseItems.forEach((item, index) => { item.points = index })
-  // newItems.forEach(item => { item.points = 2 })
-  betterItems.forEach((item, index) => { item.points = 7 + index })
-  console.log('newItems', newItems)
-  newState.items = newItems
-  console.log('initialState.items', newState.items)
-  newState.operations = newState.items.map(item => ({
-    input: [[], []],
-    output: [item.id],
-    steps: 0
-  }))
-  newState.operations = getOperations(newState)
-  newState.choice = createChoice(newState)
-  newState.betterItems = betterItems
-  newState.worseItems = worseItems
-  newState.oldOperations = [
-    {
+  const newItems = getShuffled(newMovies)
+  const betterItems = state.betterItems
+  const worseItems = state.worseItems
+  if (betterItems.length === 0 && worseItems.length === 0) {
+    console.log('newItems', newItems)
+    newState.items = newItems
+    console.log('initialState.items', newState.items)
+    newState.operations = newState.items.map(item => ({
       input: [[], []],
-      output: [
-        ...worseItems.map(item => item.id),
-        ...betterItems.map(item => item.id)
-      ],
+      output: [item.id],
       steps: 0
-    }
-  ]
-  newState.operations.push(...state.operations)
-  newState.items.push(...state.items)
+    }))
+    newState.operations = getOperations(newState)
+    newState.choice = createChoice(newState)
+    newState.operations.push(...state.operations)
+    newState.items.push(...state.items)
+    return newState
+  }
+  newState.populatingItems.push(...newItems)
   return newState
 }

@@ -10,6 +10,7 @@ export default function chooseOption ({
     items,
     oldOperations,
     operations,
+    populatingItems,
     worseItems
   },
   betterIndex
@@ -48,6 +49,7 @@ export default function chooseOption ({
     items: newItems,
     oldOperations,
     operations: newOperations,
+    populatingItems,
     worseItems
   })
 }

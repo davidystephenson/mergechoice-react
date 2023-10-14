@@ -1,18 +1,21 @@
 import { Movie, Operation, State } from '../types'
 import createChoice from './createChoice'
 import getOperations from './getOperations'
+import populate from './populate'
 
 export default function setupChoice ({
   betterItems,
   items,
   oldOperations,
   operations,
+  populatingItems,
   worseItems
 }: {
   betterItems: Movie[]
   items: Movie[]
   oldOperations: Operation[]
   operations: Operation[]
+  populatingItems: Movie[]
   worseItems: Movie[]
 }): State {
   const maxSteps = Math.max(...operations.map(operation => operation.steps))
@@ -22,6 +25,7 @@ export default function setupChoice ({
     })
     return {
       items,
+      populatingItems,
       betterItems,
       worseItems,
       operations,
@@ -38,6 +42,7 @@ export default function setupChoice ({
       })
       return {
         items,
+        populatingItems,
         betterItems,
         worseItems,
         operations: newOperations,
@@ -47,20 +52,23 @@ export default function setupChoice ({
       }
     } else {
       const combinedItems = [...worseItems, ...items, ...betterItems]
-      const combinedOperation = {
+      const combinedOperations = [{
         input: [[], []],
         output: combinedItems.map(item => item.id),
         steps: 0
-      }
-      return {
+      }]
+      const oldState: State = {
         items: combinedItems,
+        populatingItems,
         betterItems: [],
         worseItems: [],
-        operations: [combinedOperation],
+        operations: combinedOperations,
         oldOperations,
         choice: undefined,
         finalized: true
       }
+      const newState = populate({ movies: populatingItems, state: oldState })
+      return newState
     }
   }
 }

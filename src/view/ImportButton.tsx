@@ -4,6 +4,7 @@ import Papa from 'papaparse'
 import useMoviesContext from '../context/movies/useMoviesContext'
 import { CritickerRow, Movie } from '../types'
 import { useHotkeys } from 'react-hotkeys-hook'
+import getShuffled from '../service/getShuffled'
 
 export default function ImportButtonView (): JSX.Element {
   const moviesContextValue = useMoviesContext()
@@ -36,7 +37,8 @@ export default function ImportButtonView (): JSX.Element {
         points: 0
       }
     })
-    moviesContextValue.populate({ movies })
+    const selection = getShuffled(movies).slice(0, 5)
+    moviesContextValue.populate({ movies: selection })
     setInitializing(false)
   }
   function handleFileChange (e: ChangeEvent<HTMLInputElement>): void {

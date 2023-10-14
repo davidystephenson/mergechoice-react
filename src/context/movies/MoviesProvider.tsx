@@ -181,6 +181,7 @@ export default function MoviesProvider ({
           items: newState.items,
           oldOperations: newState.operations,
           operations: newState.operations,
+          populatingItems: newState.populatingItems,
           worseItems: newState.worseItems
         })
       } else if (newState.choice?.options.includes(id) === true) {
