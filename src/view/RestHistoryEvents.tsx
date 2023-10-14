@@ -7,7 +7,8 @@ export default function RestHistoryEvents (): JSX.Element {
   if (!historyContextValue.expanded) {
     return <></>
   }
-  const views = historyContextValue.events.map(historyEvent => {
+  const [, ...rest] = historyContextValue.events
+  const views = rest.map(historyEvent => {
     return (
       <HistoryEventProvider key={historyEvent.id} historyEvent={historyEvent}>
         <HistoryEventView />

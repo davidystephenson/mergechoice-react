@@ -25,12 +25,15 @@ export default function MoviesView (): JSX.Element {
     <Tr>
       <Th>
         <HStack>
-          <Text w='max-content'>Movie ({moviesContextValue.items.length})</Text>
+          <Text w='max-content'>Movie</Text>
         </HStack>
       </Th>
       <Th>Points</Th>
       <Th colSpan={2}>Score</Th>
     </Tr>
+  )
+  const countView = moviesContextValue.items.length > 0 && (
+    <>({moviesContextValue.items.length})</>
   )
   return (
     <VStack spacing='0'>
@@ -38,12 +41,12 @@ export default function MoviesView (): JSX.Element {
         <OptionProvider
           chooseHotkey='a'
           openHotkey='s'
-          optionIndex={moviesContextValue.choice?.leftIndex}
+          optionIndex={moviesContextValue.choice?.aIndex}
         >
           <OptionView />
         </OptionProvider>
         <OptionProvider
-          optionIndex={moviesContextValue.choice?.rightIndex}
+          optionIndex={moviesContextValue.choice?.bIndex}
           chooseHotkey='b'
           openHotkey='f'
         >
@@ -57,7 +60,7 @@ export default function MoviesView (): JSX.Element {
             <HistoryView />
           </HistoryProvider>
           <HeadingRowView>
-            <Heading size='sm'>List</Heading>
+            <Heading size='sm'>List {countView}</Heading>
             <ImportButtonView />
           </HeadingRowView>
           {headingsView}

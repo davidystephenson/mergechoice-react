@@ -6,8 +6,8 @@ export const STATE: State = {
   choice: {
     options: [],
     currentOperationIndex: 0,
-    leftIndex: 0,
-    rightIndex: 1
+    aIndex: 0,
+    bIndex: 1
   },
   finalized: false
 }

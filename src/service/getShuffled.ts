@@ -1,6 +1,6 @@
-import range from "./range"
+import range from './range'
 
-export default function getShuffled<Element>(
+export default function getShuffled<Element> (
   array: Element[]
 ): Element[] {
   const indices = range(array.length)

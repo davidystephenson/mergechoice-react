@@ -1,3 +1,3 @@
-export default function range(n: number): number[] {
+export default function range (n: number): number[] {
   return [...Array(n).keys()]
 }

@@ -8,8 +8,8 @@ export default function createChoice ({ operations }: {
   const newChoice: Choice = {
     options: [],
     currentOperationIndex: 0,
-    leftIndex: 0,
-    rightIndex: 1
+    aIndex: 0,
+    bIndex: 1
   }
   newChoice.currentOperationIndex = getOperationIndex({ operations })
   const currentOperation = operations[newChoice.currentOperationIndex]
@@ -23,7 +23,7 @@ export default function createChoice ({ operations }: {
   }
   newChoice.options[0] = firstOption
   newChoice.options[1] = secondOption
-  newChoice.leftIndex = getRandom([0, 1])
-  newChoice.rightIndex = 1 - newChoice.leftIndex
+  newChoice.aIndex = getRandom([0, 1])
+  newChoice.bIndex = 1 - newChoice.aIndex
   return newChoice
 }

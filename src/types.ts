@@ -27,8 +27,8 @@ export interface Operation {
 export interface Choice {
   options: string[]
   currentOperationIndex: number
-  leftIndex: number
-  rightIndex: number
+  aIndex: number
+  bIndex: number
 }
 export interface State {
   items: Movie[]
@@ -44,8 +44,7 @@ export interface HistoryEvent {
   bItem: Movie
   createdAt: number
   id: string
-  previousHistory: HistoryEvent[]
-  previousState: State
+  previousState?: State
 }
 export interface MoviesContextValue extends State {
   applyChoice: ({ optionIndex }: { optionIndex: number }) => void

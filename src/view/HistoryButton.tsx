@@ -4,12 +4,11 @@ import useHistoryContext from '../context/history/useHistoryContext'
 
 export default function HistoryButtonView (): JSX.Element {
   const historyContextValue = useHistoryContext()
-  const buttonProps = {
-    onClick: historyContextValue.toggleExpanded,
-    size: 'xs'
-  }
   if (historyContextValue.isSingle) {
     return <></>
+  }
+  const buttonProps = {
+    size: 'xs'
   }
   if (historyContextValue.expanded) {
     return <IconButton aria-label='Collapse table' icon={<TriangleDownIcon />} {...buttonProps} />

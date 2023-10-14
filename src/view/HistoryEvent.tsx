@@ -19,17 +19,20 @@ export default function HistoryEventView (): JSX.Element {
   function handleClick (): void {
     historyEventContextValue.rewind()
   }
+  const rewindView = historyEventContextValue.previousState != null && (
+    <IconButton
+      aria-label='Rewind choice'
+      icon={<ArrowLeftIcon />}
+      size='xs'
+      onClick={handleClick}
+      variant='link'
+    />
+  )
   return (
     <>
       <HeadingRowView cellProps={headingCellProps}>
         <Heading size='xs'>{historyEventContextValue.timestamp}</Heading>
-        <IconButton
-          aria-label='Rewind choice'
-          icon={<ArrowLeftIcon />}
-          size='xs'
-          onClick={handleClick}
-          variant='link'
-        />
+        {rewindView}
       </HeadingRowView>
       <MovieProvider movie={historyEventContextValue.aItem}>
         <HistoryRowView />

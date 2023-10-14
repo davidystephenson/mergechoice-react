@@ -9,7 +9,10 @@ export default function initializeState ({ items }: {
   items: Movie[]
 }): State {
   const initialState = clone(STATE)
-  initialState.items = getShuffled(items).slice(0, 5)
+  const newItems = getShuffled(items).slice(0, 5)
+  console.log('newItems', newItems)
+  initialState.items = newItems
+  console.log('initialState.items', initialState.items)
   initialState.operations = initialState.items.map(item => ({
     input: [[], []],
     output: [item.id],

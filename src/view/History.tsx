@@ -10,10 +10,13 @@ export default function HistoryView (): JSX.Element {
   if (historyContextValue.events.length === 0) {
     return <></>
   }
+  function handleClick (): void {
+    historyContextValue.toggleExpanded()
+  }
   return (
     <>
-      <HeadingRowView>
-        <Heading size='sm'>History</Heading>
+      <HeadingRowView onClick={handleClick} cursor='pointer'>
+        <Heading size='sm'>History ({historyContextValue.events.length})</Heading>
         <HistoryButtonView />
       </HeadingRowView>
       <FirstHistoryEvent />
