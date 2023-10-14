@@ -4,7 +4,6 @@ import moviesContext from './moviesContext'
 import chooseOption from '../../service/chooseOption'
 import getDefaultOptionIndex from '../../service/getDefaultOptionIndex'
 import { STATE } from '../../constants'
-import initializeState from '../../service/initializeState'
 import getStorage from '../../service/getStorage'
 import findById from '../../service/findById'
 import clone from '../../service/clone'
@@ -12,6 +11,7 @@ import createChoice from '../../service/createChoice'
 import setupChoice from '../../service/setupChoice'
 import yeast from 'yeast'
 import logOperations from '../../service/logOperation'
+import populate from '../../service/populate'
 
 export default function MoviesProvider ({
   children
@@ -45,11 +45,14 @@ export default function MoviesProvider ({
       key: 'history', defaultValue: []
     })
   })
-  function populate ({ movies }: {
+  function handlePopulate ({ movies }: {
     movies: Movie[]
   }): void {
-    const initialState = initializeState({ items: movies })
-    setState(initialState)
+    const populatedState = populate({
+      movies,
+      state
+    })
+    setState(populatedState)
     setHistory([])
   }
   function applyChoice ({ optionIndex }: {
@@ -217,7 +220,7 @@ export default function MoviesProvider ({
     defaultOptionIndex,
     history,
     movies: state.items,
-    populate,
+    populate: handlePopulate,
     removeMovie,
     rewind,
     state
