@@ -1,7 +1,7 @@
 import { State } from './types'
 
 export const STATE: State = {
-  items: [],
+  activeItems: [],
   operations: [],
   choice: {
     options: [],
@@ -12,6 +12,6 @@ export const STATE: State = {
   finalized: false,
   betterItems: [],
   worseItems: [],
-  oldOperations: [],
-  populatingItems: []
+  reserveOperations: [],
+  reserveItems: []
 }

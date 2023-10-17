@@ -21,39 +21,38 @@ export default function MoviesProvider ({
   const [state, setState] = useState(() => {
     return getStorage({ key: 'state', defaultValue: STATE })
   })
-  console.log('state.operations', state.operations)
-  state.operations.forEach((operation, index) => {
-    console.log('Operation index:', index)
-    const input1Items = operation.input[0].map(id => findById({
-      id, items: state.items
-    }))
-    const input1Titles = input1Items.map(item => item.title).join(', ')
-    console.log(`[${index}]`, 'Input 1:', input1Titles)
-    const input2Items = operation.input[1].map(id => findById({
-      id, items: state.items
-    }))
-    const input2Titles = input2Items.map(item => item.title).join(', ')
-    console.log(`[${index}]`, 'Input 2:', input2Titles)
-    const outputTitles = operation.output.map(id => findById({
-      id, items: state.items
-    }).title).join(', ')
-    console.log(`[${index}]`, 'Output:', outputTitles)
-  })
+  // console.log('state.operations', state.operations)
+  // state.operations.forEach((operation, index) => {
+  //   console.log('Operation index:', index)
+  //   const input1Items = operation.input[0].map(id => findById({
+  //     id, items: state.activeItems
+  //   }))
+  //   const input1Titles = input1Items.map(item => item.title).join(', ')
+  //   console.log(`[${index}]`, 'Input 1:', input1Titles)
+  //   const input2Items = operation.input[1].map(id => findById({
+  //     id, items: state.activeItems
+  //   }))
+  //   const input2Titles = input2Items.map(item => item.title).join(', ')
+  //   console.log(`[${index}]`, 'Input 2:', input2Titles)
+  //   const outputTitles = operation.output.map(id => findById({
+  //     id, items: state.activeItems
+  //   }).title).join(', ')
+  //   console.log(`[${index}]`, 'Output:', outputTitles)
+  // })
   const [choosing] = useState(false)
   const [history, setHistory] = useState(() => {
     return getStorage<HistoryEvent[]>({
       key: 'history', defaultValue: []
     })
   })
-  function handlePopulate ({ movies }: {
+  function populateMovies ({ movies }: {
     movies: Movie[]
   }): void {
     const populatedState = populate({
-      movies,
+      items: movies,
       state
     })
     setState(populatedState)
-    setHistory([])
   }
   function applyChoice ({ optionIndex }: {
     optionIndex: number
@@ -64,13 +63,13 @@ export default function MoviesProvider ({
     const aId = state.choice.options[state.choice.aIndex]
     const bId = state.choice.options[state.choice.bIndex]
     const aBetter = optionIndex === state.choice.aIndex
-    const aItem = findById({ items: state.items, id: aId })
+    const aItem = findById({ items: state.activeItems, id: aId })
     const aPoints = aBetter ? aItem.points + 1 : aItem.points
     const aRecord = {
       ...aItem,
       points: aPoints
     }
-    const bItem = findById({ items: state.items, id: bId })
+    const bItem = findById({ items: state.activeItems, id: bId })
     const bPoints = aBetter ? bItem.points : bItem.points + 1
     const bRecord = {
       ...bItem,
@@ -107,7 +106,7 @@ export default function MoviesProvider ({
   function removeMovie ({ id }: { id: string }): void {
     setState(current => {
       const newState = clone(current)
-      newState.items = newState.items.filter(item => item.id !== id)
+      newState.activeItems = newState.activeItems.filter(item => item.id !== id)
       // const fullOutputOperations = newState.operations.filter((operation) => {
       //   const newOperation = clone(operation)
       //   const inOutput = newOperation.output.includes(id)
@@ -127,13 +126,13 @@ export default function MoviesProvider ({
         if (!inInput) {
           const currentIndex = newOperation.output.indexOf(id)
           newOperation.output.forEach((id, index) => {
-            if (index > currentIndex) findById({ id, items: newState.items }).points -= 1
+            if (index > currentIndex) findById({ id, items: newState.activeItems }).points -= 1
           })
           newOperation.input[0].forEach(id => {
-            findById({ id, items: newState.items }).points -= 1
+            findById({ id, items: newState.activeItems }).points -= 1
           })
           newOperation.input[1].forEach(id => {
-            findById({ id, items: newState.items }).points -= 1
+            findById({ id, items: newState.activeItems }).points -= 1
           })
           newOperation.output = newOperation.output.filter(existingId => existingId !== id)
           return newOperation
@@ -142,7 +141,7 @@ export default function MoviesProvider ({
         if (inFirstInput) {
           const currentIndex = newOperation.input[0].indexOf(id)
           newOperation.input[0].forEach((id, index) => {
-            if (index > currentIndex) findById({ id, items: newState.items }).points -= 1
+            if (index > currentIndex) findById({ id, items: newState.activeItems }).points -= 1
           })
           newOperation.input[0] = newOperation.input[0].filter(existingId => existingId !== id)
           if (newOperation.input[0].length === 0) {
@@ -155,7 +154,7 @@ export default function MoviesProvider ({
         if (inSecondInput) {
           const currentIndex = newOperation.input[1].indexOf(id)
           newOperation.input[1].forEach((id, index) => {
-            if (index > currentIndex) findById({ id, items: newState.items }).points -= 1
+            if (index > currentIndex) findById({ id, items: newState.activeItems }).points -= 1
           })
           newOperation.input[1] = newOperation.input[1].filter(existingId => existingId !== id)
           if (newOperation.input[1].length === 0) {
@@ -171,17 +170,17 @@ export default function MoviesProvider ({
       logOperations({
         label: 'newOperations',
         operations: newState.operations,
-        items: newState.items
+        items: newState.activeItems
       })
 
       const emptiedCurrentOperation = emptiedOperationIndex === newState.choice?.currentOperationIndex
       if (emptiedCurrentOperation) {
         return setupChoice({
           betterItems: newState.betterItems,
-          items: newState.items,
-          oldOperations: newState.operations,
+          activeItems: newState.activeItems,
+          reserveOperations: newState.operations,
           operations: newState.operations,
-          populatingItems: newState.populatingItems,
+          reserveItems: newState.reserveItems,
           worseItems: newState.worseItems
         })
       } else if (newState.choice?.options.includes(id) === true) {
@@ -211,20 +210,24 @@ export default function MoviesProvider ({
       return newHistory
     })
   }
+  function createRandomMovieChoice (): void {
+
+  }
   const defaultOptionIndex = state.choice == null
     ? undefined
     : getDefaultOptionIndex({
-      items: state.items,
+      items: state.activeItems,
       choice: state.choice
     })
   const value: MoviesContextValue = {
     ...state,
     applyChoice,
     choosing,
+    createRandomMovieChoice,
     defaultOptionIndex,
     history,
-    movies: state.items,
-    populate: handlePopulate,
+    movies: state.activeItems,
+    populateMovies,
     removeMovie,
     rewind,
     state

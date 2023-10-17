@@ -2,6 +2,7 @@ import { ReactNode } from 'react'
 import { Movie, MovieContextValue } from '../../types'
 import movieContext from './movieContext'
 import useMoviesContext from '../movies/useMoviesContext'
+import getPoints from '../../service/getPoints'
 
 export default function MovieProvider ({ children, movie }: {
   children: ReactNode
@@ -22,11 +23,16 @@ export default function MovieProvider ({ children, movie }: {
     }
     moviesContextValue.removeMovie({ id: movie.id })
   }
+  const points = getPoints({
+    item: movie,
+    operations: moviesContextValue.operations
+  })
   const value: MovieContextValue = {
     ...movie,
     label,
     remove,
     open,
+    points,
     url
   }
   return (

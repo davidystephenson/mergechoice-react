@@ -1,5 +1,6 @@
 import MovieProvider from '../context/movie/MovieProvider'
-import compareMovies from '../service/compareMovies'
+import useMoviesContext from '../context/movies/useMoviesContext'
+import compareItems from '../service/compareItems'
 import { Movie } from '../types'
 import MovieRow from './MovieRow'
 
@@ -8,7 +9,10 @@ export default function MovieRows ({
 }: {
   movies: Movie[]
 }): JSX.Element {
-  const sortedMovies = movies.sort(compareMovies)
+  const moviesContextValue = useMoviesContext()
+  const sortedMovies = movies.sort((a, b) => {
+    return compareItems({ a, b, operations: moviesContextValue.operations })
+  })
   const movieViews = sortedMovies.map(movie => {
     return (
       <MovieProvider key={movie.id} movie={movie}>

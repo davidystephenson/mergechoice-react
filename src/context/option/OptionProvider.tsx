@@ -22,7 +22,7 @@ export default function OptionProvider ({
   const movie = findByOption({
     choice: moviesContextValue.choice,
     finalized: moviesContextValue.finalized,
-    items: moviesContextValue.items,
+    items: moviesContextValue.activeItems,
     optionIndex
   })
   function choose (): void {

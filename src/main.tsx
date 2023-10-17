@@ -10,11 +10,11 @@ if (root == null) {
   throw new Error('There is no root.')
 }
 ReactDOM.createRoot(root).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <ChakraProvider theme={theme}>
-        <App />
-      </ChakraProvider>
-    </BrowserRouter>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <BrowserRouter>
+    <ChakraProvider theme={theme}>
+      <App />
+    </ChakraProvider>
+  </BrowserRouter>
+  // </React.StrictMode>
 )

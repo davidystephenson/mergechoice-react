@@ -7,10 +7,10 @@ export default function chooseOption ({
   state: {
     betterItems,
     choice,
-    items,
-    oldOperations,
+    activeItems: items,
+    reserveOperations: oldOperations,
     operations,
-    populatingItems,
+    reserveItems: populatingItems,
     worseItems
   },
   betterIndex
@@ -46,10 +46,10 @@ export default function chooseOption ({
   }
   return setupChoice({
     betterItems,
-    items: newItems,
-    oldOperations,
+    activeItems: newItems,
+    reserveOperations: oldOperations,
     operations: newOperations,
-    populatingItems,
+    reserveItems: populatingItems,
     worseItems
   })
 }

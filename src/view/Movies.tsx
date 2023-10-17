@@ -8,10 +8,12 @@ import ImportButtonView from './ImportButton'
 import HeadingRowView from './HeadingRow'
 import HistoryProvider from '../context/history/HistoryProvider'
 import MovieRows from './MovieRows'
+import RandomButtonView from './RandomButton'
+import logOperations from '../service/logOperation'
 
 export default function MoviesView (): JSX.Element {
   const moviesContextValue = useMoviesContext()
-  const headingsView = moviesContextValue.items.length > 0 && (
+  const headingsView = moviesContextValue.activeItems.length > 0 && (
     <Tr>
       <Th>
         <HStack>
@@ -22,10 +24,14 @@ export default function MoviesView (): JSX.Element {
       <Th colSpan={2}>Score</Th>
     </Tr>
   )
-  const countView = moviesContextValue.items.length > 0 && (
-    <>({moviesContextValue.items.length})</>
+  const countView = moviesContextValue.activeItems.length > 0 && (
+    <>({moviesContextValue.activeItems.length})</>
   )
-  console.log('moviesContextValue', moviesContextValue)
+  logOperations({
+    items: moviesContextValue.activeItems,
+    label: 'render operations',
+    operations: moviesContextValue.operations
+  })
   return (
     <VStack spacing='0'>
       <HStack flexWrap='wrap' justifyContent='center'>
@@ -52,12 +58,26 @@ export default function MoviesView (): JSX.Element {
           </HistoryProvider>
           <HeadingRowView>
             <Heading size='sm'>List {countView}</Heading>
+            <RandomButtonView />
             <ImportButtonView />
           </HeadingRowView>
           {headingsView}
+          <HeadingRowView>
+            <Text>Better</Text>
+          </HeadingRowView>
           <MovieRows movies={moviesContextValue.betterItems} />
-          <MovieRows movies={moviesContextValue.items} />
+          <HeadingRowView>
+            <Text>Active</Text>
+          </HeadingRowView>
+          <MovieRows movies={moviesContextValue.activeItems} />
+          <HeadingRowView>
+            <Text>Worse</Text>
+          </HeadingRowView>
           <MovieRows movies={moviesContextValue.worseItems} />
+          <HeadingRowView>
+            <Text>Reserve</Text>
+          </HeadingRowView>
+          <MovieRows movies={moviesContextValue.reserveItems} />
         </Tbody>
       </Table>
     </VStack>
