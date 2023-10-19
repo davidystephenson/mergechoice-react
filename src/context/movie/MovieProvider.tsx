@@ -1,12 +1,12 @@
 import { ReactNode } from 'react'
-import { Movie, MovieContextValue } from '../../types'
+import { HistoryMovie, Movie, MovieContextValue } from '../../types'
 import movieContext from './movieContext'
 import useMoviesContext from '../movies/useMoviesContext'
 import getPoints from '../../service/getPoints'
 
 export default function MovieProvider ({ children, movie }: {
   children: ReactNode
-  movie?: Movie
+  movie?: Movie | HistoryMovie
 }): JSX.Element {
   const moviesContextValue = useMoviesContext()
   if (movie == null) {
@@ -23,7 +23,8 @@ export default function MovieProvider ({ children, movie }: {
     }
     moviesContextValue.removeMovie({ id: movie.id })
   }
-  const points = getPoints({
+  console.log('movie.points', movie.points)
+  const points = movie.points ?? getPoints({
     item: movie,
     operations: moviesContextValue.operations
   })

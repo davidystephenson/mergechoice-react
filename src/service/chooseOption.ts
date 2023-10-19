@@ -33,10 +33,6 @@ export default function chooseOption ({
   }
   const worseItem = findById({ items: newItems, id: worseId })
   worseItem.updatedAt = Date.now()
-  betterInput.forEach(id => {
-    const item = findById({ items: newItems, id })
-    item.points += 1
-  })
   currentOperation.output.push(worseId)
   currentOperation.steps -= 1
   if (worseInput.length === 0) {

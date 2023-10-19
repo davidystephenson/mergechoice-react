@@ -24,7 +24,7 @@ export default function ImportButtonView (): JSX.Element {
       const date = new Date(row[' Date Rated'])
       const score = Number(row.Score)
       const year = Number(row[' Year'])
-      return {
+      const movie: Movie = {
         date,
         id: row[' IMDB ID'],
         imdbId: row[' IMDB ID'],
@@ -33,9 +33,9 @@ export default function ImportButtonView (): JSX.Element {
         title: row[' Film Name'],
         year,
         updatedAt,
-        url: row[' URL'],
-        points: 0
+        url: row[' URL']
       }
+      return movie
     })
     const selection = getShuffled(movies).slice(0, 5)
     moviesContextValue.populateMovies({ movies: selection })

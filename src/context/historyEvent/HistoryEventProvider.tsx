@@ -10,6 +10,7 @@ export default function HistoryEventProvider ({
   children: ReactNode
   historyEvent: HistoryEvent
 }): JSX.Element {
+  console.log('historyEvent', historyEvent)
   const moviesContextValue = useMoviesContext()
   function rewind (): void {
     moviesContextValue.rewind({

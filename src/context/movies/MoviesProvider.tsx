@@ -13,6 +13,7 @@ import logOperations from '../../service/logOperation'
 import populate from '../../service/populate'
 import { STATE } from '../../constants'
 import getShuffled from '../../service/getShuffled'
+import getPoints from '../../service/getPoints'
 
 export default function MoviesProvider ({
   children
@@ -65,16 +66,18 @@ export default function MoviesProvider ({
     const bId = state.choice.options[state.choice.bIndex]
     const aBetter = optionIndex === state.choice.aIndex
     const aItem = findById({ items: state.activeItems, id: aId })
-    const aPoints = aBetter ? aItem.points + 1 : aItem.points
+    const aPoints = getPoints({ item: aItem, operations: state.operations })
+    const newAPoints = aBetter ? aPoints + 1 : aPoints
     const aRecord = {
       ...aItem,
-      points: aPoints
+      points: newAPoints
     }
     const bItem = findById({ items: state.activeItems, id: bId })
-    const bPoints = aBetter ? bItem.points : bItem.points + 1
+    const bPoints = getPoints({ item: bItem, operations: state.operations })
+    const newBPoints = aBetter ? bPoints : bPoints + 1
     const bRecord = {
       ...bItem,
-      points: bPoints
+      points: newBPoints
     }
     const newHistoryEvent = {
       aBetter,
@@ -125,25 +128,11 @@ export default function MoviesProvider ({
         const inSecondInput = newOperation.input[1].includes(id)
         const inInput = inFirstInput || inSecondInput
         if (!inInput) {
-          const currentIndex = newOperation.output.indexOf(id)
-          newOperation.output.forEach((id, index) => {
-            if (index > currentIndex) findById({ id, items: newState.activeItems }).points -= 1
-          })
-          newOperation.input[0].forEach(id => {
-            findById({ id, items: newState.activeItems }).points -= 1
-          })
-          newOperation.input[1].forEach(id => {
-            findById({ id, items: newState.activeItems }).points -= 1
-          })
           newOperation.output = newOperation.output.filter(existingId => existingId !== id)
           return newOperation
         }
         newOperation.steps = newOperation.steps - 1
         if (inFirstInput) {
-          const currentIndex = newOperation.input[0].indexOf(id)
-          newOperation.input[0].forEach((id, index) => {
-            if (index > currentIndex) findById({ id, items: newState.activeItems }).points -= 1
-          })
           newOperation.input[0] = newOperation.input[0].filter(existingId => existingId !== id)
           if (newOperation.input[0].length === 0) {
             emptiedOperationIndex = index
@@ -153,10 +142,6 @@ export default function MoviesProvider ({
           }
         }
         if (inSecondInput) {
-          const currentIndex = newOperation.input[1].indexOf(id)
-          newOperation.input[1].forEach((id, index) => {
-            if (index > currentIndex) findById({ id, items: newState.activeItems }).points -= 1
-          })
           newOperation.input[1] = newOperation.input[1].filter(existingId => existingId !== id)
           if (newOperation.input[1].length === 0) {
             emptiedOperationIndex = index

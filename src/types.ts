@@ -11,9 +11,9 @@ export interface Movie {
   id: string
   score: number
   title: string
-  points: number
   date: Date
   imdbId: string
+  points?: number
   review: string
   updatedAt: number
   url: string
@@ -41,12 +41,15 @@ export interface State {
   choice?: Choice
   finalized: boolean
 }
+export interface HistoryMovie extends Movie {
+  points: number
+}
 export interface HistoryEvent {
   aBetter: boolean
   aId: string
-  aItem: Movie
+  aItem: HistoryMovie
   bId: string
-  bItem: Movie
+  bItem: HistoryMovie
   createdAt: number
   id: string
   previousState?: State
@@ -66,6 +69,7 @@ export interface MoviesContextValue extends State {
 export interface MovieContextValue extends Movie {
   label: string
   open: () => void
+  points: number
   remove: () => void
   url: string
 }
