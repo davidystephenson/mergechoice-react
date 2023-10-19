@@ -2,14 +2,19 @@ import { Operation, Choice } from '../types'
 import getOperationIndex from './getOperationIndex'
 import getRandom from './getRandom'
 
-export default function createChoice ({ operations }: {
+export default function createChoice ({
+  random = false,
+  operations
+}: {
+  random?: boolean
   operations: Operation[]
 }): Choice {
   const newChoice: Choice = {
     options: [],
     currentOperationIndex: 0,
     aIndex: 0,
-    bIndex: 1
+    bIndex: 1,
+    random
   }
   newChoice.currentOperationIndex = getOperationIndex({ operations })
   const currentOperation = operations[newChoice.currentOperationIndex]

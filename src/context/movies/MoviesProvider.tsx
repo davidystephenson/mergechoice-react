@@ -1,5 +1,5 @@
 import { ReactNode, useState } from 'react'
-import { Movie, MoviesContextValue, HistoryEvent } from '../../types'
+import { Movie, MoviesContextValue, HistoryEvent, Choice } from '../../types'
 import moviesContext from './moviesContext'
 import chooseOption from '../../service/chooseOption'
 import getDefaultOptionIndex from '../../service/getDefaultOptionIndex'
@@ -12,6 +12,7 @@ import yeast from 'yeast'
 import logOperations from '../../service/logOperation'
 import populate from '../../service/populate'
 import { STATE } from '../../constants'
+import getShuffled from '../../service/getShuffled'
 
 export default function MoviesProvider ({
   children
@@ -211,7 +212,22 @@ export default function MoviesProvider ({
     })
   }
   function createRandomMovieChoice (): void {
-
+    setState(current => {
+      const shuffledActiveItems = getShuffled(current.activeItems)
+      const [first, second] = shuffledActiveItems
+      const newChoice: Choice = {
+        options: [first.id, second.id],
+        currentOperationIndex: -1,
+        aIndex: 0,
+        bIndex: 1,
+        random: true
+      }
+      return {
+        ...current,
+        choice: newChoice,
+        finalized: false
+      }
+    })
   }
   const defaultOptionIndex = state.choice == null
     ? undefined

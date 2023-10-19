@@ -29,6 +29,7 @@ export interface Choice {
   currentOperationIndex: number
   aIndex: number
   bIndex: number
+  random: boolean
 }
 export interface State {
   activeItems: Movie[]

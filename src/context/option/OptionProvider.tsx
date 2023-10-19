@@ -19,6 +19,9 @@ export default function OptionProvider ({
   if (optionIndex == null) {
     return <></>
   }
+  if (moviesContextValue.choice == null) {
+    throw new Error('There is no choice.')
+  }
   const movie = findByOption({
     choice: moviesContextValue.choice,
     finalized: moviesContextValue.finalized,
