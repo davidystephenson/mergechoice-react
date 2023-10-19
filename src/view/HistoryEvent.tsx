@@ -34,10 +34,10 @@ export default function HistoryEventView (): JSX.Element {
         <Heading size='xs'>{historyEventContextValue.timestamp}</Heading>
         {rewindView}
       </HeadingRowView>
-      <MovieProvider movie={historyEventContextValue.aItem}>
+      <MovieProvider movie={historyEventContextValue.aItem} points={historyEventContextValue.aItem.points}>
         <HistoryRowView />
       </MovieProvider>
-      <MovieProvider movie={historyEventContextValue.bItem}>
+      <MovieProvider movie={historyEventContextValue.bItem} points={historyEventContextValue.bItem.points}>
         <HistoryRowView />
       </MovieProvider>
     </>

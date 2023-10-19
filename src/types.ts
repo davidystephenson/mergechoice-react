@@ -13,7 +13,6 @@ export interface Movie {
   title: string
   date: Date
   imdbId: string
-  points?: number
   review: string
   updatedAt: number
   url: string
