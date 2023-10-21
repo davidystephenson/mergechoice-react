@@ -36,7 +36,8 @@ export interface State {
   worseItems: Movie[]
   reserveItems: Movie[]
   operations: Operation[]
-  reserveOperations: Operation[]
+  betterOperations: Operation[]
+  worseOperations: Operation[]
   choice?: Choice
   finalized: boolean
 }

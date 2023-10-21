@@ -1,5 +1,5 @@
 import { ReactNode, useState } from 'react'
-import { Movie, MoviesContextValue, HistoryEvent, Choice } from '../../types'
+import { Movie, MoviesContextValue, HistoryEvent, Choice, State, Operation } from '../../types'
 import moviesContext from './moviesContext'
 import chooseOption from '../../service/chooseOption'
 import getDefaultOptionIndex from '../../service/getDefaultOptionIndex'
@@ -14,6 +14,8 @@ import populate from '../../service/populate'
 import { STATE } from '../../constants'
 import getShuffled from '../../service/getShuffled'
 import getPoints from '../../service/getPoints'
+import getOperations from '../../service/getOperations'
+import cloneLog from '../../service/clonelog'
 
 export default function MoviesProvider ({
   children
@@ -66,14 +68,102 @@ export default function MoviesProvider ({
     const bId = state.choice.options[state.choice.bIndex]
     const aBetter = optionIndex === state.choice.aIndex
     const aItem = findById({ items: state.activeItems, id: aId })
-    const aPoints = getPoints({ item: aItem, operations: state.operations })
+    const bItem = findById({ items: state.activeItems, id: bId })
+    const aPoints = getPoints({ item: aItem, ...state })
+    const bPoints = getPoints({ item: bItem, ...state })
+    if (state.choice.random) {
+      setState(current => {
+        const chosenItem = aBetter ? aItem : bItem
+        const unchosenItem = aBetter ? bItem : aItem
+        const chosenPoints = aBetter ? aPoints : bPoints
+        const unchosenPoints = aBetter ? bPoints : aPoints
+        const consistent = chosenPoints > unchosenPoints
+        if (consistent) {
+          return { ...current, finalized: true }
+        }
+        const betterItems = current.activeItems.filter(item => {
+          const points = getPoints({ item, ...state })
+          return points > unchosenPoints
+        })
+        const worseItems = current.activeItems.filter(item => {
+          const points = getPoints({ item, ...state })
+          return points < chosenPoints
+        })
+        const activeItems = current.activeItems.filter(item => {
+          const points = getPoints({ item, ...state })
+          return chosenPoints < points && points < unchosenPoints
+        })
+        const pairedChoice = activeItems.length === 0
+        if (pairedChoice) {
+          worseItems.push(unchosenItem)
+          betterItems.unshift(chosenItem)
+          const worseIds = worseItems.map(item => item.id)
+          const betterIds = betterItems.map(item => item.id)
+          const newOperation: Operation = {
+            input: [[], []],
+            output: [...worseIds, ...betterIds],
+            steps: 0
+          }
+          const outputItems = [...worseItems, ...betterItems]
+          const outputTitles = outputItems.map(item => item.title)
+          console.log('outputTitles:', outputTitles)
+          return {
+            ...current,
+            operations: [newOperation],
+            finalized: true
+          }
+        }
+        activeItems.push(chosenItem)
+        activeItems.unshift(unchosenItem)
+        cloneLog('activeItems', activeItems)
+        console.log(`${chosenItem.title} > ${unchosenItem.title}`)
+        const oldOutputItems = state.operations[0].output.map(id => findById({ id, items: state.activeItems }))
+        const oldOutputTitles = oldOutputItems.map(item => item.title)
+        console.log('oldOutputTitles:', oldOutputTitles)
+        console.log('activeItems:', activeItems)
+        const completedOperations = activeItems.map(item => ({
+          input: [[], []],
+          output: [item.id],
+          steps: 0
+        }))
+        cloneLog('completedOperations', completedOperations)
+        const betterOperation = {
+          input: [[], []],
+          output: betterItems.map(item => item.id),
+          steps: 0
+        }
+        const worseOperation = {
+          input: [[], []],
+          output: worseItems.map(item => item.id),
+          steps: 0
+        }
+        console.log('completedOperations:', completedOperations)
+        const newState: State = {
+          ...current,
+          betterItems,
+          worseItems,
+          activeItems,
+          operations: completedOperations,
+          betterOperations: [betterOperation],
+          worseOperations: [worseOperation],
+          finalized: false
+        }
+        newState.operations = getOperations(newState)
+        logOperations({
+          label: 'newState.operations',
+          operations: newState.operations,
+          items: newState.activeItems
+        })
+        newState.choice = createChoice(newState)
+        return newState
+      })
+      return
+    }
     const newAPoints = aBetter ? aPoints + 1 : aPoints
     const aRecord = {
       ...aItem,
       points: newAPoints
     }
-    const bItem = findById({ items: state.activeItems, id: bId })
-    const bPoints = getPoints({ item: bItem, operations: state.operations })
     const newBPoints = aBetter ? bPoints : bPoints + 1
     const bRecord = {
       ...bItem,
@@ -161,14 +251,7 @@ export default function MoviesProvider ({
 
       const emptiedCurrentOperation = emptiedOperationIndex === newState.choice?.currentOperationIndex
       if (emptiedCurrentOperation) {
-        return setupChoice({
-          betterItems: newState.betterItems,
-          activeItems: newState.activeItems,
-          reserveOperations: newState.operations,
-          operations: newState.operations,
-          reserveItems: newState.reserveItems,
-          worseItems: newState.worseItems
-        })
+        return setupChoice(newState)
       } else if (newState.choice?.options.includes(id) === true) {
         newState.choice = createChoice(newState)
       }

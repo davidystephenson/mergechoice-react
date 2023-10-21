@@ -24,8 +24,8 @@ export default function populate ({ items, state }: {
     }
     return true
   })
-  const newState = clone(STATE)
   if (state.betterItems.length === 0 && state.worseItems.length === 0) {
+    const newState = clone(STATE)
     console.log('newItems', newItems)
     newState.activeItems = newItems
     console.log('newState.activeItems', newState.activeItems)
@@ -56,6 +56,9 @@ export default function populate ({ items, state }: {
     console.log('newState.choice', newState.choice)
     return newState
   }
+  const newState = clone(state)
+  console.log('else state', clone(newState))
   newState.reserveItems.push(...newItems)
+  console.log('final newState', clone(newState))
   return newState
 }

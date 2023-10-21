@@ -1,7 +1,7 @@
 import { Heading, IconButton } from '@chakra-ui/react'
 import MovieProvider from '../context/movie/MovieProvider'
 import useHistoryEventContext from '../context/historyEvent/useHistoryEventContext'
-import { ArrowLeftIcon } from '@chakra-ui/icons'
+import { ArrowLeftIcon, LockIcon } from '@chakra-ui/icons'
 import HeadingRowView from './HeadingRow'
 import HistoryRowView from './HistoryRow'
 
@@ -19,15 +19,19 @@ export default function HistoryEventView (): JSX.Element {
   function handleClick (): void {
     historyEventContextValue.rewind()
   }
-  const rewindView = historyEventContextValue.previousState != null && (
-    <IconButton
-      aria-label='Rewind choice'
-      icon={<ArrowLeftIcon />}
-      size='xs'
-      onClick={handleClick}
-      variant='link'
-    />
-  )
+  const rewindView = historyEventContextValue.previousState == null
+    ? (
+      <LockIcon my='5px' />
+      )
+    : (
+      <IconButton
+        aria-label='Rewind choice'
+        icon={<ArrowLeftIcon />}
+        size='xs'
+        onClick={handleClick}
+        variant='link'
+      />
+      )
   return (
     <>
       <HeadingRowView cellProps={headingCellProps}>

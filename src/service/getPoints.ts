@@ -1,41 +1,36 @@
 import { Movie, Operation } from '../types'
+import getPointsFromOperations from './getPointsFromOperations'
 
 export default function getPoints ({
+  activeItems,
+  betterItems,
+  betterOperations,
   item,
-  operations
+  operations,
+  reserveItems,
+  worseItems,
+  worseOperations
 }: {
+  activeItems: Movie[]
+  betterItems: Movie[]
+  betterOperations: Operation[]
   item: Movie
   operations: Operation[]
+  reserveItems: Movie[]
+  worseItems: Movie[]
+  worseOperations: Operation[]
 }): number {
-  const operation = operations.find(operation => {
-    const input0 = operation.input[0].some(id => id === item.id)
-    if (input0) {
-      return true
-    }
-    const input1 = operation.input[1].some(id => id === item.id)
-    if (input1) {
-      return true
-    }
-    const output = operation.output.some(id => id === item.id)
-    if (output) {
-      return true
-    }
-    return false
-  })
-  if (operation == null) {
-    throw new Error('The item is not in any operation.')
+  const betterItem = betterItems.some(betterItem => betterItem.id === item.id)
+  if (betterItem) {
+    return getPointsFromOperations({ itemId: item.id, operations: betterOperations }) + activeItems.length + worseItems.length
   }
-  const input0 = operation.input[0].some(id => id === item.id)
-  if (input0) {
-    return operation.input[0].indexOf(item.id) + operation.output.length
+  const worseItem = worseItems.some(worseItem => worseItem.id === item.id)
+  if (worseItem) {
+    return getPointsFromOperations({ itemId: item.id, operations: worseOperations })
   }
-  const input1 = operation.input[1].some(id => id === item.id)
-  if (input1) {
-    return operation.input[1].indexOf(item.id) + operation.output.length
+  const reserveItem = reserveItems.some(reserveItem => reserveItem.id === item.id)
+  if (reserveItem) {
+    return 0
   }
-  const output = operation.output.some(id => id === item.id)
-  if (output) {
-    return operation.output.indexOf(item.id)
-  }
-  throw new Error('The item is not in the found operation.')
+  return getPointsFromOperations({ itemId: item.id, operations }) + worseItems.length
 }

@@ -3,17 +3,29 @@ import getPoints from './getPoints'
 
 export default function compareItems ({
   a,
+  activeItems,
   b,
+  betterItems,
+  betterOperations,
   operations,
-  worseFirst = false
+  reserveItems,
+  worseFirst = false,
+  worseItems,
+  worseOperations
 }: {
   a: Movie
+  activeItems: Movie[]
   b: Movie
+  betterOperations: Operation[]
+  betterItems: Movie[]
   operations: Operation[]
+  reserveItems: Movie[]
   worseFirst?: boolean
+  worseItems: Movie[]
+  worseOperations: Operation[]
 }): number {
-  const aPoints = getPoints({ item: a, operations })
-  const bPoints = getPoints({ item: b, operations })
+  const aPoints = getPoints({ activeItems, item: a, betterItems, betterOperations, operations, reserveItems, worseItems, worseOperations })
+  const bPoints = getPoints({ activeItems, item: b, betterItems, betterOperations, operations, reserveItems, worseItems, worseOperations })
   if (aPoints === bPoints) {
     // compare Date objects
     if (a.updatedAt === b.updatedAt) {

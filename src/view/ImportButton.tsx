@@ -11,7 +11,6 @@ export default function ImportButtonView (): JSX.Element {
   const [initializing, setInitializing] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   useHotkeys('i', () => {
-    console.log('inputRef', inputRef)
     inputRef.current?.click()
   })
   function parseCriticker ({
@@ -55,12 +54,19 @@ export default function ImportButtonView (): JSX.Element {
       skipEmptyLines: true,
       complete: parseCriticker
     })
+    if (inputRef.current == null) {
+      throw new Error('There is no inputRef.')
+    }
+    inputRef.current.value = ''
+  }
+  function handleClick (): void {
+    inputRef.current?.click()
   }
   return (
     <>
       <Button
         isLoading={initializing}
-        onClick={() => inputRef.current?.click()}
+        onClick={handleClick}
         fontSize='sm'
         size='xs'
         variant='solid'
@@ -72,6 +78,9 @@ export default function ImportButtonView (): JSX.Element {
         type='file'
         ref={inputRef}
         onChange={handleFileChange}
+        // onInput={handleFileChange}
+        // onLoad={handleFileChange}
+        // onEnded={handleFileChange}
       />
     </>
   )

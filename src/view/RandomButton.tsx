@@ -3,6 +3,9 @@ import useMoviesContext from '../context/movies/useMoviesContext'
 
 export default function RandomButtonView (): JSX.Element {
   const moviesContextValue = useMoviesContext()
+  if (!moviesContextValue.finalized) {
+    return <></>
+  }
   function handleClick (): void {
     moviesContextValue.createRandomMovieChoice()
   }

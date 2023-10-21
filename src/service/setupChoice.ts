@@ -7,17 +7,19 @@ import sortItems from './sortItems'
 export default function setupChoice ({
   betterItems,
   activeItems,
-  reserveOperations,
+  betterOperations,
   operations,
   reserveItems,
-  worseItems
+  worseItems,
+  worseOperations
 }: {
   betterItems: Movie[]
   activeItems: Movie[]
-  reserveOperations: Operation[]
+  betterOperations: Operation[]
   operations: Operation[]
   reserveItems: Movie[]
   worseItems: Movie[]
+  worseOperations: Operation[]
 }): State {
   const maxSteps = Math.max(...operations.map(operation => operation.steps))
   if (maxSteps > 0) {
@@ -30,9 +32,10 @@ export default function setupChoice ({
       betterItems,
       worseItems,
       operations,
-      reserveOperations,
+      betterOperations,
       choice: newChoice,
-      finalized: false
+      finalized: false,
+      worseOperations
     }
   } else {
     const newOperations = getOperations({ operations })
@@ -47,26 +50,45 @@ export default function setupChoice ({
         betterItems,
         worseItems,
         operations: newOperations,
-        reserveOperations,
+        betterOperations,
         choice: nextChoice,
-        finalized: false
+        finalized: false,
+        worseOperations
       }
     } else {
       sortItems({
+        activeItems,
+        betterItems,
+        betterOperations,
         items: worseItems,
         operations,
-        worseFirst: true
+        reserveItems,
+        worseFirst: true,
+        worseItems,
+        worseOperations
       })
       sortItems({
+        activeItems,
+        betterItems,
+        betterOperations,
         items: activeItems,
         operations,
-        worseFirst: true
+        reserveItems,
+        worseFirst: true,
+        worseItems,
+        worseOperations
       })
       console.log('activeItems', activeItems)
       sortItems({
+        activeItems,
+        betterItems,
+        betterOperations,
         items: betterItems,
         operations,
-        worseFirst: true
+        reserveItems,
+        worseFirst: true,
+        worseItems,
+        worseOperations
       })
       const combinedItems = [...worseItems, ...activeItems, ...betterItems]
       console.log('combinedItems', combinedItems)
@@ -81,9 +103,10 @@ export default function setupChoice ({
         betterItems: [],
         worseItems: [],
         operations: combinedOperations,
-        reserveOperations,
+        betterOperations,
         choice: undefined,
-        finalized: false
+        finalized: false,
+        worseOperations
       }
       const newState = populate({ items: reserveItems, state: oldState })
       return newState

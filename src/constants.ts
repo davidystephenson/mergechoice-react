@@ -13,6 +13,6 @@ export const STATE: State = {
   finalized: false,
   betterItems: [],
   worseItems: [],
-  reserveOperations: [],
+  betterOperations: [],
   reserveItems: []
 }

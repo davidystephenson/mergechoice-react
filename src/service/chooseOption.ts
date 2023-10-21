@@ -7,18 +7,19 @@ export default function chooseOption ({
   state: {
     betterItems,
     choice,
-    activeItems: items,
-    reserveOperations: oldOperations,
+    activeItems,
+    betterOperations: reserveOperations,
     operations,
-    reserveItems: populatingItems,
-    worseItems
+    reserveItems,
+    worseItems,
+    worseOperations
   },
   betterIndex
 }: {
   state: State
   betterIndex: number
 }): State {
-  const newItems = clone(items)
+  const newItems = clone(activeItems)
   const newOperations = clone(operations)
   if (choice == null) {
     throw new Error('choice is null')
@@ -43,9 +44,10 @@ export default function chooseOption ({
   return setupChoice({
     betterItems,
     activeItems: newItems,
-    reserveOperations: oldOperations,
+    betterOperations: reserveOperations,
     operations: newOperations,
-    reserveItems: populatingItems,
-    worseItems
+    reserveItems,
+    worseItems,
+    worseOperations
   })
 }

@@ -1,6 +1,6 @@
-import clone from "./clone"
+import clone from './clone'
 
-export default function cloneLog<Serializable>(
+export default function cloneLog<Serializable> (
   label: string, x: Serializable
 ): void {
   const cloned = clone(x)

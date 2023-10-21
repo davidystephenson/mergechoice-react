@@ -9,7 +9,6 @@ import HeadingRowView from './HeadingRow'
 import HistoryProvider from '../context/history/HistoryProvider'
 import MovieRows from './MovieRows'
 import RandomButtonView from './RandomButton'
-import logOperations from '../service/logOperation'
 
 export default function MoviesView (): JSX.Element {
   const moviesContextValue = useMoviesContext()
@@ -27,11 +26,6 @@ export default function MoviesView (): JSX.Element {
   const countView = moviesContextValue.activeItems.length > 0 && (
     <>({moviesContextValue.activeItems.length})</>
   )
-  logOperations({
-    items: moviesContextValue.activeItems,
-    label: 'render operations',
-    operations: moviesContextValue.operations
-  })
   return (
     <VStack spacing='0'>
       <HStack flexWrap='wrap' justifyContent='center'>

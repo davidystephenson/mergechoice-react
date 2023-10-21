@@ -26,7 +26,7 @@ export default function MovieProvider ({ children, movie, points }: {
   }
   const moviePoints = points ?? getPoints({
     item: movie,
-    operations: moviesContextValue.operations
+    ...moviesContextValue.state
   })
   const value: MovieContextValue = {
     ...movie,
