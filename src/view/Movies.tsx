@@ -58,7 +58,7 @@ export default function MoviesView (): JSX.Element {
             <HistoryView />
           </HistoryProvider>
           <HeadingRowView>
-            <Heading size='sm'>List {countView}</Heading>
+            <Heading size='sm'>Movies {countView}</Heading>
             <RandomButtonView />
             <ImportButtonView />
           </HeadingRowView>

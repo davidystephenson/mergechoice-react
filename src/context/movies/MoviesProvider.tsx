@@ -171,14 +171,12 @@ export default function MoviesProvider ({
   })
   const minimumCount = activeTotal.minimum + betterTotal.minimum + worseTotal.minimum + reserveTotal.minimum
   const maximumCount = activeTotal.maximum + betterTotal.maximum + worseTotal.maximum + reserveTotal.maximum
-  const equalCount = minimumCount === maximumCount
   const value: MoviesContextValue = {
     ...state,
     choose,
     choosing,
     createRandomMovieChoice,
     defaultOptionIndex,
-    equalCount,
     maximumCount,
     minimumCount,
     movies: state.activeItems,

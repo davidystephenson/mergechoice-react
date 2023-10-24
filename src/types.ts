@@ -66,7 +66,6 @@ export interface MoviesContextValue extends State {
   choosing: boolean
   createRandomMovieChoice: () => void
   defaultOptionIndex: number | undefined
-  equalCount: boolean
   maximumCount: number
   minimumCount: number
   movies: Movie[]

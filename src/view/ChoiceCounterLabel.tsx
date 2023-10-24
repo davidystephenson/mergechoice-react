@@ -9,7 +9,7 @@ export default function ChoiceCounterLabelView (): JSX.Element {
   if (moviesContextValue.finalized) {
     return <CheckIcon />
   }
-  if (moviesContextValue.equalCount && !moviesContextValue.random) {
+  if (moviesContextValue.maximumCount === 1) {
     return <span>{moviesContextValue.maximumCount}</span>
   }
   return (

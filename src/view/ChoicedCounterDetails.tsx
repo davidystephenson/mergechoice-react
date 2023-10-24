@@ -14,7 +14,7 @@ export default function ChoiceCounterDetailsView (): JSX.Element {
       </>
     )
   }
-  if (moviesContextValue.equalCount) {
+  if (moviesContextValue.maximumCount === 1) {
     return <>You have 1 more choice.</>
   }
   return (
