@@ -18,8 +18,7 @@ export default function getOperations ({ activeOperations }: {
     }
     newOperations.unshift({
       input: [blockA, blockB],
-      output: [],
-      steps: blockA.length + blockB.length - 1
+      output: []
     })
   })
   if (blocks.length === 1) {
@@ -29,8 +28,7 @@ export default function getOperations ({ activeOperations }: {
     }
     newOperations.push({
       input: [[], []],
-      output,
-      steps: 0
+      output
     })
   }
   return newOperations

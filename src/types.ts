@@ -21,7 +21,6 @@ export interface Movie {
 export interface Operation {
   input: string[][]
   output: string[]
-  steps: number
 }
 export interface Choice {
   options: string[]
@@ -99,4 +98,8 @@ export interface HistoryContextValue {
 export interface HistoryEventContextValue extends HistoryEvent {
   rewind: () => void
   timestamp: string
+}
+export interface RemovalFromOperations {
+  emptiedOperationIndex: number
+  operations: Operation[]
 }

@@ -2,6 +2,7 @@ import { STATE } from '../constants'
 import { Movie, State } from '../types'
 import clone from './clone'
 import createChoice from './createChoice'
+import getMaxSteps from './getMaxSteps'
 import getOperations from './getOperations'
 import logOperations from './logOperation'
 
@@ -32,8 +33,7 @@ export default function populate ({ items, state }: {
     console.log('newState.activeItems', newState.activeItems)
     newState.activeOperations = newState.activeItems.map(item => ({
       input: [[], []],
-      output: [item.id],
-      steps: 0
+      output: [item.id]
     }))
     logOperations({
       label: 'newState.operations new',
@@ -48,7 +48,7 @@ export default function populate ({ items, state }: {
       items: newState.activeItems,
       operations: newState.activeOperations
     })
-    const maxSteps = Math.max(...newState.activeOperations.map(operation => operation.steps))
+    const maxSteps = getMaxSteps({ operations: newState.activeOperations })
     if (maxSteps === 0) {
       newState.finalized = true
       return newState

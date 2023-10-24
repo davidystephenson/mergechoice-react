@@ -46,8 +46,7 @@ export default function applyRandomChoice ({
     const betterIds = betterItems.map(item => item.id)
     const newOperation: Operation = {
       input: [[], []],
-      output: [...worseIds, ...betterIds],
-      steps: 0
+      output: [...worseIds, ...betterIds]
     }
     return {
       ...state,
@@ -59,18 +58,15 @@ export default function applyRandomChoice ({
   activeItems.unshift(unchosenItem)
   const completedOperations = activeItems.map(item => ({
     input: [[], []],
-    output: [item.id],
-    steps: 0
+    output: [item.id]
   }))
   const betterOperation = {
     input: [[], []],
-    output: betterItems.map(item => item.id),
-    steps: 0
+    output: betterItems.map(item => item.id)
   }
   const worseOperation = {
     input: [[], []],
-    output: worseItems.map(item => item.id),
-    steps: 0
+    output: worseItems.map(item => item.id)
   }
   const newState: State = {
     ...state,

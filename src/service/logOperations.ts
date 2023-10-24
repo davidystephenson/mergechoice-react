@@ -1,12 +1,11 @@
-import { Movie, Operation } from "../types"
-import findById from "./findById"
+import { Movie, Operation } from '../types'
+import findById from './findById'
 
-export default function logOperations({ items, operations }: {
+export default function logOperations ({ items, operations }: {
   items: Movie[]
   operations: Operation[]
 }): void {
   operations.forEach(operation => {
-    console.log(`operation steps: ${operation.steps}`)
     const firstLabels = operation.input[0].map(id => {
       const item = findById({ items, id })
       return item.title

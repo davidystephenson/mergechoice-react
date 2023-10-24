@@ -45,11 +45,9 @@ export default function applyChoice ({
   const worseItem = findById({ items: newState.activeItems, id: worseId })
   worseItem.updatedAt = Date.now()
   currentOperation.output.push(worseId)
-  currentOperation.steps -= 1
   if (worseInput.length === 0) {
     currentOperation.output.push(...betterInput)
     currentOperation.input[betterIndex] = []
-    currentOperation.steps = 0
   }
   return setupChoice(newState)
 }

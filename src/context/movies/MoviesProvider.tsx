@@ -14,6 +14,7 @@ import createRandomChoice from '../../service/createRandomChoice'
 import yeast from 'yeast'
 import findById from '../../service/findById'
 import getPoints from '../../service/getPoints'
+import removeFromOperations from '../../service/removeFromOperations'
 
 export default function MoviesProvider ({
   children
@@ -61,37 +62,16 @@ export default function MoviesProvider ({
       const historyItem: HistoryMovie = { ...item, points: currentpoints }
       const newState = clone(current)
       newState.activeItems = newState.activeItems.filter(item => item.id !== id)
-      let emptiedOperationIndex = -1
-      newState.activeOperations = newState.activeOperations.map((operation, index) => {
-        const newOperation = clone(operation)
-        const inFirstInput = newOperation.input[0].includes(id)
-        const inSecondInput = newOperation.input[1].includes(id)
-        const inInput = inFirstInput || inSecondInput
-        if (!inInput) {
-          newOperation.output = newOperation.output.filter(existingId => existingId !== id)
-          return newOperation
-        }
-        newOperation.steps = newOperation.steps - 1
-        if (inFirstInput) {
-          newOperation.input[0] = newOperation.input[0].filter(existingId => existingId !== id)
-          if (newOperation.input[0].length === 0) {
-            emptiedOperationIndex = index
-            newOperation.output.push(...newOperation.input[1])
-            newOperation.input[1] = []
-            newOperation.steps = 0
-          }
-        }
-        if (inSecondInput) {
-          newOperation.input[1] = newOperation.input[1].filter(existingId => existingId !== id)
-          if (newOperation.input[1].length === 0) {
-            emptiedOperationIndex = index
-            newOperation.output.push(...newOperation.input[0])
-            newOperation.input[1] = []
-            newOperation.steps = 0
-          }
-        }
-        return newOperation
+      newState.reserveItems = newState.reserveItems.filter(item => item.id !== id)
+      newState.betterItems = newState.betterItems.filter(item => item.id !== id)
+      newState.worseItems = newState.worseItems.filter(item => item.id !== id)
+      const activeRemoval = removeFromOperations({
+        itemId: id,
+        operations: newState.activeOperations
       })
+      newState.activeOperations = activeRemoval.operations
+      newState.betterOperations = removeFromOperations({ itemId: id, operations: newState.betterOperations }).operations
+      newState.worseOperations = removeFromOperations({ itemId: id, operations: newState.worseOperations }).operations
       console.log('newOperationIds', newState.activeOperations)
       logOperations({
         label: 'newOperations',
@@ -110,7 +90,7 @@ export default function MoviesProvider ({
       }
       newState.history.unshift(removeEvent)
 
-      const emptiedCurrentOperation = emptiedOperationIndex === newState.choice?.currentOperationIndex
+      const emptiedCurrentOperation = activeRemoval.emptiedOperationIndex === newState.choice?.currentOperationIndex
       if (emptiedCurrentOperation) {
         return setupChoice(newState)
       } else if (newState.choice?.options.includes(id) === true) {
