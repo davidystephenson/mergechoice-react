@@ -1,6 +1,7 @@
-import { Button } from '@chakra-ui/react'
+import { Button, HStack, Icon, Text } from '@chakra-ui/react'
 import useMoviesContext from '../context/movies/useMoviesContext'
 import { useHotkeys } from 'react-hotkeys-hook'
+import { GiPerspectiveDiceSixFacesRandom } from 'react-icons/gi'
 
 export default function RandomButtonView (): JSX.Element {
   const moviesContextValue = useMoviesContext()
@@ -13,7 +14,10 @@ export default function RandomButtonView (): JSX.Element {
   }
   return (
     <Button variant='solid' size='xs' fontSize='sm' onClick={handleClick}>
-      [r]andom
+      <HStack>
+        <Text>[r]andom</Text>
+        <Icon as={GiPerspectiveDiceSixFacesRandom} />
+      </HStack>
     </Button>
   )
 }

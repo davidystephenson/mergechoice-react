@@ -15,6 +15,8 @@ import yeast from 'yeast'
 import findById from '../../service/findById'
 import getPoints from '../../service/getPoints'
 import removeFromOperations from '../../service/removeFromOperations'
+import getOperations from '../../service/getOperations'
+import getTotalSteps from '../../service/getTotalSteps'
 
 export default function MoviesProvider ({
   children
@@ -124,15 +126,65 @@ export default function MoviesProvider ({
       items: state.activeItems,
       choice: state.choice
     })
+  const random = state.choice?.random === true
+  const activeTotal = getTotalSteps({
+    items: state.activeItems,
+    operations: state.activeOperations
+  })
+  const betterTotal = getTotalSteps({
+    items: state.betterItems,
+    operations: state.betterOperations
+  })
+  const worseTotal = getTotalSteps({
+    items: state.worseItems,
+    operations: state.worseOperations
+  })
+  const reserveOperations = state.reserveItems.map(item => {
+    return {
+      input: [[], []],
+      output: [item.id]
+    }
+  })
+  const newReserveOperations = getOperations({
+    activeOperations: reserveOperations
+  })
+  const activePostOperation = {
+    input: [[], []],
+    output: state.activeItems.map(item => item.id)
+  }
+  const betterPostOperation = {
+    input: [[], []],
+    output: state.betterItems.map(item => item.id)
+  }
+  const worsePostOperation = {
+    input: [[], []],
+    output: state.worseItems.map(item => item.id)
+  }
+  const reserveTotal = getTotalSteps({
+    items: [...state.activeItems, ...state.betterItems, ...state.reserveItems, ...state.worseItems],
+    operations: [
+      ...newReserveOperations,
+      activePostOperation,
+      betterPostOperation,
+      worsePostOperation
+    ]
+  })
+  const minimumCount = activeTotal.minimum + betterTotal.minimum + worseTotal.minimum + reserveTotal.minimum
+  const maximumCount = activeTotal.maximum + betterTotal.maximum + worseTotal.maximum + reserveTotal.maximum
+  const equalCount = minimumCount === maximumCount
   const value: MoviesContextValue = {
     ...state,
     choose,
     choosing,
     createRandomMovieChoice,
     defaultOptionIndex,
+    equalCount,
+    maximumCount,
+    minimumCount,
     movies: state.activeItems,
     populateMovies,
     removeMovie,
+    random,
     rewind,
     state
   }

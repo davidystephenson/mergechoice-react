@@ -66,10 +66,14 @@ export interface MoviesContextValue extends State {
   choosing: boolean
   createRandomMovieChoice: () => void
   defaultOptionIndex: number | undefined
+  equalCount: boolean
+  maximumCount: number
+  minimumCount: number
   movies: Movie[]
   populateMovies: ({ movies }: { movies: Movie[] }) => void
   removeMovie: ({ id }: { id: string }) => void
   history: HistoryEvent[]
+  random: boolean
   rewind: ({ historyEventId }: { historyEventId: string }) => void
   state: State
 }

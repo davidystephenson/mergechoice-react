@@ -29,10 +29,12 @@ export default function MoviesView (): JSX.Element {
   )
   return (
     <VStack spacing='0'>
-      <Heading textAlign='center'>
-        Mergechoice (React)
+      <HStack mb='5px'>
+        <Heading>
+          Mergechoice (React)
+        </Heading>
         <ChoiceCounterView />
-      </Heading>
+      </HStack>
       <HStack flexWrap='wrap' justifyContent='center'>
         <OptionProvider
           chooseHotkey='a'
