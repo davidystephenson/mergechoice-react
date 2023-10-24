@@ -30,17 +30,6 @@ export interface Choice {
   bIndex: number
   random: boolean
 }
-export interface State {
-  activeItems: Movie[]
-  betterItems: Movie[]
-  worseItems: Movie[]
-  reserveItems: Movie[]
-  operations: Operation[]
-  betterOperations: Operation[]
-  worseOperations: Operation[]
-  choice?: Choice
-  finalized: boolean
-}
 export interface HistoryMovie extends Movie {
   points: number
 }
@@ -53,9 +42,22 @@ export interface HistoryEvent {
   createdAt: number
   id: string
   previousState?: State
+  random: boolean
+}
+export interface State {
+  activeItems: Movie[]
+  betterItems: Movie[]
+  worseItems: Movie[]
+  reserveItems: Movie[]
+  activeOperations: Operation[]
+  betterOperations: Operation[]
+  worseOperations: Operation[]
+  choice?: Choice
+  history: HistoryEvent[]
+  finalized: boolean
 }
 export interface MoviesContextValue extends State {
-  applyChoice: ({ optionIndex }: { optionIndex: number }) => void
+  choose: ({ betterIndex }: { betterIndex: number }) => void
   choosing: boolean
   createRandomMovieChoice: () => void
   defaultOptionIndex: number | undefined

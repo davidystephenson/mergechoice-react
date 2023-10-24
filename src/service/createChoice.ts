@@ -3,21 +3,19 @@ import getOperationIndex from './getOperationIndex'
 import getRandom from './getRandom'
 
 export default function createChoice ({
-  random = false,
-  operations
+  activeOperations
 }: {
-  random?: boolean
-  operations: Operation[]
+  activeOperations: Operation[]
 }): Choice {
   const newChoice: Choice = {
     options: [],
     currentOperationIndex: 0,
     aIndex: 0,
     bIndex: 1,
-    random
+    random: false
   }
-  newChoice.currentOperationIndex = getOperationIndex({ operations })
-  const currentOperation = operations[newChoice.currentOperationIndex]
+  newChoice.currentOperationIndex = getOperationIndex({ operations: activeOperations })
+  const currentOperation = activeOperations[newChoice.currentOperationIndex]
   const firstOption = currentOperation.input[0][0]
   if (firstOption == null) {
     throw new Error('There is no first option.')

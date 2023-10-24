@@ -32,7 +32,7 @@ export default function OptionProvider ({
     if (optionIndex == null) {
       throw new Error('optionIndex is null')
     }
-    moviesContextValue.applyChoice({ optionIndex })
+    moviesContextValue.choose({ betterIndex: optionIndex })
   }
   if (movie == null) {
     return <></>

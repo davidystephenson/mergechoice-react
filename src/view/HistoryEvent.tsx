@@ -1,9 +1,10 @@
-import { Heading, IconButton } from '@chakra-ui/react'
+import { HStack, Heading, Icon, IconButton, Text } from '@chakra-ui/react'
 import MovieProvider from '../context/movie/MovieProvider'
 import useHistoryEventContext from '../context/historyEvent/useHistoryEventContext'
 import { ArrowLeftIcon, LockIcon } from '@chakra-ui/icons'
 import HeadingRowView from './HeadingRow'
 import HistoryRowView from './HistoryRow'
+import { GiPerspectiveDiceSixFacesRandom } from 'react-icons/gi'
 
 export default function HistoryEventView (): JSX.Element {
   const historyEventContextValue = useHistoryEventContext()
@@ -32,10 +33,18 @@ export default function HistoryEventView (): JSX.Element {
         variant='link'
       />
       )
+  const randomIcon = historyEventContextValue.random && (
+    <Icon as={GiPerspectiveDiceSixFacesRandom} />
+  )
   return (
     <>
       <HeadingRowView cellProps={headingCellProps}>
-        <Heading size='xs'>{historyEventContextValue.timestamp}</Heading>
+        <HStack>
+          <Heading size='xs'>
+            {historyEventContextValue.timestamp}
+          </Heading>
+          {randomIcon}
+        </HStack>
         {rewindView}
       </HeadingRowView>
       <MovieProvider movie={historyEventContextValue.aItem} points={historyEventContextValue.aItem.points}>

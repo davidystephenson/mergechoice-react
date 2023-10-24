@@ -1,53 +1,51 @@
 import { State } from '../types'
-import clone from './clone'
+import applyChoice from './applyChoice'
 import findById from './findById'
-import setupChoice from './setupChoice'
+import getPoints from './getPoints'
 
 export default function chooseOption ({
-  state: {
-    betterItems,
-    choice,
-    activeItems,
-    betterOperations: reserveOperations,
-    operations,
-    reserveItems,
-    worseItems,
-    worseOperations
-  },
+  state,
   betterIndex
 }: {
   state: State
   betterIndex: number
 }): State {
-  const newItems = clone(activeItems)
-  const newOperations = clone(operations)
-  if (choice == null) {
-    throw new Error('choice is null')
+  if (state.choice == null) {
+    throw new Error('There is no choice.')
   }
-  const currentOperation = newOperations[choice.currentOperationIndex]
-  const betterInput = currentOperation.input[betterIndex]
-  const worseIndex = 1 - betterIndex
-  const worseInput = currentOperation.input[worseIndex]
-  const worseId = worseInput.shift()
-  if (worseId == null) {
-    throw new Error('worseId is null')
-  }
-  const worseItem = findById({ items: newItems, id: worseId })
-  worseItem.updatedAt = Date.now()
-  currentOperation.output.push(worseId)
-  currentOperation.steps -= 1
-  if (worseInput.length === 0) {
-    currentOperation.output.push(...betterInput)
-    currentOperation.input[betterIndex] = []
-    currentOperation.steps = 0
-  }
-  return setupChoice({
-    betterItems,
-    activeItems: newItems,
-    betterOperations: reserveOperations,
-    operations: newOperations,
-    reserveItems,
-    worseItems,
-    worseOperations
+  const aId = state.choice.options[state.choice.aIndex]
+  const bId = state.choice.options[state.choice.bIndex]
+  const aBetter = betterIndex === state.choice.aIndex
+  const aItem = findById({ items: state.activeItems, id: aId })
+  const bItem = findById({ items: state.activeItems, id: bId })
+  const newState = applyChoice({
+    aBetter,
+    aItem,
+    betterIndex,
+    bItem,
+    state
   })
+  const newAPoints = getPoints({ item: aItem, state: newState })
+  const aRecord = {
+    ...aItem,
+    points: newAPoints
+  }
+  const newBPoints = getPoints({ item: bItem, state: newState })
+  const bRecord = {
+    ...bItem,
+    points: newBPoints
+  }
+  const newHistoryEvent = {
+    aBetter,
+    aId: aItem.id,
+    aItem: aRecord,
+    bId: bItem.id,
+    bItem: bRecord,
+    createdAt: Date.now(),
+    id: Math.random().toString(),
+    previousState: state,
+    random: state.choice.random
+  }
+  newState.history = [newHistoryEvent, ...newState.history]
+  return newState
 }

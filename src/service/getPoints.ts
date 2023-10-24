@@ -1,36 +1,24 @@
-import { Movie, Operation } from '../types'
+import { Movie, State } from '../types'
 import getPointsFromOperations from './getPointsFromOperations'
 
 export default function getPoints ({
-  activeItems,
-  betterItems,
-  betterOperations,
   item,
-  operations,
-  reserveItems,
-  worseItems,
-  worseOperations
+  state
 }: {
-  activeItems: Movie[]
-  betterItems: Movie[]
-  betterOperations: Operation[]
   item: Movie
-  operations: Operation[]
-  reserveItems: Movie[]
-  worseItems: Movie[]
-  worseOperations: Operation[]
+  state: State
 }): number {
-  const betterItem = betterItems.some(betterItem => betterItem.id === item.id)
+  const betterItem = state.betterItems.some(betterItem => betterItem.id === item.id)
   if (betterItem) {
-    return getPointsFromOperations({ itemId: item.id, operations: betterOperations }) + activeItems.length + worseItems.length
+    return getPointsFromOperations({ itemId: item.id, operations: state.betterOperations }) + state.activeItems.length + state.worseItems.length
   }
-  const worseItem = worseItems.some(worseItem => worseItem.id === item.id)
+  const worseItem = state.worseItems.some(worseItem => worseItem.id === item.id)
   if (worseItem) {
-    return getPointsFromOperations({ itemId: item.id, operations: worseOperations })
+    return getPointsFromOperations({ itemId: item.id, operations: state.worseOperations })
   }
-  const reserveItem = reserveItems.some(reserveItem => reserveItem.id === item.id)
+  const reserveItem = state.reserveItems.some(reserveItem => reserveItem.id === item.id)
   if (reserveItem) {
     return 0
   }
-  return getPointsFromOperations({ itemId: item.id, operations }) + worseItems.length
+  return getPointsFromOperations({ itemId: item.id, operations: state.activeOperations }) + state.worseItems.length
 }

@@ -26,10 +26,11 @@ export default function populate ({ items, state }: {
   })
   if (state.betterItems.length === 0 && state.worseItems.length === 0) {
     const newState = clone(STATE)
+    newState.history = state.history
     console.log('newItems', newItems)
     newState.activeItems = newItems
     console.log('newState.activeItems', newState.activeItems)
-    newState.operations = newState.activeItems.map(item => ({
+    newState.activeOperations = newState.activeItems.map(item => ({
       input: [[], []],
       output: [item.id],
       steps: 0
@@ -37,17 +38,17 @@ export default function populate ({ items, state }: {
     logOperations({
       label: 'newState.operations new',
       items: newState.activeItems,
-      operations: newState.operations
+      operations: newState.activeOperations
     })
     newState.activeItems.push(...state.activeItems)
-    newState.operations = getOperations(newState)
-    newState.operations.push(...state.operations)
+    newState.activeOperations = getOperations(newState)
+    newState.activeOperations.push(...state.activeOperations)
     logOperations({
       label: 'newState.operations final',
       items: newState.activeItems,
-      operations: newState.operations
+      operations: newState.activeOperations
     })
-    const maxSteps = Math.max(...newState.operations.map(operation => operation.steps))
+    const maxSteps = Math.max(...newState.activeOperations.map(operation => operation.steps))
     if (maxSteps === 0) {
       newState.finalized = true
       return newState

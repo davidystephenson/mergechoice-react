@@ -11,7 +11,7 @@ export default function MovieRows ({
 }): JSX.Element {
   const moviesContextValue = useMoviesContext()
   const sortedMovies = movies.sort((a, b) => {
-    return compareItems({ a, b, ...moviesContextValue })
+    return compareItems({ a, b, state: moviesContextValue.state })
   })
   const movieViews = sortedMovies.map(movie => {
     return (

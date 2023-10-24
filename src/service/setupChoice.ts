@@ -1,114 +1,65 @@
-import { Movie, Operation, State } from '../types'
+import { State } from '../types'
 import createChoice from './createChoice'
 import getOperations from './getOperations'
 import populate from './populate'
 import sortItems from './sortItems'
 
-export default function setupChoice ({
-  betterItems,
-  activeItems,
-  betterOperations,
-  operations,
-  reserveItems,
-  worseItems,
-  worseOperations
-}: {
-  betterItems: Movie[]
-  activeItems: Movie[]
-  betterOperations: Operation[]
-  operations: Operation[]
-  reserveItems: Movie[]
-  worseItems: Movie[]
-  worseOperations: Operation[]
-}): State {
-  const maxSteps = Math.max(...operations.map(operation => operation.steps))
+export default function setupChoice (state: State): State {
+  const maxSteps = Math.max(...state.activeOperations.map(operation => operation.steps))
   if (maxSteps > 0) {
-    const newChoice = createChoice({
-      operations
-    })
+    const newChoice = createChoice(state)
     return {
-      activeItems,
-      reserveItems,
-      betterItems,
-      worseItems,
-      operations,
-      betterOperations,
+      ...state,
       choice: newChoice,
-      finalized: false,
-      worseOperations
+      finalized: false
     }
   } else {
-    const newOperations = getOperations({ operations })
+    const newOperations = getOperations(state)
     const maxSteps = Math.max(...newOperations.map(operation => operation.steps))
     if (maxSteps > 0) {
       const nextChoice = createChoice({
-        operations: newOperations
+        activeOperations: newOperations
       })
       return {
-        activeItems,
-        reserveItems,
-        betterItems,
-        worseItems,
-        operations: newOperations,
-        betterOperations,
+        ...state,
+        activeOperations: newOperations,
         choice: nextChoice,
-        finalized: false,
-        worseOperations
+        finalized: false
       }
     } else {
       sortItems({
-        activeItems,
-        betterItems,
-        betterOperations,
-        items: worseItems,
-        operations,
-        reserveItems,
-        worseFirst: true,
-        worseItems,
-        worseOperations
+        items: state.worseItems,
+        state,
+        worseFirst: true
       })
       sortItems({
-        activeItems,
-        betterItems,
-        betterOperations,
-        items: activeItems,
-        operations,
-        reserveItems,
-        worseFirst: true,
-        worseItems,
-        worseOperations
+        items: state.activeItems,
+        state,
+        worseFirst: true
       })
-      console.log('activeItems', activeItems)
       sortItems({
-        activeItems,
-        betterItems,
-        betterOperations,
-        items: betterItems,
-        operations,
-        reserveItems,
-        worseFirst: true,
-        worseItems,
-        worseOperations
+        items: state.betterItems,
+        state,
+        worseFirst: true
       })
-      const combinedItems = [...worseItems, ...activeItems, ...betterItems]
-      console.log('combinedItems', combinedItems)
+      const combinedItems = [
+        ...state.worseItems, ...state.activeItems, ...state.betterItems
+      ]
       const combinedOperations = [{
         input: [[], []],
         output: combinedItems.map(item => item.id),
         steps: 0
       }]
-      const oldState: State = {
+      const combinedState: State = {
+        ...state,
         activeItems: combinedItems,
-        reserveItems,
         betterItems: [],
         worseItems: [],
-        operations: combinedOperations,
-        betterOperations,
+        activeOperations: combinedOperations,
         choice: undefined,
-        finalized: false,
-        worseOperations
+        finalized: false
       }
-      const newState = populate({ items: reserveItems, state: oldState })
+      const newState = populate({ items: state.reserveItems, state: combinedState })
       return newState
     }
   }

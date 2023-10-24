@@ -1,10 +1,10 @@
 import { Operation } from '../types'
 import range from './range'
 
-export default function getOperations ({ operations }: {
-  operations: Operation[]
+export default function getOperations ({ activeOperations }: {
+  activeOperations: Operation[]
 }): Operation[] {
-  const blocks = operations.map(operation => operation.output)
+  const blocks = activeOperations.map(operation => operation.output)
   const newOperations: Operation[] = []
   const pairsCount = Math.floor(blocks.length / 2)
   range(pairsCount).forEach(() => {

@@ -2,7 +2,7 @@ import { State } from './types'
 
 export const STATE: State = {
   activeItems: [],
-  operations: [],
+  activeOperations: [],
   choice: {
     options: [],
     currentOperationIndex: 0,
@@ -10,9 +10,11 @@ export const STATE: State = {
     bIndex: 1,
     random: false
   },
+  history: [],
   finalized: false,
   betterItems: [],
   worseItems: [],
   betterOperations: [],
-  reserveItems: []
+  reserveItems: [],
+  worseOperations: []
 }

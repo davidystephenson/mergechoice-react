@@ -1,31 +1,19 @@
-import { Movie, Operation } from '../types'
+import { Movie, State } from '../types'
 import getPoints from './getPoints'
 
 export default function compareItems ({
   a,
-  activeItems,
   b,
-  betterItems,
-  betterOperations,
-  operations,
-  reserveItems,
-  worseFirst = false,
-  worseItems,
-  worseOperations
+  state,
+  worseFirst = false
 }: {
   a: Movie
-  activeItems: Movie[]
   b: Movie
-  betterOperations: Operation[]
-  betterItems: Movie[]
-  operations: Operation[]
-  reserveItems: Movie[]
+  state: State
   worseFirst?: boolean
-  worseItems: Movie[]
-  worseOperations: Operation[]
 }): number {
-  const aPoints = getPoints({ activeItems, item: a, betterItems, betterOperations, operations, reserveItems, worseItems, worseOperations })
-  const bPoints = getPoints({ activeItems, item: b, betterItems, betterOperations, operations, reserveItems, worseItems, worseOperations })
+  const aPoints = getPoints({ item: a, state })
+  const bPoints = getPoints({ item: b, state })
   if (aPoints === bPoints) {
     // compare Date objects
     if (a.updatedAt === b.updatedAt) {

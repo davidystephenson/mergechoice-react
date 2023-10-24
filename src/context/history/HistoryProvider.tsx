@@ -7,6 +7,7 @@ export default function HistoryProvider ({ children }: {
   children: ReactNode
 }): JSX.Element {
   const moviesContextValue = useMoviesContext()
+  console.log('moviesContextValue.history', moviesContextValue.history)
   const [expanded, setExpanded] = useState(false)
   function toggleExpanded (): void {
     setExpanded(current => !current)

@@ -31,7 +31,7 @@ export default function MoviesView (): JSX.Element {
       <HStack flexWrap='wrap' justifyContent='center'>
         <OptionProvider
           chooseHotkey='a'
-          openHotkey='e'
+          openHotkey='c'
           optionIndex={moviesContextValue.choice?.aIndex}
         >
           <OptionView />
@@ -39,7 +39,7 @@ export default function MoviesView (): JSX.Element {
         <OptionProvider
           optionIndex={moviesContextValue.choice?.bIndex}
           chooseHotkey='b'
-          openHotkey='r'
+          openHotkey='v'
         >
           <OptionView />
         </OptionProvider>
