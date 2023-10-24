@@ -4,5 +4,5 @@ export default function cloneLog<Serializable> (
   label: string, x: Serializable
 ): void {
   const cloned = clone(x)
-  console.log(label, cloned)
+  console.debug(label, cloned)
 }

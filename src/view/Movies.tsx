@@ -9,6 +9,7 @@ import HeadingRowView from './HeadingRow'
 import HistoryProvider from '../context/history/HistoryProvider'
 import MovieRows from './MovieRows'
 import RandomButtonView from './RandomButton'
+import ChoiceCounterView from './ChoiceCounter'
 
 export default function MoviesView (): JSX.Element {
   const moviesContextValue = useMoviesContext()
@@ -28,6 +29,10 @@ export default function MoviesView (): JSX.Element {
   )
   return (
     <VStack spacing='0'>
+      <Heading textAlign='center'>
+        Mergechoice (React)
+        <ChoiceCounterView />
+      </Heading>
       <HStack flexWrap='wrap' justifyContent='center'>
         <OptionProvider
           chooseHotkey='a'

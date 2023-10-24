@@ -1,12 +1,12 @@
 import { State } from '../types'
 import createChoice from './createChoice'
-import getMaxSteps from './getMaxSteps'
+import getOperationsSteps from './getOperationsSteps'
 import getOperations from './getOperations'
 import populate from './populate'
 import sortItems from './sortItems'
 
 export default function setupChoice (state: State): State {
-  const maxSteps = getMaxSteps({ operations: state.activeOperations })
+  const maxSteps = getOperationsSteps({ operations: state.activeOperations })
   if (maxSteps > 0) {
     const newChoice = createChoice(state)
     return {
@@ -16,7 +16,7 @@ export default function setupChoice (state: State): State {
     }
   } else {
     const newOperations = getOperations(state)
-    const maxSteps = getMaxSteps({ operations: newOperations })
+    const maxSteps = getOperationsSteps({ operations: newOperations })
     if (maxSteps > 0) {
       const nextChoice = createChoice({
         activeOperations: newOperations

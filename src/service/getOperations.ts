@@ -5,6 +5,7 @@ export default function getOperations ({ activeOperations }: {
   activeOperations: Operation[]
 }): Operation[] {
   const blocks = activeOperations.map(operation => operation.output)
+  blocks.sort((a, b) => b.length - a.length)
   const newOperations: Operation[] = []
   const pairsCount = Math.floor(blocks.length / 2)
   range(pairsCount).forEach(() => {

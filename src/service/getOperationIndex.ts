@@ -1,7 +1,7 @@
 import { Operation } from '../types'
-import getMaxSteps from './getMaxSteps'
+import getOperationsSteps from './getOperationsSteps'
 import getRandom from './getRandom'
-import getSteps from './getSteps'
+import getMaximumSteps from './getMaximumSteps'
 import range from './range'
 
 export default function getOperationIndex ({
@@ -9,14 +9,14 @@ export default function getOperationIndex ({
 }: {
   operations: Operation[]
 }): number {
-  const maxSteps = getMaxSteps({ operations })
+  const maxSteps = getOperationsSteps({ operations })
   if (maxSteps === 0) {
     throw new Error('All operations are complete.')
   }
   const indices = range(operations.length)
   const maximalIndices = indices.filter(index => {
     const operation = operations[index]
-    const steps = getSteps({ operation })
+    const steps = getMaximumSteps({ operation })
     return steps === maxSteps
   })
   return getRandom(maximalIndices)

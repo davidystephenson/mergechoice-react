@@ -27,5 +27,5 @@ export default function logOperations ({
       output: outputTitles
     }
   })
-  console.log(label, labeled)
+  console.debug(label, labeled)
 }

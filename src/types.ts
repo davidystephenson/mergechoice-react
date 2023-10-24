@@ -103,3 +103,7 @@ export interface RemovalFromOperations {
   emptiedOperationIndex: number
   operations: Operation[]
 }
+export interface StepsTotal {
+  maximum: number
+  minimum: number
+}

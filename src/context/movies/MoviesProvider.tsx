@@ -49,7 +49,6 @@ export default function MoviesProvider ({
       const newState = chooseOption({
         state: current, betterIndex
       })
-      console.log('newState', newState)
       storeState(newState)
       return newState
     })
@@ -72,7 +71,6 @@ export default function MoviesProvider ({
       newState.activeOperations = activeRemoval.operations
       newState.betterOperations = removeFromOperations({ itemId: id, operations: newState.betterOperations }).operations
       newState.worseOperations = removeFromOperations({ itemId: id, operations: newState.worseOperations }).operations
-      console.log('newOperationIds', newState.activeOperations)
       logOperations({
         label: 'newOperations',
         operations: newState.activeOperations,
