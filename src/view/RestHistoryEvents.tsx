@@ -1,6 +1,6 @@
 import useHistoryContext from '../context/history/useHistoryContext'
 import HistoryEventProvider from '../context/historyEvent/HistoryEventProvider'
-import HistoryEventView from './HistoryEvent'
+import HistoryEventEvents from './HistoryEventEvents'
 
 export default function RestHistoryEvents (): JSX.Element {
   const historyContextValue = useHistoryContext()
@@ -11,7 +11,7 @@ export default function RestHistoryEvents (): JSX.Element {
   const views = rest.map(historyEvent => {
     return (
       <HistoryEventProvider key={historyEvent.id} historyEvent={historyEvent}>
-        <HistoryEventView />
+        <HistoryEventEvents />
       </HistoryEventProvider>
     )
   })

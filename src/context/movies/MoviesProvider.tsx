@@ -1,5 +1,5 @@
 import { ReactNode, useState } from 'react'
-import { Movie, MoviesContextValue, HistoryEvent, State } from '../../types'
+import { Movie, MoviesContextValue, HistoryEvent, State, HistoryMovie } from '../../types'
 import moviesContext from './moviesContext'
 import getDefaultOptionIndex from '../../service/getDefaultOptionIndex'
 import getStorage from '../../service/getStorage'
@@ -11,6 +11,9 @@ import populate from '../../service/populate'
 import { STATE } from '../../constants'
 import chooseOption from '../../service/chooseOption'
 import createRandomChoice from '../../service/createRandomChoice'
+import yeast from 'yeast'
+import findById from '../../service/findById'
+import getPoints from '../../service/getPoints'
 
 export default function MoviesProvider ({
   children
@@ -52,6 +55,10 @@ export default function MoviesProvider ({
   }
   function removeMovie ({ id }: { id: string }): void {
     setState(current => {
+      const currentItems = [...current.activeItems, ...current.betterItems, ...current.worseItems, ...current.reserveItems]
+      const item = findById({ items: currentItems, id })
+      const currentpoints = getPoints({ item, state: current })
+      const historyItem: HistoryMovie = { ...item, points: currentpoints }
       const newState = clone(current)
       newState.activeItems = newState.activeItems.filter(item => item.id !== id)
       let emptiedOperationIndex = -1
@@ -91,6 +98,17 @@ export default function MoviesProvider ({
         operations: newState.activeOperations,
         items: newState.activeItems
       })
+
+      const removeEvent: HistoryEvent = {
+        createdAt: Date.now(),
+        remove: {
+          id,
+          item: historyItem
+        },
+        id: yeast(),
+        previousState: clone(current)
+      }
+      newState.history.unshift(removeEvent)
 
       const emptiedCurrentOperation = emptiedOperationIndex === newState.choice?.currentOperationIndex
       if (emptiedCurrentOperation) {

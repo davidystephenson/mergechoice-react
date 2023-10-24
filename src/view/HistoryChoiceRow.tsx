@@ -4,13 +4,16 @@ import useMovieContext from '../context/movie/useMovieContext'
 import useHistoryEventContext from '../context/historyEvent/useHistoryEventContext'
 import { CheckIcon, SmallCloseIcon } from '@chakra-ui/icons'
 
-export default function HistoryRowView (): JSX.Element {
+export default function HistoryChoiceRowView (): JSX.Element {
   const historyEventContextValue = useHistoryEventContext()
   const movieContextValue = useMovieContext()
-  const a = historyEventContextValue.aId === movieContextValue.id
-  const better = a ? historyEventContextValue.aBetter : !historyEventContextValue.aBetter
+  if (historyEventContextValue.choice == null) {
+    return <></>
+  }
+  const a = historyEventContextValue.choice.aId === movieContextValue.id
+  const better = a ? historyEventContextValue.choice.aBetter : !historyEventContextValue.choice.aBetter
   const betterStyles = better ? { fontWeight: 'bold' } : {}
-  const aScoreBetter = historyEventContextValue.aItem.score > historyEventContextValue.bItem.score
+  const aScoreBetter = historyEventContextValue.choice.aItem.score > historyEventContextValue.choice.bItem.score
   const upset = a ? better !== aScoreBetter : better === aScoreBetter
   const upsetItem = upset && better
   const upsetStyles = upsetItem ? { fontWeight: 'bold' } : {}

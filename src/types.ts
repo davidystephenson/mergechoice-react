@@ -34,15 +34,21 @@ export interface HistoryMovie extends Movie {
   points: number
 }
 export interface HistoryEvent {
-  aBetter: boolean
-  aId: string
-  aItem: HistoryMovie
-  bId: string
-  bItem: HistoryMovie
   createdAt: number
   id: string
+  choice?: {
+    aBetter: boolean
+    aId: string
+    aItem: HistoryMovie
+    bId: string
+    bItem: HistoryMovie
+    random: boolean
+  }
+  remove?: {
+    id: string
+    item: HistoryMovie
+  }
   previousState?: State
-  random: boolean
 }
 export interface State {
   activeItems: Movie[]

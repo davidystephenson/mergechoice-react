@@ -1,7 +1,7 @@
 import useHistoryContext from '../context/history/useHistoryContext'
 import HistoryEventProvider from '../context/historyEvent/HistoryEventProvider'
 import useMoviesContext from '../context/movies/useMoviesContext'
-import HistoryEventView from './HistoryEvent'
+import HistoryEventEvents from './HistoryEventEvents'
 
 export default function FirstHistoryEvent (): JSX.Element {
   const historyContextValue = useHistoryContext()
@@ -12,7 +12,7 @@ export default function FirstHistoryEvent (): JSX.Element {
   }
   return (
     <HistoryEventProvider historyEvent={historyContextValue.firstEvent}>
-      <HistoryEventView />
+      <HistoryEventEvents />
     </HistoryEventProvider>
   )
 }

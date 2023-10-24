@@ -1,4 +1,4 @@
-import { State } from '../types'
+import { HistoryEvent, State } from '../types'
 import applyChoice from './applyChoice'
 import findById from './findById'
 import getPoints from './getPoints'
@@ -35,16 +35,18 @@ export default function chooseOption ({
     ...bItem,
     points: newBPoints
   }
-  const newHistoryEvent = {
-    aBetter,
-    aId: aItem.id,
-    aItem: aRecord,
-    bId: bItem.id,
-    bItem: bRecord,
+  const newHistoryEvent: HistoryEvent = {
+    choice: {
+      aBetter,
+      aId: aItem.id,
+      aItem: aRecord,
+      bId: bItem.id,
+      bItem: bRecord,
+      random: state.choice.random
+    },
     createdAt: Date.now(),
     id: Math.random().toString(),
-    previousState: state,
-    random: state.choice.random
+    previousState: state
   }
   newState.history = [newHistoryEvent, ...newState.history]
   return newState
