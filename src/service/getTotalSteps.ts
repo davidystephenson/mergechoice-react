@@ -1,4 +1,4 @@
-import { Movie, Operation, StepsTotal } from '../types'
+import { Movie, Operation, CountRange } from '../types'
 import debugOperations from './debugOperations'
 import range from './range'
 
@@ -52,7 +52,7 @@ function getStructureSteps ({
   structure
 }: {
   structure: number[][]
-}): StepsTotal {
+}): CountRange {
   const blocksMax = structure.map(operation => Math.max(0, operation[0] + operation[1] - 1))
   const blocksMin = structure.map(operation => Math.min(operation[0], operation[1]))
   return {
@@ -64,7 +64,7 @@ function getStructureSteps ({
 export default function getTotalSteps ({ items, operations }: {
   items: Movie[]
   operations: Operation[]
-}): StepsTotal {
+}): CountRange {
   debugOperations({ label: 'getTotalSteps operations', operations, items })
   let maximum = 0
   let minimum = 0
