@@ -1,10 +1,11 @@
 import { ChangeEvent, useRef, useState } from 'react'
-import { Button } from '@chakra-ui/react'
+import { Button, HStack, Icon, Text } from '@chakra-ui/react'
 import Papa from 'papaparse'
 import useMoviesContext from '../context/movies/useMoviesContext'
 import { CritickerRow, Movie } from '../types'
 import { useHotkeys } from 'react-hotkeys-hook'
 import getShuffled from '../service/getShuffled'
+import { BsCloudUpload } from 'react-icons/bs'
 
 export default function ImportButtonView (): JSX.Element {
   const moviesContextValue = useMoviesContext()
@@ -37,7 +38,7 @@ export default function ImportButtonView (): JSX.Element {
       return movie
     })
     const selection = getShuffled(movies).slice(0, 5)
-    moviesContextValue.populateMovies({ movies: selection })
+    moviesContextValue.importMovies({ movies: selection })
     setInitializing(false)
   }
   function handleFileChange (e: ChangeEvent<HTMLInputElement>): void {
@@ -71,16 +72,16 @@ export default function ImportButtonView (): JSX.Element {
         size='xs'
         variant='solid'
       >
-        [i]mport
+        <HStack>
+          <Text>[i]mport</Text>
+          <Icon as={BsCloudUpload} />
+        </HStack>
       </Button>
       <input
         hidden
         type='file'
         ref={inputRef}
         onChange={handleFileChange}
-        // onInput={handleFileChange}
-        // onLoad={handleFileChange}
-        // onEnded={handleFileChange}
       />
     </>
   )

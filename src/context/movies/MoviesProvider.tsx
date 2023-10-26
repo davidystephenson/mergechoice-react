@@ -6,7 +6,6 @@ import getStorage from '../../service/getStorage'
 import clone from '../../service/clone'
 import createChoice from '../../service/createChoice'
 import setupChoice from '../../service/setupChoice'
-import logOperations from '../../service/logOperation'
 import populate from '../../service/populate'
 import { STATE } from '../../constants'
 import chooseOption from '../../service/chooseOption'
@@ -27,22 +26,36 @@ export default function MoviesProvider ({
     return getStorage({ key: 'state', defaultValue: STATE })
   })
   const [choosing] = useState(false)
-  function populateMovies ({ movies }: {
+  function importMovies ({ movies }: {
     movies: Movie[]
   }): void {
     const populatedState = populate({
       items: movies,
       state
     })
+    const historyEvent: HistoryEvent = {
+      createdAt: Date.now(),
+      import: {
+        items: movies
+      },
+      id: yeast(),
+      previousState: clone(state)
+    }
+    populatedState.history.unshift(historyEvent)
     setState(populatedState)
+    storeState(populatedState)
   }
   function storeState (newState: State): void {
-    state.history = state.history.map(event => {
+    const newHistory = state.history.map(event => {
       const newEvent = clone<HistoryEvent>(event)
       delete newEvent.previousState
       return newEvent
     })
-    localStorage.setItem('state', JSON.stringify(newState))
+    const historyState = {
+      ...newState,
+      history: newHistory
+    }
+    localStorage.setItem('state', JSON.stringify(historyState))
   }
   function choose ({ betterIndex }: {
     betterIndex: number
@@ -73,12 +86,6 @@ export default function MoviesProvider ({
       newState.activeOperations = activeRemoval.operations
       newState.betterOperations = removeFromOperations({ itemId: id, operations: newState.betterOperations }).operations
       newState.worseOperations = removeFromOperations({ itemId: id, operations: newState.worseOperations }).operations
-      logOperations({
-        label: 'newOperations',
-        operations: newState.activeOperations,
-        items: newState.activeItems
-      })
-
       const removeEvent: HistoryEvent = {
         createdAt: Date.now(),
         remove: {
@@ -180,7 +187,7 @@ export default function MoviesProvider ({
     maximumCount,
     minimumCount,
     movies: state.activeItems,
-    populateMovies,
+    importMovies,
     removeMovie,
     random,
     rewind,

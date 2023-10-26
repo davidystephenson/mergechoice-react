@@ -47,6 +47,9 @@ export interface HistoryEvent {
     id: string
     item: HistoryMovie
   }
+  import?: {
+    items: Movie[]
+  }
   previousState?: State
 }
 export interface State {
@@ -69,7 +72,7 @@ export interface MoviesContextValue extends State {
   maximumCount: number
   minimumCount: number
   movies: Movie[]
-  populateMovies: ({ movies }: { movies: Movie[] }) => void
+  importMovies: ({ movies }: { movies: Movie[] }) => void
   removeMovie: ({ id }: { id: string }) => void
   history: HistoryEvent[]
   random: boolean

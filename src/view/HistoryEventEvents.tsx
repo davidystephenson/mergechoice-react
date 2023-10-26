@@ -1,4 +1,5 @@
 import HistoryChoiceEventView from './HistoryChoiceEvent'
+import HistoryImportEventView from './HistoryImportEvent'
 import HistoryRemoveEventView from './HistoryRemoveEvent'
 
 export default function HistoryEventEvents (): JSX.Element {
@@ -6,6 +7,7 @@ export default function HistoryEventEvents (): JSX.Element {
     <>
       <HistoryChoiceEventView />
       <HistoryRemoveEventView />
+      <HistoryImportEventView />
     </>
   )
 }
