@@ -5,10 +5,10 @@ export default function getDefaultOptionIndex ({
   choice,
   items
 }: {
-  choice: Choice
+  choice: Choice | undefined
   items: Movie[]
 }): number | undefined {
-  if (choice.options.length === 0) {
+  if (choice == null || choice.options.length === 0) {
     return undefined
   }
   const choiceItems = choice.options.map(option => {

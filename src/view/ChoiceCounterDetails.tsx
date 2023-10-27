@@ -14,13 +14,13 @@ export default function ChoiceCounterDetailsView (): JSX.Element {
       </>
     )
   }
-  if (moviesContextValue.maximumCount === 1) {
+  if (moviesContextValue.choiceCount.maximum === 1) {
     return <>You have 1 more choice.</>
   }
   return (
     <>
-      <Text>You have at least {moviesContextValue.minimumCount} more choices.</Text>
-      <Text>You have at most {moviesContextValue.maximumCount} more choices.</Text>
+      <Text>You have at least {moviesContextValue.choiceCount.minimum} more choices.</Text>
+      <Text>You have at most {moviesContextValue.choiceCount.maximum} more choices.</Text>
     </>
   )
 }

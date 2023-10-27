@@ -64,19 +64,24 @@ export interface State {
   history: HistoryEvent[]
   finalized: boolean
 }
+export interface SortedItems {
+  active: Movie[]
+  better: Movie[]
+  reserve: Movie[]
+  worse: Movie[]
+}
 export interface MoviesContextValue extends State {
-  choose: ({ betterIndex }: { betterIndex: number }) => void
+  choiceCount: CountRange
+  choose: ({ betterIndex }: { betterIndex: number }) => Promise<void>
   choosing: boolean
-  createRandomMovieChoice: () => void
+  createRandomMovieChoice: () => Promise<void>
   defaultOptionIndex: number | undefined
-  maximumCount: number
-  minimumCount: number
-  movies: Movie[]
-  importMovies: ({ movies }: { movies: Movie[] }) => void
-  removeMovie: ({ id }: { id: string }) => void
+  importMovies: ({ movies }: { movies: Movie[] }) => Promise<void>
+  removeMovie: ({ id }: { id: string }) => Promise<void>
   history: HistoryEvent[]
   random: boolean
-  rewind: ({ historyEventId }: { historyEventId: string }) => void
+  rewind: ({ historyEventId }: { historyEventId: string }) => Promise<void>
+  sortedMovies: SortedItems
   state: State
 }
 export interface MovieContextValue extends Movie {

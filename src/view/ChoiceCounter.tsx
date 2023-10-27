@@ -7,7 +7,7 @@ import {
   PopoverTrigger
 } from '@chakra-ui/react'
 import ChoiceCounterLabelView from './ChoiceCounterLabel'
-import ChoiceCounterDetailsView from './ChoicedCounterDetails'
+import ChoiceCounterDetailsView from './ChoiceCounterDetails'
 
 export default function ChoiceCounterView (): JSX.Element {
   return (

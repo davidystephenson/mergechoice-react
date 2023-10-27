@@ -45,8 +45,8 @@ export default function getChoiceCount ({ state }: { state: State }): CountRange
       worsePostOperation
     ]
   })
-  const minimum = activeTotal.minimum + betterTotal.minimum + worseTotal.minimum + reserveTotal.minimum
   const maximum = activeTotal.maximum + betterTotal.maximum + worseTotal.maximum + reserveTotal.maximum
+  const minimum = activeTotal.minimum + betterTotal.minimum + worseTotal.minimum + reserveTotal.minimum
   return {
     maximum,
     minimum

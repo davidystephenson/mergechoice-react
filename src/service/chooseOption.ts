@@ -45,8 +45,8 @@ export default function chooseOption ({
       random: state.choice.random
     },
     createdAt: Date.now(),
-    id: Math.random().toString(),
-    previousState: state
+    id: Math.random().toString()
+    // previousState: state
   }
   newState.history = [newHistoryEvent, ...newState.history]
   return newState

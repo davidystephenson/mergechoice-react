@@ -14,11 +14,11 @@ export default function ImportButtonView (): JSX.Element {
   useHotkeys('i', () => {
     inputRef.current?.click()
   })
-  function parseCriticker ({
+  async function parseCriticker ({
     data
   }: {
     data: CritickerRow[]
-  }): void {
+  }): Promise<void> {
     const updatedAt = Date.now()
     const movies: Movie[] = data.map((row: CritickerRow) => {
       const date = new Date(row[' Date Rated'])
@@ -38,7 +38,7 @@ export default function ImportButtonView (): JSX.Element {
       return movie
     })
     const selection = getShuffled(movies).slice(0, 5)
-    moviesContextValue.importMovies({ movies: selection })
+    await moviesContextValue.importMovies({ movies: selection })
     setInitializing(false)
   }
   function handleFileChange (e: ChangeEvent<HTMLInputElement>): void {
@@ -53,7 +53,9 @@ export default function ImportButtonView (): JSX.Element {
     Papa.parse<CritickerRow>(file, {
       header: true,
       skipEmptyLines: true,
-      complete: parseCriticker
+      complete: ({ data }) => {
+        void parseCriticker({ data })
+      }
     })
     if (inputRef.current == null) {
       throw new Error('There is no inputRef.')

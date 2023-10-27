@@ -52,6 +52,7 @@ export default function MoviesView (): JSX.Element {
         </OptionProvider>
       </HStack>
       <DeferView />
+      <Heading>Choosing: {Number(moviesContextValue.choosing)}</Heading>
       <Table size='sm'>
         <Tbody>
           <HistoryProvider>
