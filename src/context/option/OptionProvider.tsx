@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import optionContext from './optionContext'
 import { OptionContextValue } from '../../types'
 import useMoviesContext from '../movies/useMoviesContext'
-import findByOption from '../../service/findByOption'
+import findByOption from '../../service/mergeChoice/findByOption'
 
 export default function OptionProvider ({
   children,

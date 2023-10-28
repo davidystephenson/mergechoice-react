@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import { Movie, MovieContextValue } from '../../types'
 import movieContext from './movieContext'
 import useMoviesContext from '../movies/useMoviesContext'
-import getPoints from '../../service/getPoints'
+import getPoints from '../../service/mergeChoice/getPoints'
 
 export default function MovieProvider ({ children, movie, points }: {
   children: ReactNode
@@ -18,11 +18,11 @@ export default function MovieProvider ({ children, movie, points }: {
     window.open(url, '_blank')
   }
   const label = `${movie.title} (${movie.year})`
-  function remove (): void {
+  async function remove (): Promise<void> {
     if (movie == null) {
       throw new Error('There is no movie.')
     }
-    moviesContextValue.removeMovie({ id: movie.id })
+    await moviesContextValue.removeMovie({ id: movie.id })
   }
   const moviePoints = points ?? getPoints({
     item: movie,

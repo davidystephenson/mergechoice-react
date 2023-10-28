@@ -7,6 +7,10 @@ export interface CritickerRow {
   ' IMDB ID': string
   Score: string
 }
+export interface Item {
+  id: string
+  score: number
+}
 export interface Movie {
   id: string
   score: number
@@ -88,7 +92,7 @@ export interface MovieContextValue extends Movie {
   label: string
   open: () => void
   points: number
-  remove: () => void
+  remove: () => Promise<void>
   url: string
 }
 export interface OptionContextValue {

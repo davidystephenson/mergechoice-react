@@ -9,7 +9,7 @@ export default function MovieRow ({ cellProps, endAdornment, ...restProps }: {
 } & TableRowProps): JSX.Element {
   const movieContextValue = useMovieContext()
   function handleDelete (): void {
-    movieContextValue.remove()
+    void movieContextValue.remove()
   }
   const end = endAdornment ?? (
     <IconButton
