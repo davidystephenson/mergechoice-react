@@ -24,7 +24,7 @@ export default function populate ({ items, state }: {
     }
     return true
   })
-  if (state.betterItems.length === 0 && state.worseItems.length === 0 && state.choice?.random !== true) {
+  if (state.finalized || (state.betterItems.length === 0 && state.worseItems.length === 0 && state.choice?.random !== true)) {
     const newState = clone(STATE)
     newState.history = state.history
     newState.activeItems = newItems
