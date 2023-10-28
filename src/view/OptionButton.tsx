@@ -15,16 +15,16 @@ export default function OptionButtonView ({
   const movieContextValue = useMovieContext()
   const optionContextValue = useOptionContext()
   function handleClick (): void {
-    optionContextValue.choose()
+    void optionContextValue.choose()
   }
   useHotkeys(optionContextValue.chooseHotkey, () => {
-    optionContextValue.choose()
+    void optionContextValue.choose()
   })
   const content = children ?? (
     <>
       [{optionContextValue.chooseHotkey}]
       {' '}
-      {movieContextValue.title}
+      {movieContextValue.name}
       {' '}
       ({movieContextValue.year})
     </>

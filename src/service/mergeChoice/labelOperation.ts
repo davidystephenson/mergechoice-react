@@ -1,26 +1,26 @@
-import { Movie, Operation } from '../../types'
 import findById from './findById'
+import { Item, Operation } from './types'
 
-export default function labelOperation ({
+export default function labelOperation <ListItem extends Item> ({
   items,
   operation
 }: {
-  items: Movie[]
+  items: ListItem[]
   operation: Operation
 }): Operation {
   const input1Items = operation.input[0].map(id => findById({
     id, items
   }))
-  const input1Titles = input1Items.map(item => item.title)
+  const input1Names = input1Items.map(item => item.name)
   const input2Items = operation.input[1].map(id => findById({
     id, items
   }))
-  const input2Titles = input2Items.map(item => item.title)
-  const outputTitles = operation.output.map(id => findById({
+  const input2Names = input2Items.map(item => item.name)
+  const outputNames = operation.output.map(id => findById({
     id, items
-  }).title)
+  }).name)
   return {
-    input: [input1Titles, input2Titles],
-    output: outputTitles
+    input: [input1Names, input2Names],
+    output: outputNames
   }
 }

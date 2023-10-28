@@ -1,21 +1,21 @@
 import yeast from 'yeast'
-import { HistoryEvent, Movie, State } from '../../types'
 import clone from './clone'
 import populate from './populate'
+import { Item, State, HistoryEvent } from './types'
 
-export default function importItems ({
+export default function importItems <ListItem extends Item> ({
   items,
   state
 }: {
-  items: Movie[]
-  state: State
-}): State {
+  items: ListItem[]
+  state: State<ListItem>
+}): State<ListItem> {
   const previousState = clone(state)
   const populatedState = populate({
     items,
     state
   })
-  const historyEvent: HistoryEvent = {
+  const historyEvent: HistoryEvent<ListItem> = {
     createdAt: Date.now(),
     id: yeast(),
     import: {

@@ -1,19 +1,20 @@
-import { Choice, Movie } from '../../types'
-import findById from './findById'
+import { Movie } from '../../types'
+import findById from '../mergeChoice/findById'
+import { Choice } from '../mergeChoice/types'
 
 export default function getDefaultOptionIndex ({
   choice,
-  items
+  movies
 }: {
   choice: Choice | undefined
-  items: Movie[]
+  movies: Movie[]
 }): number | undefined {
   if (choice == null || choice.options.length === 0) {
     return undefined
   }
   const choiceItems = choice.options.map(option => {
     return findById({
-      items,
+      items: movies,
       id: option
     })
   })

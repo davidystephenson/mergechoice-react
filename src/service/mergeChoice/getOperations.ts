@@ -1,5 +1,5 @@
-import { Operation } from '../../types'
 import range from './range'
+import { Operation } from './types'
 
 export default function getOperations ({ activeOperations }: {
   activeOperations: Operation[]

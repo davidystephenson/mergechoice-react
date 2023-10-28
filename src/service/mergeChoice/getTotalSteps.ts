@@ -1,6 +1,7 @@
-import { Movie, Operation, CountRange } from '../../types'
-import debugOperations from './debugOperations'
 import range from './range'
+import { Operation, CountRange } from './types'
+
+// TODO abstract
 
 function sum (x: number[]): number {
   let total = 0
@@ -61,11 +62,9 @@ function getStructureSteps ({
   }
 }
 
-export default function getTotalSteps ({ items, operations }: {
-  items: Movie[]
+export default function getTotalSteps ({ operations }: {
   operations: Operation[]
 }): CountRange {
-  debugOperations({ label: 'getTotalSteps operations', operations, items })
   let maximum = 0
   let minimum = 0
   let structure = getStructure({ operations })

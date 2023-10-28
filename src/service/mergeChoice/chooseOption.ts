@@ -1,15 +1,15 @@
-import { HistoryEvent, State } from '../../types'
 import applyChoice from './applyChoice'
 import findById from './findById'
 import getPoints from './getPoints'
+import { Item, State, HistoryEvent, Calculated } from './types'
 
-export default function chooseOption ({
+export default function chooseOption <ListItem extends Item> ({
   state,
   betterIndex
 }: {
-  state: State
+  state: State<ListItem>
   betterIndex: number
-}): State {
+}): State<ListItem> {
   if (state.choice == null) {
     throw new Error('There is no choice.')
   }
@@ -26,22 +26,22 @@ export default function chooseOption ({
     state
   })
   const newAPoints = getPoints({ item: aItem, state: newState })
-  const aRecord = {
+  const calculatedA: Calculated<ListItem> = {
     ...aItem,
     points: newAPoints
   }
   const newBPoints = getPoints({ item: bItem, state: newState })
-  const bRecord = {
+  const calculatedB: Calculated<ListItem> = {
     ...bItem,
     points: newBPoints
   }
-  const newHistoryEvent: HistoryEvent = {
+  const newHistoryEvent: HistoryEvent<ListItem> = {
     choice: {
       aBetter,
       aId: aItem.id,
-      aItem: aRecord,
+      aItem: calculatedA,
       bId: bItem.id,
-      bItem: bRecord,
+      bItem: calculatedB,
       random: state.choice.random
     },
     createdAt: Date.now(),

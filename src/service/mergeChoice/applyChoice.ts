@@ -1,11 +1,11 @@
-import { Movie, State } from '../../types'
 import clone from './clone'
 import findById from './findById'
 import getPoints from './getPoints'
 import setupChoice from './setupChoice'
 import applyRandomChoice from './applyRandomChoice'
+import { Item, State } from './types'
 
-export default function applyChoice ({
+export default function applyChoice <ListItem extends Item> ({
   aBetter,
   aItem,
   betterIndex,
@@ -13,11 +13,11 @@ export default function applyChoice ({
   state
 }: {
   aBetter: boolean
-  aItem: Movie
+  aItem: ListItem
   betterIndex: number
-  bItem: Movie
-  state: State
-}): State {
+  bItem: ListItem
+  state: State<ListItem>
+}): State<ListItem> {
   if (state.choice == null) {
     throw new Error('There is no choice.')
   }

@@ -1,11 +1,11 @@
-import { State } from '../../types'
 import createChoice from './createChoice'
 import getOperationsSteps from './getOperationsSteps'
 import getOperations from './getOperations'
 import populate from './populate'
 import sortItems from './sortItems'
+import { Item, State } from './types'
 
-export default function setupChoice (state: State): State {
+export default function setupChoice <ListItem extends Item> (state: State<ListItem>): State<ListItem> {
   const maxSteps = getOperationsSteps({ operations: state.activeOperations })
   if (maxSteps > 0) {
     const newChoice = createChoice(state)
@@ -50,7 +50,7 @@ export default function setupChoice (state: State): State {
         input: [[], []],
         output: combinedItems.map(item => item.id)
       }]
-      const combinedState: State = {
+      const combinedState: State<ListItem> = {
         ...state,
         activeItems: combinedItems,
         betterItems: [],

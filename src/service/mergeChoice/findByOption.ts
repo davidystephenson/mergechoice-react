@@ -1,7 +1,7 @@
-import { Choice, Movie } from '../../types'
 import findById from './findById'
+import { Choice, Item } from './types'
 
-export default function findByOption ({
+export default function findByOption <ListItem extends Item> ({
   choice,
   finalized,
   items,
@@ -9,9 +9,9 @@ export default function findByOption ({
 }: {
   choice: Choice
   finalized: boolean
-  items: Movie[]
+  items: ListItem[]
   optionIndex: number
-}): Movie | undefined {
+}): ListItem | undefined {
   if (finalized) {
     return undefined
   }

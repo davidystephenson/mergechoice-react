@@ -1,6 +1,6 @@
-import { Operation, Choice } from '../../types'
 import getOperationIndex from './getOperationIndex'
 import getRandom from './getRandom'
+import { Operation, Choice } from './types'
 
 export default function createChoice ({
   activeOperations

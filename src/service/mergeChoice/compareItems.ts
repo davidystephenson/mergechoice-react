@@ -1,29 +1,19 @@
-import { Movie, State } from '../../types'
 import getPoints from './getPoints'
+import { Item, State } from './types'
 
-export default function compareItems ({
+export default function compareItems <ListItem extends Item> ({
   a,
   b,
   state,
   worseFirst = false
 }: {
-  a: Movie
-  b: Movie
-  state: State
+  a: ListItem
+  b: ListItem
+  state: State<ListItem>
   worseFirst?: boolean
 }): number {
   const aPoints = getPoints({ item: a, state })
   const bPoints = getPoints({ item: b, state })
-  if (aPoints === bPoints) {
-    // compare Date objects
-    if (a.updatedAt === b.updatedAt) {
-      if (b.score === a.score) {
-        return b.title.localeCompare(a.title) * -1
-      }
-      return b.score - a.score
-    }
-    return b.updatedAt - a.updatedAt
-  }
   if (worseFirst) {
     return aPoints - bPoints
   }

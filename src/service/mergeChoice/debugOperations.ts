@@ -1,9 +1,9 @@
-import { Movie, Operation } from '../../types'
 import labelOperation from './labelOperation'
+import { Item, Operation } from './types'
 
-export default function debugOperations ({ label, items, operations }: {
+export default function debugOperations <ListItem extends Item> ({ label, items, operations }: {
   label: string
-  items: Movie[]
+  items: ListItem[]
   operations: Operation[]
 }): void {
   const labeled = operations.map(operation => labelOperation({ items, operation }))

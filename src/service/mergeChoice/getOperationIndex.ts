@@ -1,8 +1,8 @@
-import { Operation } from '../../types'
 import getOperationsSteps from './getOperationsSteps'
 import getRandom from './getRandom'
 import getMaximumSteps from './getMaximumSteps'
 import range from './range'
+import { Operation } from './types'
 
 export default function getOperationIndex ({
   operations

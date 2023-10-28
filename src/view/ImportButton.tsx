@@ -30,7 +30,7 @@ export default function ImportButtonView (): JSX.Element {
         imdbId: row[' IMDB ID'],
         review: row[' Mini Review'],
         score,
-        title: row[' Film Name'],
+        name: row[' Film Name'],
         year,
         updatedAt,
         url: row[' URL']

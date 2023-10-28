@@ -1,9 +1,9 @@
-import { Movie, Operation, State } from '../../types'
 import createChoice from './createChoice'
 import getOperations from './getOperations'
 import getPoints from './getPoints'
+import { Item, State, Operation } from './types'
 
-export default function applyRandomChoice ({
+export default function applyRandomChoice <ListItem extends Item> ({
   aBetter,
   aItem,
   aPoints,
@@ -12,12 +12,12 @@ export default function applyRandomChoice ({
   state
 }: {
   aBetter: boolean
-  aItem: Movie
+  aItem: ListItem
   aPoints: number
-  bItem: Movie
+  bItem: ListItem
   bPoints: number
-  state: State
-}): State {
+  state: State<ListItem>
+}): State<ListItem> {
   const chosenItem = aBetter ? aItem : bItem
   const unchosenItem = aBetter ? bItem : aItem
   const chosenPoints = aBetter ? aPoints : bPoints
@@ -68,7 +68,7 @@ export default function applyRandomChoice ({
     input: [[], []],
     output: worseItems.map(item => item.id)
   }
-  const newState: State = {
+  const newState: State<ListItem> = {
     ...state,
     betterItems,
     worseItems,

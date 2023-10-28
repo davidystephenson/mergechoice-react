@@ -1,18 +1,15 @@
-import { CountRange, State } from '../../types'
 import getOperations from './getOperations'
 import getTotalSteps from './getTotalSteps'
+import { Item, State, CountRange } from './types'
 
-export default function getChoiceCount ({ state }: { state: State }): CountRange {
+export default function getChoiceCount <ListItem extends Item> ({ state }: { state: State<ListItem> }): CountRange {
   const activeTotal = getTotalSteps({
-    items: state.activeItems,
     operations: state.activeOperations
   })
   const betterTotal = getTotalSteps({
-    items: state.betterItems,
     operations: state.betterOperations
   })
   const worseTotal = getTotalSteps({
-    items: state.worseItems,
     operations: state.worseOperations
   })
   const reserveOperations = state.reserveItems.map(item => {
@@ -37,7 +34,6 @@ export default function getChoiceCount ({ state }: { state: State }): CountRange
     output: state.worseItems.map(item => item.id)
   }
   const reserveTotal = getTotalSteps({
-    items: [...state.activeItems, ...state.betterItems, ...state.reserveItems, ...state.worseItems],
     operations: [
       ...newReserveOperations,
       activePostOperation,

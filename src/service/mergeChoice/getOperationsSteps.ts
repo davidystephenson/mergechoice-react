@@ -1,5 +1,5 @@
-import { Operation } from '../../types'
 import getMaximumSteps from './getMaximumSteps'
+import { Operation } from './types'
 
 export default function getOperationsSteps ({ operations }: {
   operations: Operation[]

@@ -1,9 +1,9 @@
-import { Movie } from '../../types'
 import findById from './findById'
+import { Item } from './types'
 
-export default function findLabelById ({ id, items }: {
+export default function findLabelById <ListItem extends Item> ({ id, items }: {
   id: string
-  items: Movie[]
+  items: ListItem[]
 }): string {
-  return findById({ items, id }).title
+  return findById({ items, id }).name
 }

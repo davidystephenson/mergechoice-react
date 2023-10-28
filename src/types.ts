@@ -1,3 +1,5 @@
+import { Calculated, CountRange, HistoryEvent, Item, State } from './service/mergeChoice/types'
+
 export interface CritickerRow {
   ' Date Rated': string
   ' Film Name': string
@@ -7,74 +9,22 @@ export interface CritickerRow {
   ' IMDB ID': string
   Score: string
 }
-export interface Item {
-  id: string
+export interface Movie extends Item {
   score: number
-}
-export interface Movie {
-  id: string
-  score: number
-  title: string
   date: Date
   imdbId: string
   review: string
-  updatedAt: number
   url: string
   year: number
 }
-export interface Operation {
-  input: string[][]
-  output: string[]
-}
-export interface Choice {
-  options: string[]
-  currentOperationIndex: number
-  aIndex: number
-  bIndex: number
-  random: boolean
-}
-export interface HistoryMovie extends Movie {
-  points: number
-}
-export interface HistoryEvent {
-  createdAt: number
-  id: string
-  choice?: {
-    aBetter: boolean
-    aId: string
-    aItem: HistoryMovie
-    bId: string
-    bItem: HistoryMovie
-    random: boolean
-  }
-  remove?: {
-    id: string
-    item: HistoryMovie
-  }
-  import?: {
-    items: Movie[]
-  }
-  previousState?: State
-}
-export interface State {
-  activeItems: Movie[]
-  betterItems: Movie[]
-  worseItems: Movie[]
-  reserveItems: Movie[]
-  activeOperations: Operation[]
-  betterOperations: Operation[]
-  worseOperations: Operation[]
-  choice?: Choice
-  history: HistoryEvent[]
-  finalized: boolean
-}
-export interface SortedItems {
+export type CalculatedMovie = Calculated<Movie>
+export interface SortedMovies {
   active: Movie[]
   better: Movie[]
   reserve: Movie[]
   worse: Movie[]
 }
-export interface MoviesContextValue extends State {
+export interface MoviesContextValue extends State<Movie> {
   choiceCount: CountRange
   choose: ({ betterIndex }: { betterIndex: number }) => Promise<void>
   choosing: boolean
@@ -82,11 +32,11 @@ export interface MoviesContextValue extends State {
   defaultOptionIndex: number | undefined
   importMovies: ({ movies }: { movies: Movie[] }) => Promise<void>
   removeMovie: ({ id }: { id: string }) => Promise<void>
-  history: HistoryEvent[]
+  history: Array<HistoryEvent<Movie>>
   random: boolean
   rewind: ({ historyEventId }: { historyEventId: string }) => Promise<void>
-  sortedMovies: SortedItems
-  state: State
+  sortedMovies: SortedMovies
+  state: State<Movie>
 }
 export interface MovieContextValue extends Movie {
   label: string
@@ -103,22 +53,14 @@ export interface OptionContextValue {
   openHotkey?: string
 }
 export interface HistoryContextValue {
-  events: HistoryEvent[]
+  events: Array<HistoryEvent<Movie>>
   expanded: boolean
-  firstEvent: HistoryEvent | undefined
+  firstEvent: HistoryEvent<Movie> | undefined
   isSingle: boolean
-  restEvents: HistoryEvent[]
+  restEvents: Array<HistoryEvent<Movie>>
   toggleExpanded: () => void
 }
-export interface HistoryEventContextValue extends HistoryEvent {
-  rewind: () => void
+export interface HistoryEventContextValue extends HistoryEvent<Movie> {
+  rewind: () => Promise<void>
   timestamp: string
-}
-export interface RemovalFromOperations {
-  emptiedOperationIndex: number
-  operations: Operation[]
-}
-export interface CountRange {
-  maximum: number
-  minimum: number
 }

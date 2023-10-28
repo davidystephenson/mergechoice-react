@@ -1,4 +1,4 @@
-import { Operation } from '../../types'
+import { Operation } from './types'
 
 export default function getPointsFromOperations ({
   itemId,

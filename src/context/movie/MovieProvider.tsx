@@ -17,7 +17,7 @@ export default function MovieProvider ({ children, movie, points }: {
   function open (): void {
     window.open(url, '_blank')
   }
-  const label = `${movie.title} (${movie.year})`
+  const label = `${movie.name} (${movie.year})`
   async function remove (): Promise<void> {
     if (movie == null) {
       throw new Error('There is no movie.')

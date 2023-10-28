@@ -1,7 +1,7 @@
 import { ReactNode, useState } from 'react'
-import { Movie, MoviesContextValue, HistoryEvent, State, SortedItems } from '../../types'
+import { Movie, MoviesContextValue, SortedMovies } from '../../types'
 import moviesContext from './moviesContext'
-import getDefaultOptionIndex from '../../service/mergeChoice/getDefaultOptionIndex'
+import getDefaultOptionIndex from '../../service/movies/getDefaultOptionIndex'
 import getStorage from '../../service/mergeChoice/getStorage'
 import clone from '../../service/mergeChoice/clone'
 import { STATE } from '../../constants'
@@ -11,25 +11,26 @@ import removeItem from '../../service/mergeChoice/removeItem'
 import importItems from '../../service/mergeChoice/importItems'
 import rewindState from '../../service/mergeChoice/rewindState'
 import getChoiceCount from '../../service/mergeChoice/getChoiceCount'
-import getSortedItems from '../../service/mergeChoice/getSortedItems'
+import getSortedMovies from '../../service/movies/getSortedMovies'
+import { State, HistoryEvent } from '../../service/mergeChoice/types'
 
 export default function MoviesProvider ({
   children
 }: {
   children: ReactNode
 }): JSX.Element {
-  const [state, setState] = useState(() => {
+  const [state, setState] = useState<State<Movie>>(() => {
     return getStorage({ key: 'state', defaultValue: STATE })
   })
-  const [sortedMovies, setSortedMovies] = useState<SortedItems>(() => {
-    const sortedMovies = getSortedItems({ state })
+  const [sortedMovies, setSortedMovies] = useState<SortedMovies>(() => {
+    const sortedMovies = getSortedMovies({ state })
     return sortedMovies
   })
   const [choosing, setChoosing] = useState(false)
   console.log('choosing', choosing)
-  function storeState (newState: State): void {
+  function storeState (newState: State<Movie>): void {
     const newHistory = state.history.map(event => {
-      const newEvent = clone<HistoryEvent>(event)
+      const newEvent = clone<HistoryEvent<Movie>>(event)
       delete newEvent.previousState
       return newEvent
     })
@@ -39,14 +40,14 @@ export default function MoviesProvider ({
     }
     localStorage.setItem('state', JSON.stringify(historyState))
   }
-  async function updateState (callback: (current: State) => Promise<State>): Promise<void> {
+  async function updateState (callback: (current: State<Movie>) => Promise<State<Movie>>): Promise<void> {
     console.log('updateState')
     console.time('newState')
     const newState = await callback(state)
     console.log('newState', newState)
     console.timeEnd('newState')
     console.time('sortedMovies')
-    const sortedMovies = getSortedItems({ state: newState })
+    const sortedMovies = getSortedMovies({ state: newState })
     console.log('sortedMovies', sortedMovies)
     console.timeEnd('sortedMovies')
     setSortedMovies(sortedMovies)
@@ -93,7 +94,7 @@ export default function MoviesProvider ({
     })
   }
   const defaultOptionIndex = getDefaultOptionIndex({
-    items: state.activeItems,
+    movies: state.activeItems,
     choice: state.choice
   })
   const choiceCount = getChoiceCount({ state })

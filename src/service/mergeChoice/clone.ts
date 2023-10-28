@@ -1,3 +1,5 @@
+// todo disuse
+
 export default function clone<Serializable> (
   x: Serializable
 ): Serializable {

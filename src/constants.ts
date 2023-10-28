@@ -1,6 +1,4 @@
-import { State } from './types'
-
-export const STATE: State = {
+export const STATE = {
   activeItems: [],
   activeOperations: [],
   choice: {

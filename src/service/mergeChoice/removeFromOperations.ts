@@ -1,5 +1,5 @@
-import { Operation, RemovalFromOperations } from '../../types'
 import clone from './clone'
+import { Operation, RemovalFromOperations } from './types'
 
 export default function removeFromOperations ({
   itemId,

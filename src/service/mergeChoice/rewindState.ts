@@ -1,12 +1,12 @@
-import { State } from '../../types'
+import { Item, State } from './types'
 
-export default function rewindState ({
+export default function rewindState <ListItem extends Item> ({
   historyEventId,
   state
 }: {
   historyEventId: string
-  state: State
-}): State {
+  state: State<ListItem>
+}): State<ListItem> {
   const historyEvent = state.history.find(event => event.id === historyEventId)
   if (historyEvent == null) {
     const message = `There is no history event with id ${historyEventId}.`

@@ -1,11 +1,11 @@
-import { State, Choice } from '../../types'
 import getShuffled from './getShuffled'
+import { Item, State, Choice } from './types'
 
-export default function createRandomChoice ({
+export default function createRandomChoice <ListItem extends Item> ({
   state
 }: {
-  state: State
-}): State {
+  state: State<ListItem>
+}): State<ListItem> {
   const shuffledActiveItems = getShuffled(state.activeItems)
   const [first, second] = shuffledActiveItems
   const newChoice: Choice = {

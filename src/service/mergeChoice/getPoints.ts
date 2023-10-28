@@ -1,12 +1,12 @@
-import { Movie, State } from '../../types'
 import getPointsFromOperations from './getPointsFromOperations'
+import { Item, State } from './types'
 
-export default function getPoints ({
+export default function getPoints <ListItem extends Item> ({
   item,
   state
 }: {
-  item: Movie
-  state: State
+  item: ListItem
+  state: State<ListItem>
 }): number {
   const betterItem = state.betterItems.some(betterItem => betterItem.id === item.id)
   if (betterItem) {

@@ -1,9 +1,9 @@
-import { Choice, Movie } from '../../types'
 import findLabelById from './findLabelById'
+import { Choice, Item } from './types'
 
-export default function logChoice ({ choice, items }: {
+export default function debugChoice <ListItem extends Item> ({ choice, items }: {
   choice: Choice
-  items: Movie[]
+  items: ListItem[]
 }): void {
   const choiceLabels = choice.options.map(id => {
     return findLabelById({ items, id })
