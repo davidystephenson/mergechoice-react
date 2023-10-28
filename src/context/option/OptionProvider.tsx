@@ -28,11 +28,11 @@ export default function OptionProvider ({
     items: moviesContextValue.activeItems,
     optionIndex
   })
-  function choose (): void {
+  async function choose (): Promise<void> {
     if (optionIndex == null) {
       throw new Error('optionIndex is null')
     }
-    moviesContextValue.choose({ betterIndex: optionIndex })
+    await moviesContextValue.choose({ betterIndex: optionIndex })
   }
   if (movie == null) {
     return <></>

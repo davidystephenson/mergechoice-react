@@ -92,7 +92,7 @@ export interface MovieContextValue extends Movie {
   url: string
 }
 export interface OptionContextValue {
-  choose: () => void
+  choose: () => Promise<void>
   chooseHotkey: string
   movie: Movie
   optionIndex: number
