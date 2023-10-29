@@ -1,19 +1,17 @@
 import { forwardRef } from 'react'
 import MovieProvider from '../context/movie/MovieProvider'
-import { Movie } from '../types'
+import { TableItem } from '../types'
 import MovieRow from './MovieRow'
 import { TableComponents, TableVirtuoso } from 'react-virtuoso'
 import { Table, TableContainer, Tbody, Thead, Tr } from '@chakra-ui/react'
+import useTableItems from '../service/movies/useTableItems'
 
-export default function MovieRows ({
-  movies
-}: {
-  movies: Movie[]
-}): JSX.Element {
+export default function MovieRows (): JSX.Element {
+  const tableItems = useTableItems()
   const Scroller: TableComponents['Scroller'] = forwardRef((props, ref) => {
     return <TableContainer {...props} whiteSpace='normal' ref={ref} />
   })
-  const TableComponents: TableComponents<Movie> = {
+  const TableComponents: TableComponents<TableItem> = {
     Scroller,
     Table: (props) => <Table {...props} size='sm' />,
     TableHead: Thead,
@@ -23,15 +21,16 @@ export default function MovieRows ({
   return (
     <TableVirtuoso
       components={TableComponents}
-      data={movies}
+      data={tableItems}
       useWindowScroll
-      itemContent={(_, movie) => {
-        // console.log('movie', movie)
-        return (
-          <MovieProvider movie={movie}>
-            <MovieRow />
-          </MovieProvider>
-        )
+      itemContent={(_, tableItem) => {
+        if (tableItem.list != null) {
+          return (
+            <MovieProvider movie={tableItem.list.movie}>
+              <MovieRow />
+            </MovieProvider>
+          )
+        }
       }}
     />
   )

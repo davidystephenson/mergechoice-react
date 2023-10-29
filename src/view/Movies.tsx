@@ -71,14 +71,7 @@ export default function MoviesView (): JSX.Element {
         </Table>
 
       </VStack>
-      <Text>Better</Text>
-      <MovieRows movies={moviesContextValue.betterItems} />
-      <Text>Active</Text>
-      <MovieRows movies={moviesContextValue.activeItems} />
-      <Text>Worse</Text>
-      <MovieRows movies={moviesContextValue.worseItems} />
-      <Text>Reserve</Text>
-      <MovieRows movies={moviesContextValue.reserveItems} />
+      <MovieRows />
     </>
   )
 }

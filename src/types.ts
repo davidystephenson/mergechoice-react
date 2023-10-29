@@ -18,11 +18,11 @@ export interface Movie extends Item {
   year: number
 }
 export type CalculatedMovie = Calculated<Movie>
-export interface SortedMovies {
-  active: Movie[]
-  better: Movie[]
-  reserve: Movie[]
-  worse: Movie[]
+export interface ListTableItem {
+  movie: Movie
+}
+export interface TableItem {
+  list?: ListTableItem
 }
 export interface MoviesContextValue extends State<Movie> {
   choiceCount: CountRange
@@ -35,7 +35,7 @@ export interface MoviesContextValue extends State<Movie> {
   history: Array<HistoryEvent<Movie>>
   random: boolean
   rewind: ({ historyEventId }: { historyEventId: string }) => Promise<void>
-  sortedMovies: SortedMovies
+  sortedMovies: Movie[]
   state: State<Movie>
 }
 export interface MovieContextValue extends Movie {

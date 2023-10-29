@@ -1,5 +1,5 @@
 import { ReactNode, useState } from 'react'
-import { Movie, MoviesContextValue, SortedMovies } from '../../types'
+import { Movie, MoviesContextValue } from '../../types'
 import moviesContext from './moviesContext'
 import getDefaultOptionIndex from '../../service/movies/getDefaultOptionIndex'
 import getStorage from '../../service/mergeChoice/getStorage'
@@ -22,12 +22,17 @@ export default function MoviesProvider ({
   const [state, setState] = useState<State<Movie>>(() => {
     return getStorage({ key: 'state', defaultValue: STATE })
   })
-  const [sortedMovies, setSortedMovies] = useState<SortedMovies>(() => {
+  const [sortedMovies, setSortedMovies] = useState(() => {
     const sortedMovies = getSortedMovies({ state })
     return sortedMovies
   })
   const [choosing, setChoosing] = useState(false)
-  console.log('choosing', choosing)
+  const defaultOptionIndex = getDefaultOptionIndex({
+    movies: state.activeItems,
+    choice: state.choice
+  })
+  const choiceCount = getChoiceCount({ state })
+  const random = state.choice?.random === true
   function storeState (newState: State<Movie>): void {
     const newHistory = state.history.map(event => {
       const newEvent = clone<HistoryEvent<Movie>>(event)
@@ -41,20 +46,12 @@ export default function MoviesProvider ({
     localStorage.setItem('state', JSON.stringify(historyState))
   }
   async function updateState (callback: (current: State<Movie>) => Promise<State<Movie>>): Promise<void> {
-    console.log('updateState')
-    console.time('newState')
     const newState = await callback(state)
-    console.log('newState', newState)
-    console.timeEnd('newState')
-    console.time('sortedMovies')
     const sortedMovies = getSortedMovies({ state: newState })
-    console.log('sortedMovies', sortedMovies)
-    console.timeEnd('sortedMovies')
     setSortedMovies(sortedMovies)
     storeState(newState)
     setState(newState)
   }
-
   async function importMovies ({ movies }: {
     movies: Movie[]
   }): Promise<void> {
@@ -93,12 +90,6 @@ export default function MoviesProvider ({
       return newState
     })
   }
-  const defaultOptionIndex = getDefaultOptionIndex({
-    movies: state.activeItems,
-    choice: state.choice
-  })
-  const choiceCount = getChoiceCount({ state })
-  const random = state.choice?.random === true
   const value: MoviesContextValue = {
     ...state,
     choose,
