@@ -67,11 +67,11 @@ export default function MoviesProvider ({
     betterIndex: number
   }): Promise<void> {
     setChoosing(true)
-    await updateState(async current => {
+    void updateState(async current => {
       const newState = chooseOption({ state: current, betterIndex })
+      setChoosing(false)
       return newState
     })
-    setChoosing(false)
   }
   async function removeMovie ({ id }: { id: string }): Promise<void> {
     await updateState(async current => {

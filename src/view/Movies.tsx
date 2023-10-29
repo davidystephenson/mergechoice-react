@@ -28,60 +28,57 @@ export default function MoviesView (): JSX.Element {
     <>({moviesContextValue.activeItems.length})</>
   )
   return (
-    <VStack spacing='0'>
-      <HStack mb='5px'>
-        <Heading>
-          Mergechoice (React)
-        </Heading>
-        <ChoiceCounterView />
-      </HStack>
-      <HStack flexWrap='wrap' justifyContent='center'>
-        <OptionProvider
-          chooseHotkey='a'
-          openHotkey='c'
-          optionIndex={moviesContextValue.choice?.aIndex}
-        >
-          <OptionView />
-        </OptionProvider>
-        <OptionProvider
-          optionIndex={moviesContextValue.choice?.bIndex}
-          chooseHotkey='b'
-          openHotkey='v'
-        >
-          <OptionView />
-        </OptionProvider>
-      </HStack>
-      <DeferView />
-      <Heading>Choosing: {Number(moviesContextValue.choosing)}</Heading>
-      <Table size='sm'>
-        <Tbody>
-          <HistoryProvider>
-            <HistoryView />
-          </HistoryProvider>
-          <HeadingRowView>
-            <Heading size='sm'>Movies {countView}</Heading>
-            <RandomButtonView />
-            <ImportButtonView />
-          </HeadingRowView>
-          {headingsView}
-          <HeadingRowView>
-            <Text>Better</Text>
-          </HeadingRowView>
-          <MovieRows movies={moviesContextValue.betterItems} />
-          <HeadingRowView>
-            <Text>Active</Text>
-          </HeadingRowView>
-          <MovieRows movies={moviesContextValue.activeItems} />
-          <HeadingRowView>
-            <Text>Worse</Text>
-          </HeadingRowView>
-          <MovieRows movies={moviesContextValue.worseItems} />
-          <HeadingRowView>
-            <Text>Reserve</Text>
-          </HeadingRowView>
-          <MovieRows movies={moviesContextValue.reserveItems} />
-        </Tbody>
-      </Table>
-    </VStack>
+    <>
+      <VStack spacing='0'>
+        <HStack mb='5px'>
+          <Heading>
+            Mergechoice (React)
+          </Heading>
+          <ChoiceCounterView />
+        </HStack>
+        <HStack flexWrap='wrap' justifyContent='center'>
+          <OptionProvider
+            chooseHotkey='a'
+            openHotkey='c'
+            optionIndex={moviesContextValue.choice?.aIndex}
+          >
+            <OptionView />
+          </OptionProvider>
+          <OptionProvider
+            optionIndex={moviesContextValue.choice?.bIndex}
+            chooseHotkey='b'
+            openHotkey='v'
+          >
+            <OptionView />
+          </OptionProvider>
+        </HStack>
+        <DeferView />
+        <Heading>Choosing: {moviesContextValue.choosing ? 'true' : 'false'}</Heading>
+        <Table size='sm'>
+          <Tbody>
+            <HistoryProvider>
+              <HistoryView />
+            </HistoryProvider>
+            <HeadingRowView>
+              <Heading size='sm'>Movies {countView}</Heading>
+              <RandomButtonView />
+              <ImportButtonView />
+            </HeadingRowView>
+            {headingsView}
+
+          </Tbody>
+
+        </Table>
+
+      </VStack>
+      <Text>Better</Text>
+      <MovieRows movies={moviesContextValue.betterItems} />
+      <Text>Active</Text>
+      <MovieRows movies={moviesContextValue.activeItems} />
+      <Text>Worse</Text>
+      <MovieRows movies={moviesContextValue.worseItems} />
+      <Text>Reserve</Text>
+      <MovieRows movies={moviesContextValue.reserveItems} />
+    </>
   )
 }
