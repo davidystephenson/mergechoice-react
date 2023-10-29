@@ -1,32 +1,15 @@
-import { HStack, Table, Tbody, VStack, Heading, Text, Th, Tr } from '@chakra-ui/react'
+import { HStack, Table, Tbody, VStack, Heading } from '@chakra-ui/react'
 import OptionView from './Option'
 import DeferView from './Defer'
 import useMoviesContext from '../context/movies/useMoviesContext'
 import OptionProvider from '../context/option/OptionProvider'
 import HistoryView from './History'
-import ImportButtonView from './ImportButton'
-import HeadingRowView from './HeadingRow'
 import HistoryProvider from '../context/history/HistoryProvider'
 import MovieRows from './MovieRows'
-import RandomButtonView from './RandomButton'
 import ChoiceCounterView from './ChoiceCounter'
 
 export default function MoviesView (): JSX.Element {
   const moviesContextValue = useMoviesContext()
-  const headingsView = moviesContextValue.activeItems.length > 0 && (
-    <Tr>
-      <Th>
-        <HStack>
-          <Text w='max-content'>Movie</Text>
-        </HStack>
-      </Th>
-      <Th>Points</Th>
-      <Th colSpan={2}>Score</Th>
-    </Tr>
-  )
-  const countView = moviesContextValue.activeItems.length > 0 && (
-    <>({moviesContextValue.activeItems.length})</>
-  )
   return (
     <>
       <VStack spacing='0'>
@@ -53,19 +36,11 @@ export default function MoviesView (): JSX.Element {
           </OptionProvider>
         </HStack>
         <DeferView />
-        <Heading>Choosing: {moviesContextValue.choosing ? 'true' : 'false'}</Heading>
         <Table size='sm'>
           <Tbody>
             <HistoryProvider>
               <HistoryView />
             </HistoryProvider>
-            <HeadingRowView>
-              <Heading size='sm'>Movies {countView}</Heading>
-              <RandomButtonView />
-              <ImportButtonView />
-            </HeadingRowView>
-            {headingsView}
-
           </Tbody>
 
         </Table>

@@ -5,6 +5,8 @@ import MovieRow from './MovieRow'
 import { TableComponents, TableVirtuoso } from 'react-virtuoso'
 import { Table, TableContainer, Tbody, Thead, Tr } from '@chakra-ui/react'
 import useTableItems from '../service/movies/useTableItems'
+import MovieHeadingsRowView from './MovieHeadingsRow'
+import MovieHeadingRowView from './MovieHeadingRowView'
 
 export default function MovieRows (): JSX.Element {
   const tableItems = useTableItems()
@@ -29,6 +31,16 @@ export default function MovieRows (): JSX.Element {
             <MovieProvider movie={tableItem.list.movie}>
               <MovieRow />
             </MovieProvider>
+          )
+        }
+        if (tableItem.movieHeadingRow === true) {
+          return (
+            <MovieHeadingRowView />
+          )
+        }
+        if (tableItem.movieHeadingsRow === true) {
+          return (
+            <MovieHeadingsRowView />
           )
         }
       }}

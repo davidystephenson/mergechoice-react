@@ -1,7 +1,7 @@
 import { Td, TableCellProps } from '@chakra-ui/react'
 import { ReactNode } from 'react'
 
-export default function SingleRowView ({
+export default function RowCellView ({
   children,
   ...restProps
 }: {

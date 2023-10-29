@@ -23,6 +23,8 @@ export interface ListTableItem {
 }
 export interface TableItem {
   list?: ListTableItem
+  movieHeadingRow?: boolean
+  movieHeadingsRow?: boolean
 }
 export interface MoviesContextValue extends State<Movie> {
   choiceCount: CountRange
