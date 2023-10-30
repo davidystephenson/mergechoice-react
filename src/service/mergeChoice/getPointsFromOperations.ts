@@ -1,4 +1,3 @@
-import findById from './findById'
 import { Operation } from './types'
 
 export default function getPointsFromOperations ({
