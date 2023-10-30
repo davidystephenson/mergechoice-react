@@ -1,4 +1,4 @@
-import { Movie } from '../../types'
+import { CalculatedMovie, Movie } from '../../types'
 import { State } from '../mergeChoice/types'
 import sortMovies from './sortMovies'
 
@@ -6,15 +6,15 @@ export default function getSortedMovies ({
   state
 }: {
   state: State<Movie>
-}): Movie[] {
-  sortMovies({ movies: state.betterItems, state })
-  sortMovies({ movies: state.activeItems, state })
-  sortMovies({ movies: state.worseItems, state })
-  sortMovies({ movies: state.reserveItems, state })
+}): CalculatedMovie[] {
+  const better = sortMovies({ movies: state.betterItems, state })
+  const active = sortMovies({ movies: state.activeItems, state })
+  const worse = sortMovies({ movies: state.worseItems, state })
+  const reserve = sortMovies({ movies: state.reserveItems, state })
   return [
-    ...state.betterItems,
-    ...state.activeItems,
-    ...state.worseItems,
-    ...state.reserveItems
+    ...better,
+    ...active,
+    ...worse,
+    ...reserve
   ]
 }

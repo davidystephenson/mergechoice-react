@@ -37,7 +37,7 @@ export default function MovieTableView (): JSX.Element {
       itemContent={(_, tableItem) => {
         if (tableItem.list != null) {
           return (
-            <MovieProvider movie={tableItem.list.movie}>
+            <MovieProvider movie={tableItem.list.movie} points={tableItem.list.movie.points}>
               <MovieListRow />
             </MovieProvider>
           )

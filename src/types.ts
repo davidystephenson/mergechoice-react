@@ -19,7 +19,7 @@ export interface Movie extends Item {
 }
 export type CalculatedMovie = Calculated<Movie>
 export interface ListTableItem {
-  movie: Movie
+  movie: CalculatedMovie
 }
 export interface HistoryTableItem {
   event: HistoryEvent<Movie>
@@ -56,7 +56,7 @@ export interface MoviesContextValue extends State<Movie> {
   history: Array<HistoryEvent<Movie>>
   random: boolean
   rewind: ({ historyEventId }: { historyEventId: string }) => Promise<void>
-  sortedMovies: Movie[]
+  sortedMovies: CalculatedMovie[]
   state: State<Movie>
 }
 export interface MovieContextValue extends Movie {
