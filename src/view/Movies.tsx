@@ -1,11 +1,10 @@
-import { HStack, Table, Tbody, VStack, Heading } from '@chakra-ui/react'
+import { HStack, VStack, Heading } from '@chakra-ui/react'
 import OptionView from './Option'
 import DeferView from './Defer'
 import useMoviesContext from '../context/movies/useMoviesContext'
 import OptionProvider from '../context/option/OptionProvider'
-import HistoryView from './History'
 import HistoryProvider from '../context/history/HistoryProvider'
-import MovieRows from './MovieRows'
+import MovieTableView from './MovieTable'
 import ChoiceCounterView from './ChoiceCounter'
 
 export default function MoviesView (): JSX.Element {
@@ -36,17 +35,10 @@ export default function MoviesView (): JSX.Element {
           </OptionProvider>
         </HStack>
         <DeferView />
-        <Table size='sm'>
-          <Tbody>
-            <HistoryProvider>
-              <HistoryView />
-            </HistoryProvider>
-          </Tbody>
-
-        </Table>
-
       </VStack>
-      <MovieRows />
+      <HistoryProvider>
+        <MovieTableView />
+      </HistoryProvider>
     </>
   )
 }

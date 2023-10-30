@@ -14,15 +14,6 @@ export default function HistoryImportEventView (): JSX.Element {
   if (historyEventContextValue.import == null) {
     return <></>
   }
-  const cellProps = {
-    paddingTop: 0,
-    paddingBottom: 0,
-    borderBottom: 0
-  }
-  const headingCellProps = {
-    ...cellProps,
-    borderBottom: '1px solid lightgray'
-  }
   const rows = open && historyEventContextValue.import.items.map((item) => {
     return (
       <MovieProvider key={item.id} movie={item} points={0}>
@@ -35,7 +26,11 @@ export default function HistoryImportEventView (): JSX.Element {
   }
   return (
     <>
-      <HeadingRowView cellProps={headingCellProps}>
+      <HeadingRowView
+        borderBottom='1px solid lightgray'
+        paddingTop={0}
+        paddingBottom={0}
+      >
         <HStack>
           <Heading size='xs'>
             {historyEventContextValue.timestamp}

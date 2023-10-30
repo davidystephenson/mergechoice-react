@@ -1,4 +1,4 @@
-import { Text, Tr, Td } from '@chakra-ui/react'
+import { Text, Td } from '@chakra-ui/react'
 import MovieLink from './MovieLink'
 import useMovieContext from '../context/movie/useMovieContext'
 import useHistoryEventContext from '../context/historyEvent/useHistoryEventContext'
@@ -8,7 +8,7 @@ export default function HistoryChoiceRowView (): JSX.Element {
   const historyEventContextValue = useHistoryEventContext()
   const movieContextValue = useMovieContext()
   if (historyEventContextValue.choice == null) {
-    return <></>
+    throw new Error('There is no choice.')
   }
   const a = historyEventContextValue.choice.aId === movieContextValue.id
   const better = a ? historyEventContextValue.choice.aBetter : !historyEventContextValue.choice.aBetter
@@ -19,7 +19,7 @@ export default function HistoryChoiceRowView (): JSX.Element {
   const upsetStyles = upsetItem ? { fontWeight: 'bold' } : {}
   const iconView = better ? <CheckIcon /> : <SmallCloseIcon />
   return (
-    <Tr>
+    <>
       <Td>
         <MovieLink {...betterStyles} />
       </Td>
@@ -32,6 +32,6 @@ export default function HistoryChoiceRowView (): JSX.Element {
       <Td textAlign='center'>
         {iconView}
       </Td>
-    </Tr>
+    </>
   )
 }

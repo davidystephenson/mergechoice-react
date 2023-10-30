@@ -1,4 +1,4 @@
-import { Text, Tr, Td } from '@chakra-ui/react'
+import { Text, Td } from '@chakra-ui/react'
 import MovieLink from './MovieLink'
 import useMovieContext from '../context/movie/useMovieContext'
 import useHistoryEventContext from '../context/historyEvent/useHistoryEventContext'
@@ -11,7 +11,7 @@ export default function HistoryRemoveRowView (): JSX.Element {
     return <></>
   }
   return (
-    <Tr>
+    <>
       <Td>
         <MovieLink />
       </Td>
@@ -24,6 +24,6 @@ export default function HistoryRemoveRowView (): JSX.Element {
       <Td textAlign='center'>
         <DeleteIcon />
       </Td>
-    </Tr>
+    </>
   )
 }

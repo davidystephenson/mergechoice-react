@@ -1,9 +1,9 @@
-import { HStack, IconButton, Text, TableCellProps, Td } from '@chakra-ui/react'
+import { IconButton, Text, TableCellProps, Td } from '@chakra-ui/react'
 import useMovieContext from '../context/movie/useMovieContext'
 import MovieLink from './MovieLink'
 import { DeleteIcon } from '@chakra-ui/icons'
 
-export default function MovieRow ({ endAdornment }: {
+export default function MovieListRow ({ endAdornment }: {
   cellProps?: TableCellProps
   endAdornment?: JSX.Element
 }): JSX.Element {
@@ -26,10 +26,10 @@ export default function MovieRow ({ endAdornment }: {
         <Text>{movieContextValue.points}</Text>
       </Td>
       <Td>
-        <HStack alignItems='center' justifyContent='space-between'>
-          <Text>{movieContextValue.score}</Text>
-          {end}
-        </HStack>
+        <Text>{movieContextValue.score}</Text>
+      </Td>
+      <Td>
+        {end}
       </Td>
     </>
   )

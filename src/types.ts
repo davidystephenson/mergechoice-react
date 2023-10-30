@@ -21,10 +21,29 @@ export type CalculatedMovie = Calculated<Movie>
 export interface ListTableItem {
   movie: Movie
 }
+export interface HistoryTableItem {
+  event: HistoryEvent<Movie>
+}
+export interface HistoryImportTableItem {
+  event: HistoryEvent<Movie>
+  movie: Movie
+}
+export interface HistoryRemoveTableItem {
+  event: HistoryEvent<Movie>
+  movie: CalculatedMovie
+}
 export interface TableItem {
   list?: ListTableItem
-  movieHeadingRow?: boolean
-  movieHeadingsRow?: boolean
+  historyChoiceHeading?: HistoryTableItem
+  historyChoiceA?: HistoryTableItem
+  historyChoiceB?: HistoryTableItem
+  historyHeading?: boolean
+  historyImportHeading?: HistoryTableItem
+  historyImportMovie?: HistoryImportTableItem
+  historyRemoveHeading?: HistoryTableItem
+  historyRemoveMovie?: HistoryRemoveTableItem
+  movieHeading?: boolean
+  movieHeadings?: boolean
 }
 export interface MoviesContextValue extends State<Movie> {
   choiceCount: CountRange
@@ -55,10 +74,13 @@ export interface OptionContextValue {
   openHotkey?: string
 }
 export interface HistoryContextValue {
+  closeEvent: (id: string) => void
   events: Array<HistoryEvent<Movie>>
   expanded: boolean
   firstEvent: HistoryEvent<Movie> | undefined
   isSingle: boolean
+  toggleEvent: (id: string) => void
+  openIds: string[]
   restEvents: Array<HistoryEvent<Movie>>
   toggleExpanded: () => void
 }

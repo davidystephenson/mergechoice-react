@@ -1,4 +1,4 @@
-import { Text, Tr, Td, Icon } from '@chakra-ui/react'
+import { Text, Td, Icon } from '@chakra-ui/react'
 import MovieLink from './MovieLink'
 import useMovieContext from '../context/movie/useMovieContext'
 import useHistoryEventContext from '../context/historyEvent/useHistoryEventContext'
@@ -8,10 +8,10 @@ export default function HistoryImportRowView (): JSX.Element {
   const historyEventContextValue = useHistoryEventContext()
   const movieContextValue = useMovieContext()
   if (historyEventContextValue.import == null) {
-    throw new Error('HistoryImportRowView must be used with an import event.')
+    throw new Error('HistoryImportCellsView must be used with an import event.')
   }
   return (
-    <Tr>
+    <>
       <Td>
         <MovieLink />
       </Td>
@@ -24,6 +24,6 @@ export default function HistoryImportRowView (): JSX.Element {
       <Td textAlign='center'>
         <Icon as={BsCloudUpload} />
       </Td>
-    </Tr>
+    </>
   )
 }

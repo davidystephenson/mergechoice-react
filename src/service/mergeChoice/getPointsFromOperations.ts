@@ -1,3 +1,4 @@
+import findById from './findById'
 import { Operation } from './types'
 
 export default function getPointsFromOperations ({
@@ -21,5 +22,5 @@ export default function getPointsFromOperations ({
       return operation.output.indexOf(itemId)
     }
   }
-  throw new Error('The item is not any operation.')
+  return NaN
 }

@@ -24,6 +24,7 @@ export default function MovieProvider ({ children, movie, points }: {
     }
     await moviesContextValue.removeMovie({ id: movie.id })
   }
+  console.log('points', points)
   const moviePoints = points ?? getPoints({
     item: movie,
     state: moviesContextValue.state
