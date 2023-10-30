@@ -92,7 +92,6 @@ export default function MovieTableView (): JSX.Element {
           )
         }
         if (tableItem.historyRemoveMovie != null) {
-          console.log('tableItem.historyRemoveMovie', tableItem.historyRemoveMovie)
           return (
             <HistoryEventProvider historyEvent={tableItem.historyRemoveMovie.event}>
               <MovieProvider

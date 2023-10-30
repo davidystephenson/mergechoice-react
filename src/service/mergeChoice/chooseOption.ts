@@ -35,6 +35,8 @@ export default function chooseOption <ListItem extends Item> ({
     ...bItem,
     points: newBPoints
   }
+  const { history, ...previousState } = state
+  void history
   const newHistoryEvent: HistoryEvent<ListItem> = {
     choice: {
       aBetter,
@@ -45,8 +47,8 @@ export default function chooseOption <ListItem extends Item> ({
       random: state.choice.random
     },
     createdAt: Date.now(),
-    id: Math.random().toString()
-    // previousState: state
+    id: Math.random().toString(),
+    previousState
   }
   newState.history = [newHistoryEvent, ...newState.history]
   return newState

@@ -10,7 +10,9 @@ export default function importItems <ListItem extends Item> ({
   items: ListItem[]
   state: State<ListItem>
 }): State<ListItem> {
-  const previousState = clone(state)
+  const oldState = clone(state)
+  const { history, ...previousState } = oldState
+  void history
   const populatedState = populate({
     items,
     state

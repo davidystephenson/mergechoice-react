@@ -15,6 +15,21 @@ export interface Choice {
   bIndex: number
   random: boolean
 }
+export interface State <ListItem extends Item> {
+  activeItems: ListItem[]
+  betterItems: ListItem[]
+  worseItems: ListItem[]
+  reserveItems: ListItem[]
+  activeOperations: Operation[]
+  betterOperations: Operation[]
+  worseOperations: Operation[]
+  choice?: Choice
+  history: Array<HistoryEvent<ListItem>>
+  finalized: boolean
+}
+export type PreviousState <ListItem extends Item> = Omit<State<ListItem>, 'history'> & {
+  history?: Array<HistoryEvent<ListItem>>
+}
 export interface HistoryEvent <ListItem extends Item> {
   createdAt: number
   id: string
@@ -33,19 +48,7 @@ export interface HistoryEvent <ListItem extends Item> {
   import?: {
     items: ListItem[]
   }
-  previousState?: State<ListItem>
-}
-export interface State <ListItem extends Item> {
-  activeItems: ListItem[]
-  betterItems: ListItem[]
-  worseItems: ListItem[]
-  reserveItems: ListItem[]
-  activeOperations: Operation[]
-  betterOperations: Operation[]
-  worseOperations: Operation[]
-  choice?: Choice
-  history: Array<HistoryEvent<ListItem>>
-  finalized: boolean
+  previousState?: PreviousState<ListItem>
 }
 export interface RemovalFromOperations {
   emptiedOperationIndex: number

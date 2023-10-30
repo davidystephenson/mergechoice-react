@@ -5,7 +5,7 @@ import useHistoryEventContext from '../context/historyEvent/useHistoryEventConte
 export default function RewindButtonView (): JSX.Element {
   const historyEventContextValue = useHistoryEventContext()
   function handleClick (): void {
-    historyEventContextValue.rewind()
+    void historyEventContextValue.rewind()
   }
   if (historyEventContextValue.previousState == null) {
     return (

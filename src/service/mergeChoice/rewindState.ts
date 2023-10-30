@@ -16,5 +16,11 @@ export default function rewindState <ListItem extends Item> ({
     const message = `There is no previous state for history event with id ${historyEventId}.`
     throw new Error(message)
   }
-  return historyEvent.previousState
+  const index = state.history.indexOf(historyEvent)
+  const previousHistory = state.history.slice(index + 1)
+  const newState = {
+    ...historyEvent.previousState,
+    history: previousHistory
+  }
+  return newState
 }

@@ -30,6 +30,9 @@ export default function removeItem <ListItem extends Item> ({
   newState.activeOperations = activeRemoval.operations
   newState.betterOperations = removeFromOperations({ itemId: id, operations: newState.betterOperations }).operations
   newState.worseOperations = removeFromOperations({ itemId: id, operations: newState.worseOperations }).operations
+  const oldState = clone(state)
+  const { history, ...previousState } = oldState
+  void history
   const removeEvent: HistoryEvent<ListItem> = {
     createdAt: Date.now(),
     remove: {
@@ -37,7 +40,7 @@ export default function removeItem <ListItem extends Item> ({
       item: historyItem
     },
     id: yeast(),
-    previousState: clone(state)
+    previousState
   }
   newState.history.unshift(removeEvent)
 
