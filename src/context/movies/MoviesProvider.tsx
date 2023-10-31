@@ -64,9 +64,7 @@ export default function MoviesProvider ({
   }): Promise<void> {
     setChoosing(true)
     void updateState(async current => {
-      console.log('current', current)
       const newState = chooseOption({ state: current, betterIndex })
-      console.log('newState', newState)
       setChoosing(false)
       return newState
     })

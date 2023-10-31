@@ -7,12 +7,10 @@ import findByOption from '../../service/movies/findByOption'
 export default function OptionProvider ({
   children,
   chooseHotkey,
-  openHotkey,
   optionIndex
 }: {
   children: ReactNode
   chooseHotkey: string
-  openHotkey?: string
   optionIndex?: number
 }): JSX.Element {
   const moviesContextValue = useMoviesContext()
@@ -41,7 +39,6 @@ export default function OptionProvider ({
     choose,
     chooseHotkey,
     movie,
-    openHotkey,
     optionIndex
   }
   return (

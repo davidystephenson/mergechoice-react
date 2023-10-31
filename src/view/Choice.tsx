@@ -4,6 +4,8 @@ import ChoiceCounterView from './ChoiceCounter'
 import DeferView from './Defer'
 import OptionView from './Option'
 import useMoviesContext from '../context/movies/useMoviesContext'
+import DeleteButton from './DeleteButton'
+import OptionButtonView from './OptionButton'
 
 export default function ChoiceView (): JSX.Element {
   const moviesContextValue = useMoviesContext()
@@ -18,17 +20,21 @@ export default function ChoiceView (): JSX.Element {
       <HStack flexWrap='wrap' justifyContent='center'>
         <OptionProvider
           chooseHotkey='a'
-          openHotkey='c'
           optionIndex={moviesContextValue.choice?.aIndex}
         >
-          <OptionView />
+          <OptionView openHotkey='c'>
+            <DeleteButton />
+            <OptionButtonView />
+          </OptionView>
         </OptionProvider>
         <OptionProvider
           optionIndex={moviesContextValue.choice?.bIndex}
           chooseHotkey='b'
-          openHotkey='v'
         >
-          <OptionView />
+          <OptionView openHotkey='v'>
+            <OptionButtonView />
+            <DeleteButton />
+          </OptionView>
         </OptionProvider>
       </HStack>
       <DeferView />

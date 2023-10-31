@@ -71,7 +71,6 @@ export interface OptionContextValue {
   chooseHotkey: string
   movie: Movie
   optionIndex: number
-  openHotkey?: string
 }
 export interface HistoryContextValue {
   closeEvent: (id: string) => void

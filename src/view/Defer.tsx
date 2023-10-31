@@ -1,6 +1,6 @@
-import OptionView from './Option'
 import useMoviesContext from '../context/movies/useMoviesContext'
 import OptionProvider from '../context/option/OptionProvider'
+import DeferButtonView from './DeferButton'
 
 export default function DeferView (): JSX.Element {
   const moviesContextValue = useMoviesContext()
@@ -12,9 +12,7 @@ export default function DeferView (): JSX.Element {
       chooseHotkey='d'
       optionIndex={moviesContextValue.defaultOptionIndex}
     >
-      <OptionView>
-        [d]efer
-      </OptionView>
+      <DeferButtonView />
     </OptionProvider>
   )
 }

@@ -25,7 +25,6 @@ export default function chooseOption <ListItem extends Item> ({
     bItem,
     state
   })
-  console.log('applyChoice', newState)
   const newAPoints = getPoints({ itemId: aItem.id, state: newState })
   const calculatedA: Calculated<ListItem> = {
     ...aItem,

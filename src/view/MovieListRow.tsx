@@ -1,23 +1,15 @@
-import { IconButton, Text, TableCellProps, Td } from '@chakra-ui/react'
+import { Text, TableCellProps, Td } from '@chakra-ui/react'
 import useMovieContext from '../context/movie/useMovieContext'
 import MovieLink from './MovieLink'
-import { DeleteIcon } from '@chakra-ui/icons'
+import DeleteButton from './DeleteButton'
 
 export default function MovieListRow ({ endAdornment }: {
   cellProps?: TableCellProps
   endAdornment?: JSX.Element
 }): JSX.Element {
   const movieContextValue = useMovieContext()
-  function handleDelete (): void {
-    void movieContextValue.remove()
-  }
   const end = endAdornment ?? (
-    <IconButton
-      aria-label='delete'
-      icon={<DeleteIcon />}
-      onClick={handleDelete}
-      minW='fit-content'
-    />
+    <DeleteButton />
   )
   return (
     <>
