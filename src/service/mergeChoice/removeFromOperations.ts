@@ -1,4 +1,4 @@
-import clone from './clone'
+import cloneOperation from './cloneOperation'
 import { Operation, RemovalFromOperations } from './types'
 
 export default function removeFromOperations ({
@@ -10,7 +10,7 @@ export default function removeFromOperations ({
 }): RemovalFromOperations {
   let emptiedOperationIndex = -1
   const newOperations = operations.map((operation, index) => {
-    const newOperation = clone(operation)
+    const newOperation = cloneOperation({ operation })
     const inFirstInput = newOperation.input[0].includes(itemId)
     const inSecondInput = newOperation.input[1].includes(itemId)
     const inInput = inFirstInput || inSecondInput

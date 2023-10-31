@@ -3,8 +3,7 @@ import { Movie, MoviesContextValue } from '../../types'
 import moviesContext from './moviesContext'
 import getDefaultOptionIndex from '../../service/movies/getDefaultOptionIndex'
 import getStorage from '../../service/mergeChoice/getStorage'
-import clone from '../../service/mergeChoice/clone'
-import { STATE } from '../../constants'
+import STATE from '../../service/mergeChoice/STATE'
 import chooseOption from '../../service/mergeChoice/chooseOption'
 import createRandomChoice from '../../service/mergeChoice/createRandomChoice'
 import removeItem from '../../service/mergeChoice/removeItem'
@@ -12,7 +11,7 @@ import importItems from '../../service/mergeChoice/importItems'
 import rewindState from '../../service/mergeChoice/rewindState'
 import getChoiceCount from '../../service/mergeChoice/getChoiceCount'
 import getSortedMovies from '../../service/movies/getSortedMovies'
-import { State, HistoryEvent } from '../../service/mergeChoice/types'
+import { State } from '../../service/mergeChoice/types'
 
 export default function MoviesProvider ({
   children
@@ -20,7 +19,7 @@ export default function MoviesProvider ({
   children: ReactNode
 }): JSX.Element {
   const [state, setState] = useState<State<Movie>>(() => {
-    return getStorage({ key: 'state', defaultValue: STATE })
+    return getStorage({ key: 'state', defaultValue: STATE() })
   })
   const [sortedMovies, setSortedMovies] = useState(() => {
     const sortedMovies = getSortedMovies({ state })
@@ -35,9 +34,9 @@ export default function MoviesProvider ({
   const random = state.choice?.random === true
   function storeState (newState: State<Movie>): void {
     const newHistory = state.history.map(event => {
-      const newEvent = clone<HistoryEvent<Movie>>(event)
-      delete newEvent.previousState
-      return newEvent
+      const { previousState, ...rest } = event
+      void previousState
+      return rest
     })
     const historyState = {
       ...newState,

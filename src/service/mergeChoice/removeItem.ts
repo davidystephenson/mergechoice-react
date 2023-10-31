@@ -1,5 +1,4 @@
 import yeast from 'yeast'
-import clone from './clone'
 import createChoice from './createChoice'
 import getPoints from './getPoints'
 import removeFromOperations from './removeFromOperations'
@@ -17,22 +16,21 @@ export default function removeItem <ListItem extends Item> ({
   const item = getItem({ id, items: state.items })
   const statePoints = getPoints({ itemId: id, state })
   const historyItem: Calculated<ListItem> = { ...item, points: statePoints }
-  const newState = clone(state)
-  const { [id]: removedItem, ...newItems } = newState.items
+  const oldState = JSON.parse(JSON.stringify(state))
+  const { [id]: removedItem, ...newItems } = state.items
   void removedItem
-  newState.items = newItems
-  newState.activeIds = newState.activeIds.filter(activeId => activeId !== id)
-  newState.reserveIds = newState.reserveIds.filter(reserveId => reserveId !== id)
-  newState.betterIds = newState.betterIds.filter(betterId => betterId !== id)
-  newState.worseIds = newState.worseIds.filter(worseId => worseId !== id)
+  state.items = newItems
+  state.activeIds = state.activeIds.filter(activeId => activeId !== id)
+  state.reserveIds = state.reserveIds.filter(reserveId => reserveId !== id)
+  state.betterIds = state.betterIds.filter(betterId => betterId !== id)
+  state.worseIds = state.worseIds.filter(worseId => worseId !== id)
   const activeRemoval = removeFromOperations({
     itemId: id,
-    operations: newState.activeOperations
+    operations: state.activeOperations
   })
-  newState.activeOperations = activeRemoval.operations
-  newState.betterOperations = removeFromOperations({ itemId: id, operations: newState.betterOperations }).operations
-  newState.worseOperations = removeFromOperations({ itemId: id, operations: newState.worseOperations }).operations
-  const oldState = clone(state)
+  state.activeOperations = activeRemoval.operations
+  state.betterOperations = removeFromOperations({ itemId: id, operations: state.betterOperations }).operations
+  state.worseOperations = removeFromOperations({ itemId: id, operations: state.worseOperations }).operations
   const { history, ...previousState } = oldState
   void history
   const removeEvent: HistoryEvent<ListItem> = {
@@ -44,13 +42,13 @@ export default function removeItem <ListItem extends Item> ({
     id: yeast(),
     previousState
   }
-  newState.history.unshift(removeEvent)
+  state.history.unshift(removeEvent)
 
-  const emptiedCurrentOperation = activeRemoval.emptiedOperationIndex === newState.choice?.currentOperationIndex
+  const emptiedCurrentOperation = activeRemoval.emptiedOperationIndex === state.choice?.currentOperationIndex
   if (emptiedCurrentOperation) {
-    return setupChoice(newState)
-  } else if (newState.choice?.options.includes(id) === true) {
-    newState.choice = createChoice(newState)
+    return setupChoice(state)
+  } else if (state.choice?.options.includes(id) === true) {
+    state.choice = createChoice(state)
   }
-  return newState
+  return state
 }

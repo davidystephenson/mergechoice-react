@@ -1,4 +1,3 @@
-import clone from './clone'
 import getPoints from './getPoints'
 import setupChoice from './setupChoice'
 import applyRandomChoice from './applyRandomChoice'
@@ -33,8 +32,7 @@ export default function applyChoice <ListItem extends Item> ({
       state
     })
   }
-  const newState = clone(state)
-  const currentOperation = newState.activeOperations[state.choice.currentOperationIndex]
+  const currentOperation = state.activeOperations[state.choice.currentOperationIndex]
   const betterInput = currentOperation.input[betterIndex]
   const worseIndex = 1 - betterIndex
   const worseInput = currentOperation.input[worseIndex]
@@ -42,12 +40,12 @@ export default function applyChoice <ListItem extends Item> ({
   if (worseId == null) {
     throw new Error('worseId is null')
   }
-  const worseItem = getItem({ id: worseId, items: newState.items })
+  const worseItem = getItem({ id: worseId, items: state.items })
   worseItem.updatedAt = Date.now()
   currentOperation.output.push(worseId)
   if (worseInput.length === 0) {
     currentOperation.output.push(...betterInput)
     currentOperation.input[betterIndex] = []
   }
-  return setupChoice(newState)
+  return setupChoice(state)
 }

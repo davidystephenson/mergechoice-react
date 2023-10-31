@@ -1,5 +1,4 @@
 import yeast from 'yeast'
-import clone from './clone'
 import populate from './populate'
 import { Item, State, HistoryEvent } from './types'
 
@@ -10,8 +9,7 @@ export default function importItems <ListItem extends Item> ({
   items: ListItem[]
   state: State<ListItem>
 }): State<ListItem> {
-  const oldState = clone(state)
-  const { history, ...previousState } = oldState
+  const { history, ...previousState } = state
   void history
   const populatedState = populate({
     items,

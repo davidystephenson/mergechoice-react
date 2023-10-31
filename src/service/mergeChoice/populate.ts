@@ -1,5 +1,4 @@
-import { STATE } from '../../constants'
-import clone from './clone'
+import STATE from './STATE'
 import createChoice from './createChoice'
 import getOperationsSteps from './getOperationsSteps'
 import getOperations from './getOperations'
@@ -24,7 +23,7 @@ export default function populate <ListItem extends Item> ({ items, state }: {
 
   const newIds = newItems.map(item => item.id)
   if (state.finalized || (state.betterIds.length === 0 && state.worseIds.length === 0 && state.choice?.random !== true)) {
-    const newState: State<ListItem> = clone(STATE)
+    const newState: State<ListItem> = STATE()
     for (const id in state.items) {
       newState.items[id] = state.items[id]
     }
@@ -49,11 +48,9 @@ export default function populate <ListItem extends Item> ({ items, state }: {
     console.log('factoryState', newState)
     return newState
   }
-  const newState = clone(state)
   newItems.forEach(item => {
-    newState.items[item.id] = item
+    state.items[item.id] = item
   })
-  newState.reserveIds.push(...newIds)
-  console.log('updatedState', newState)
-  return newState
+  state.reserveIds.push(...newIds)
+  return state
 }
