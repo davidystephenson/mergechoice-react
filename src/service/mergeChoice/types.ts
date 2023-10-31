@@ -16,10 +16,11 @@ export interface Choice {
   random: boolean
 }
 export interface State <ListItem extends Item> {
-  activeItems: ListItem[]
-  betterItems: ListItem[]
-  worseItems: ListItem[]
-  reserveItems: ListItem[]
+  items: Record<string, ListItem>
+  activeIds: string[]
+  betterIds: string[]
+  worseIds: string[]
+  reserveIds: string[]
   activeOperations: Operation[]
   betterOperations: Operation[]
   worseOperations: Operation[]

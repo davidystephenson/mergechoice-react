@@ -3,7 +3,7 @@ import { Item, Operation } from './types'
 
 export default function debugOperations <ListItem extends Item> ({ label, items, operations }: {
   label: string
-  items: ListItem[]
+  items: Record<string, ListItem>
   operations: Operation[]
 }): void {
   const labeled = operations.map(operation => labelOperation({ items, operation }))

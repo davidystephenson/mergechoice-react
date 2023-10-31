@@ -1,5 +1,5 @@
 import applyChoice from './applyChoice'
-import findById from './findById'
+import getItem from './getItem'
 import getPoints from './getPoints'
 import { Item, State, HistoryEvent, Calculated } from './types'
 
@@ -16,8 +16,8 @@ export default function chooseOption <ListItem extends Item> ({
   const aId = state.choice.options[state.choice.aIndex]
   const bId = state.choice.options[state.choice.bIndex]
   const aBetter = betterIndex === state.choice.aIndex
-  const aItem = findById({ items: state.activeItems, id: aId })
-  const bItem = findById({ items: state.activeItems, id: bId })
+  const aItem = getItem({ id: aId, items: state.items })
+  const bItem = getItem({ id: bId, items: state.items })
   const newState = applyChoice({
     aBetter,
     aItem,
@@ -25,12 +25,13 @@ export default function chooseOption <ListItem extends Item> ({
     bItem,
     state
   })
-  const newAPoints = getPoints({ item: aItem, state: newState })
+  console.log('applyChoice', newState)
+  const newAPoints = getPoints({ itemId: aItem.id, state: newState })
   const calculatedA: Calculated<ListItem> = {
     ...aItem,
     points: newAPoints
   }
-  const newBPoints = getPoints({ item: bItem, state: newState })
+  const newBPoints = getPoints({ itemId: bItem.id, state: newState })
   const calculatedB: Calculated<ListItem> = {
     ...bItem,
     points: newBPoints

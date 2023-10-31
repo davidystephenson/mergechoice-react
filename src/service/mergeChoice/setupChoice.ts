@@ -4,6 +4,7 @@ import getOperations from './getOperations'
 import populate from './populate'
 import sortItems from './sortItems'
 import { Item, State } from './types'
+import getItem from './getItem'
 
 export default function setupChoice <ListItem extends Item> (state: State<ListItem>): State<ListItem> {
   const maxSteps = getOperationsSteps({ operations: state.activeOperations })
@@ -29,37 +30,40 @@ export default function setupChoice <ListItem extends Item> (state: State<ListIt
       }
     } else {
       sortItems({
-        items: state.worseItems,
+        ids: state.worseIds,
         state,
         worseFirst: true
       })
       sortItems({
-        items: state.activeItems,
+        ids: state.activeIds,
         state,
         worseFirst: true
       })
       sortItems({
-        items: state.betterItems,
+        ids: state.betterIds,
         state,
         worseFirst: true
       })
-      const combinedItems = [
-        ...state.worseItems, ...state.activeItems, ...state.betterItems
+      const combinedIds = [
+        ...state.worseIds, ...state.activeIds, ...state.betterIds
       ]
       const combinedOperations = [{
         input: [[], []],
-        output: combinedItems.map(item => item.id)
+        output: combinedIds
       }]
       const combinedState: State<ListItem> = {
         ...state,
-        activeItems: combinedItems,
-        betterItems: [],
-        worseItems: [],
+        activeIds: combinedIds,
+        betterIds: [],
+        worseIds: [],
         activeOperations: combinedOperations,
         choice: undefined,
         finalized: false
       }
-      const newState = populate({ items: state.reserveItems, state: combinedState })
+      console.log('combinedState', combinedState)
+      const reserveItems = state.reserveIds.map(id => getItem({ id, items: state.items }))
+      const newState = populate({ items: reserveItems, state: combinedState })
+      console.log('setupChoice', newState)
       return newState
     }
   }

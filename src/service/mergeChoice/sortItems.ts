@@ -2,18 +2,18 @@ import compareItems from './compareItems'
 import { Item, State } from './types'
 
 export default function sortItems <ListItem extends Item> ({
-  items,
+  ids,
   state,
   worseFirst = false
 }: {
-  items: ListItem[]
+  ids: string[]
   state: State<ListItem>
   worseFirst?: boolean
 }): void {
-  items.sort((a, b) => {
+  ids.sort((aId, bId) => {
     return compareItems({
-      a,
-      b,
+      aId,
+      bId,
       state,
       worseFirst
     })

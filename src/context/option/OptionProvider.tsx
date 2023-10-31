@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import optionContext from './optionContext'
 import { OptionContextValue } from '../../types'
 import useMoviesContext from '../movies/useMoviesContext'
-import findByOption from '../../service/mergeChoice/findByOption'
+import findByOption from '../../service/movies/findByOption'
 
 export default function OptionProvider ({
   children,
@@ -25,7 +25,7 @@ export default function OptionProvider ({
   const movie = findByOption({
     choice: moviesContextValue.choice,
     finalized: moviesContextValue.finalized,
-    items: moviesContextValue.activeItems,
+    movies: moviesContextValue.items,
     optionIndex
   })
   async function choose (): Promise<void> {

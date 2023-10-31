@@ -2,23 +2,23 @@ import getPointsFromOperations from './getPointsFromOperations'
 import { Item, State } from './types'
 
 export default function getPoints <ListItem extends Item> ({
-  item,
+  itemId,
   state
 }: {
-  item: ListItem
+  itemId: string
   state: State<ListItem>
 }): number {
-  const betterItem = state.betterItems.some(betterItem => betterItem.id === item.id)
+  const betterItem = state.betterIds.some(betterId => betterId === itemId)
   if (betterItem) {
-    return getPointsFromOperations({ itemId: item.id, operations: state.betterOperations }) + state.activeItems.length + state.worseItems.length
+    return getPointsFromOperations({ itemId, operations: state.betterOperations }) + state.activeIds.length + state.worseIds.length
   }
-  const worseItem = state.worseItems.some(worseItem => worseItem.id === item.id)
+  const worseItem = state.worseIds.some(worseId => worseId === itemId)
   if (worseItem) {
-    return getPointsFromOperations({ itemId: item.id, operations: state.worseOperations })
+    return getPointsFromOperations({ itemId, operations: state.worseOperations })
   }
-  const reserveItem = state.reserveItems.some(reserveItem => reserveItem.id === item.id)
+  const reserveItem = state.reserveIds.some(reserveId => reserveId === itemId)
   if (reserveItem) {
     return 0
   }
-  return getPointsFromOperations({ itemId: item.id, operations: state.activeOperations }) + state.worseItems.length
+  return getPointsFromOperations({ itemId, operations: state.activeOperations }) + state.worseIds.length
 }

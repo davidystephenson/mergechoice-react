@@ -26,24 +26,23 @@ export default function applyRandomChoice <ListItem extends Item> ({
   if (consistent) {
     return { ...state, finalized: true }
   }
-  const betterItems = state.activeItems.filter(item => {
-    const points = getPoints({ item, state })
+  // TODO single reduce
+  const betterIds = state.activeIds.filter(id => {
+    const points = getPoints({ itemId: id, state })
     return points > unchosenPoints
   })
-  const worseItems = state.activeItems.filter(item => {
-    const points = getPoints({ item, state })
+  const worseIds = state.activeIds.filter(id => {
+    const points = getPoints({ itemId: id, state })
     return points < chosenPoints
   })
-  const activeItems = state.activeItems.filter(item => {
-    const points = getPoints({ item, state })
+  const activeIds = state.activeIds.filter(id => {
+    const points = getPoints({ itemId: id, state })
     return chosenPoints < points && points < unchosenPoints
   })
-  const pairedChoice = activeItems.length === 0
+  const pairedChoice = activeIds.length === 0
   if (pairedChoice) {
-    worseItems.push(unchosenItem)
-    betterItems.unshift(chosenItem)
-    const worseIds = worseItems.map(item => item.id)
-    const betterIds = betterItems.map(item => item.id)
+    worseIds.push(unchosenItem.id)
+    betterIds.unshift(chosenItem.id)
     const newOperation: Operation = {
       input: [[], []],
       output: [...worseIds, ...betterIds]
@@ -54,25 +53,25 @@ export default function applyRandomChoice <ListItem extends Item> ({
       finalized: true
     }
   }
-  activeItems.push(chosenItem)
-  activeItems.unshift(unchosenItem)
-  const completedOperations = activeItems.map(item => ({
+  activeIds.push(chosenItem.id)
+  activeIds.unshift(unchosenItem.id)
+  const completedOperations = activeIds.map(id => ({
     input: [[], []],
-    output: [item.id]
+    output: [id]
   }))
   const betterOperation = {
     input: [[], []],
-    output: betterItems.map(item => item.id)
+    output: betterIds
   }
   const worseOperation = {
     input: [[], []],
-    output: worseItems.map(item => item.id)
+    output: worseIds
   }
   const newState: State<ListItem> = {
     ...state,
-    betterItems,
-    worseItems,
-    activeItems,
+    betterIds,
+    worseIds,
+    activeIds,
     activeOperations: completedOperations,
     betterOperations: [betterOperation],
     worseOperations: [worseOperation],

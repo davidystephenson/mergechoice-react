@@ -28,7 +28,7 @@ export default function MoviesProvider ({
   })
   const [choosing, setChoosing] = useState(false)
   const defaultOptionIndex = getDefaultOptionIndex({
-    movies: state.activeItems,
+    movies: state.items,
     choice: state.choice
   })
   const choiceCount = getChoiceCount({ state })
@@ -65,7 +65,9 @@ export default function MoviesProvider ({
   }): Promise<void> {
     setChoosing(true)
     void updateState(async current => {
+      console.log('current', current)
       const newState = chooseOption({ state: current, betterIndex })
+      console.log('newState', newState)
       setChoosing(false)
       return newState
     })

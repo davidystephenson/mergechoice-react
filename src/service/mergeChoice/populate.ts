@@ -4,35 +4,40 @@ import createChoice from './createChoice'
 import getOperationsSteps from './getOperationsSteps'
 import getOperations from './getOperations'
 import { Item, State } from './types'
+import getItem from './getItem'
 
 export default function populate <ListItem extends Item> ({ items, state }: {
   items: ListItem[]
   state: State<ListItem>
 }): State<ListItem> {
-  const newItems = items.filter(movie => {
-    const active = state.activeItems.some(item => item.id === movie.id)
-    if (active) {
+  console.log('populate state', state)
+  console.log('populate items', items)
+  const newItems = items.filter(item => {
+    try {
+      getItem({ id: item.id, items: state.items })
       return false
+    } catch (error) {
+      return true
     }
-    const better = state.betterItems.some(item => item.id === movie.id)
-    if (better) {
-      return false
-    }
-    const worse = state.worseItems.some(item => item.id === movie.id)
-    if (worse) {
-      return false
-    }
-    return true
   })
-  if (state.finalized || (state.betterItems.length === 0 && state.worseItems.length === 0 && state.choice?.random !== true)) {
+  console.log('newItems', newItems)
+
+  const newIds = newItems.map(item => item.id)
+  if (state.finalized || (state.betterIds.length === 0 && state.worseIds.length === 0 && state.choice?.random !== true)) {
     const newState: State<ListItem> = clone(STATE)
+    for (const id in state.items) {
+      newState.items[id] = state.items[id]
+    }
+    newItems.forEach(item => {
+      newState.items[item.id] = item
+    })
     newState.history = state.history
-    newState.activeItems = newItems
-    newState.activeOperations = newState.activeItems.map(item => ({
+    newState.activeIds = newIds
+    newState.activeOperations = newState.activeIds.map(id => ({
       input: [[], []],
-      output: [item.id]
+      output: [id]
     }))
-    newState.activeItems.push(...state.activeItems)
+    newState.activeIds.push(...state.activeIds)
     newState.activeOperations = getOperations(newState)
     newState.activeOperations.push(...state.activeOperations)
     const maxSteps = getOperationsSteps({ operations: newState.activeOperations })
@@ -41,9 +46,14 @@ export default function populate <ListItem extends Item> ({ items, state }: {
       return newState
     }
     newState.choice = createChoice(newState)
+    console.log('factoryState', newState)
     return newState
   }
   const newState = clone(state)
-  newState.reserveItems.push(...newItems)
+  newItems.forEach(item => {
+    newState.items[item.id] = item
+  })
+  newState.reserveIds.push(...newIds)
+  console.log('updatedState', newState)
   return newState
 }

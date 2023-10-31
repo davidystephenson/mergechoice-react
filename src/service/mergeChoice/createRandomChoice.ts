@@ -6,10 +6,10 @@ export default function createRandomChoice <ListItem extends Item> ({
 }: {
   state: State<ListItem>
 }): State<ListItem> {
-  const shuffledActiveItems = getShuffled(state.activeItems)
-  const [first, second] = shuffledActiveItems
+  const shuffledActiveIds = getShuffled(state.activeIds)
+  const [first, second] = shuffledActiveIds
   const newChoice: Choice = {
-    options: [first.id, second.id],
+    options: [first, second],
     currentOperationIndex: -1,
     aIndex: 0,
     bIndex: 1,

@@ -6,8 +6,8 @@ import useMoviesContext from '../context/movies/useMoviesContext'
 
 export default function MovieHeadingRowView (): JSX.Element {
   const moviesContextValue = useMoviesContext()
-  const countView = moviesContextValue.activeItems.length > 0 && (
-    <>({moviesContextValue.activeItems.length})</>
+  const countView = moviesContextValue.sortedMovies.length > 0 && (
+    <>({moviesContextValue.sortedMovies.length})</>
   )
   return (
     <HeadingRowView>

@@ -1,5 +1,5 @@
 export const STATE = {
-  activeItems: [],
+  activeIds: [],
   activeOperations: [],
   choice: {
     options: [],
@@ -10,9 +10,10 @@ export const STATE = {
   },
   history: [],
   finalized: false,
-  betterItems: [],
-  worseItems: [],
+  betterIds: [],
+  worseIds: [],
   betterOperations: [],
-  reserveItems: [],
+  reserveIds: [],
+  items: {},
   worseOperations: []
 }

@@ -12,10 +12,10 @@ export default function getChoiceCount <ListItem extends Item> ({ state }: { sta
   const worseTotal = getTotalSteps({
     operations: state.worseOperations
   })
-  const reserveOperations = state.reserveItems.map(item => {
+  const reserveOperations = state.reserveIds.map(id => {
     return {
       input: [[], []],
-      output: [item.id]
+      output: [id]
     }
   })
   const newReserveOperations = getOperations({
@@ -23,15 +23,15 @@ export default function getChoiceCount <ListItem extends Item> ({ state }: { sta
   })
   const activePostOperation = {
     input: [[], []],
-    output: state.activeItems.map(item => item.id)
+    output: state.activeIds
   }
   const betterPostOperation = {
     input: [[], []],
-    output: state.betterItems.map(item => item.id)
+    output: state.betterIds
   }
   const worsePostOperation = {
     input: [[], []],
-    output: state.worseItems.map(item => item.id)
+    output: state.worseIds
   }
   const reserveTotal = getTotalSteps({
     operations: [

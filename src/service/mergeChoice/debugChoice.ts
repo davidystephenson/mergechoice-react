@@ -1,12 +1,13 @@
-import findLabelById from './findLabelById'
+import getItem from './getItem'
 import { Choice, Item } from './types'
 
 export default function debugChoice <ListItem extends Item> ({ choice, items }: {
   choice: Choice
-  items: ListItem[]
+  items: Record<string, ListItem>
 }): void {
-  const choiceLabels = choice.options.map(id => {
-    return findLabelById({ items, id })
+  const choiceNames = choice.options.map(id => {
+    const item = getItem({ id, items })
+    return item.name
   })
-  console.debug('choice items', choiceLabels)
+  console.debug('choice items', choiceNames)
 }

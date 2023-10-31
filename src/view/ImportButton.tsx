@@ -37,7 +37,7 @@ export default function ImportButtonView (): JSX.Element {
       }
       return movie
     })
-    const selection = getShuffled(movies)
+    const selection = getShuffled(movies).slice(0, 5)
     await moviesContextValue.importMovies({ movies: selection })
     setInitializing(false)
   }

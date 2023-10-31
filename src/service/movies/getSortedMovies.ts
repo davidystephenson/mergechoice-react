@@ -7,10 +7,10 @@ export default function getSortedMovies ({
 }: {
   state: State<Movie>
 }): CalculatedMovie[] {
-  const better = sortMovies({ movies: state.betterItems, state })
-  const active = sortMovies({ movies: state.activeItems, state })
-  const worse = sortMovies({ movies: state.worseItems, state })
-  const reserve = sortMovies({ movies: state.reserveItems, state })
+  const better = sortMovies({ ids: state.betterIds, state })
+  const active = sortMovies({ ids: state.activeIds, state })
+  const worse = sortMovies({ ids: state.worseIds, state })
+  const reserve = sortMovies({ ids: state.reserveIds, state })
   return [
     ...better,
     ...active,

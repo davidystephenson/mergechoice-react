@@ -1,5 +1,4 @@
 import { Movie } from '../../types'
-import findById from '../mergeChoice/findById'
 import { Choice } from '../mergeChoice/types'
 
 export default function getDefaultOptionIndex ({
@@ -7,18 +6,15 @@ export default function getDefaultOptionIndex ({
   movies
 }: {
   choice: Choice | undefined
-  movies: Movie[]
+  movies: Record<string, Movie>
 }): number | undefined {
   if (choice == null || choice.options.length === 0) {
     return undefined
   }
-  const choiceItems = choice.options.map(option => {
-    return findById({
-      items: movies,
-      id: option
-    })
+  const choices = choice.options.map(option => {
+    return movies[option]
   })
-  const [firstItem, secondItem] = choiceItems
+  const [firstItem, secondItem] = choices
   const defaultItem = firstItem.score === secondItem.score
     ? undefined
     : firstItem.score > secondItem.score
