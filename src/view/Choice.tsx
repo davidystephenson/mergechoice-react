@@ -13,7 +13,7 @@ export default function ChoiceView (): JSX.Element {
     <VStack spacing='0'>
       <HStack mb='5px'>
         <Heading>
-          Mergechoice (React)
+          CloudSort
         </Heading>
         <ChoiceCounterView />
       </HStack>

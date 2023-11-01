@@ -13,7 +13,7 @@ export default function ChoiceCounterView (): JSX.Element {
   return (
     <Popover>
       <PopoverTrigger>
-        <Button variant='solid'>
+        <Button variant='solid' size='sm' w='max-content'>
           <ChoiceCounterLabelView />
         </Button>
       </PopoverTrigger>

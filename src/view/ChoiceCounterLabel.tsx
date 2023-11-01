@@ -3,6 +3,7 @@ import MinimumLabelView from './MinimumLabel'
 import MaximumLabelView from './MaximumLabel'
 import useMoviesContext from '../context/movies/useMoviesContext'
 import { CheckIcon } from '@chakra-ui/icons'
+import DifferenceLabelView from './DifferenceLabel'
 
 export default function ChoiceCounterLabelView (): JSX.Element {
   const moviesContextValue = useMoviesContext()
@@ -17,6 +18,7 @@ export default function ChoiceCounterLabelView (): JSX.Element {
       <MinimumLabelView />
       <Text>-</Text>
       <MaximumLabelView />
+      <DifferenceLabelView />
     </HStack>
   )
 }

@@ -38,7 +38,7 @@ export default function MoviesProvider ({
   const resultMovies = sortedMovies.filter(movie => {
     return isResult({ movie, query })
   })
-  function storeState (newState: State<Movie>): void {
+  async function storeState (newState: State<Movie>): Promise<void> {
     const newHistory = state.history.map(event => {
       const { previousState, ...rest } = event
       void previousState
@@ -54,8 +54,8 @@ export default function MoviesProvider ({
     const newState = await callback(state)
     const sortedMovies = getSortedMovies({ state: newState })
     setSortedMovies(sortedMovies)
-    storeState(newState)
     setState(newState)
+    void storeState(newState)
   }
   async function importMovies ({ movies }: {
     movies: Movie[]
