@@ -2,6 +2,7 @@ import { ReactNode, useState } from 'react'
 import useMoviesContext from '../movies/useMoviesContext'
 import historyContext from './historyContext'
 import { HistoryContextValue } from '../../types'
+import isEventResult from '../../service/movies/isEventResult'
 
 export default function HistoryProvider ({ children }: {
   children: ReactNode
@@ -23,8 +24,11 @@ export default function HistoryProvider ({ children }: {
   function toggleExpanded (): void {
     setExpanded(current => !current)
   }
-  const isSingle = moviesContextValue.history.length === 1
-  const [firstEvent, ...restEvents] = moviesContextValue.history
+  const resultEvents = moviesContextValue.history.filter(event => {
+    return isEventResult({ event, query: moviesContextValue.query })
+  })
+  const isSingle = resultEvents.length === 1
+  const [firstEvent, ...restEvents] = resultEvents
   const value: HistoryContextValue = {
     closeEvent,
     events: moviesContextValue.history,
@@ -33,6 +37,7 @@ export default function HistoryProvider ({ children }: {
     isSingle,
     toggleEvent,
     openIds,
+    resultEvents,
     restEvents,
     toggleExpanded
   }

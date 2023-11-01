@@ -9,7 +9,7 @@ export default function SingleRowView ({
 } & TableCellProps): JSX.Element {
   return (
     <>
-      <Td colSpan={4} textAlign='center' {...restProps}>
+      <Td colSpan={3} textAlign='center' {...restProps}>
         {children}
       </Td>
     </>

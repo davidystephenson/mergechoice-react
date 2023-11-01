@@ -10,21 +10,27 @@ export default function importItems <ListItem extends Item> ({
   items: ListItem[]
   state: State<ListItem>
 }): State<ListItem> {
-  const shuffled = getShuffled(items).slice(0, 5)
+  const shuffled = getShuffled(items)
   const { history, ...previousState } = state
   void history
-  const populatedState = populate({
+  const population = populate({
     items: shuffled,
     state
+  })
+  const calculated = population.items.map(item => {
+    return {
+      ...item,
+      points: 0
+    }
   })
   const historyEvent: HistoryEvent<ListItem> = {
     createdAt: Date.now(),
     id: yeast(),
     import: {
-      items: shuffled
+      items: calculated
     },
     previousState
   }
-  populatedState.history.unshift(historyEvent)
-  return populatedState
+  population.state.history.unshift(historyEvent)
+  return population.state
 }

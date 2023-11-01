@@ -2,12 +2,12 @@ import useHistoryContext from '../../context/history/useHistoryContext'
 import useMoviesContext from '../../context/movies/useMoviesContext'
 import { Movie, TableItem } from '../../types'
 import { HistoryEvent } from '../mergeChoice/types'
+import isResult from './isResult'
 
 export default function useTableItems (): TableItem[] {
   const historyContextValue = useHistoryContext()
   const moviesContextValue = useMoviesContext()
   const tableItems: TableItem[] = []
-  const [firstEvent, ...restEvents] = historyContextValue.events
   function addEvent (event: HistoryEvent<Movie>): void {
     if (event.choice != null) {
       tableItems.push(
@@ -26,6 +26,12 @@ export default function useTableItems (): TableItem[] {
         return
       }
       event.import.items.forEach(item => {
+        if (moviesContextValue.searching) {
+          const match = isResult({ movie: item, query: moviesContextValue.query })
+          if (!match) {
+            return
+          }
+        }
         tableItems.push(
           { historyImportMovie: { event, movie: item } }
         )
@@ -42,10 +48,12 @@ export default function useTableItems (): TableItem[] {
     tableItems.push({
       historyHeading: true
     })
-    addEvent(firstEvent)
+  }
+  if (historyContextValue.firstEvent != null) {
+    addEvent(historyContextValue.firstEvent)
   }
   if (historyContextValue.expanded) {
-    restEvents.forEach(event => {
+    historyContextValue.restEvents.forEach(event => {
       addEvent(event)
     })
   }
@@ -53,11 +61,18 @@ export default function useTableItems (): TableItem[] {
     movieHeading: true
   })
   if (moviesContextValue.sortedMovies.length > 0) {
+    console.log('movieHeadings')
     tableItems.push({
       movieHeadings: true
     })
   }
   moviesContextValue.sortedMovies.forEach(movie => {
+    if (moviesContextValue.searching) {
+      const match = isResult({ movie, query: moviesContextValue.query })
+      if (!match) {
+        return
+      }
+    }
     tableItems.push({
       list: {
         movie

@@ -13,6 +13,7 @@ export default function chooseOption <ListItem extends Item> ({
   if (state.choice == null) {
     throw new Error('There is no choice.')
   }
+  const oldState = JSON.parse(JSON.stringify(state))
   const aId = state.choice.options[state.choice.aIndex]
   const bId = state.choice.options[state.choice.bIndex]
   const aBetter = betterIndex === state.choice.aIndex
@@ -35,7 +36,7 @@ export default function chooseOption <ListItem extends Item> ({
     ...bItem,
     points: newBPoints
   }
-  const { history, ...previousState } = state
+  const { history, ...previousState } = oldState
   void history
   const newHistoryEvent: HistoryEvent<ListItem> = {
     choice: {
@@ -44,7 +45,7 @@ export default function chooseOption <ListItem extends Item> ({
       aItem: calculatedA,
       bId: bItem.id,
       bItem: calculatedB,
-      random: state.choice.random
+      random: oldState.choice.random
     },
     createdAt: Date.now(),
     id: Math.random().toString(),

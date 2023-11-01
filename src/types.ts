@@ -44,6 +44,7 @@ export interface TableItem {
   historyRemoveMovie?: HistoryRemoveTableItem
   movieHeading?: boolean
   movieHeadings?: boolean
+  search?: boolean
 }
 export interface MoviesContextValue extends State<Movie> {
   choiceCount: CountRange
@@ -54,10 +55,14 @@ export interface MoviesContextValue extends State<Movie> {
   importMovies: ({ movies }: { movies: Movie[] }) => Promise<void>
   removeMovie: ({ id }: { id: string }) => Promise<void>
   history: Array<HistoryEvent<Movie>>
+  query: string
   random: boolean
+  resultMovies: CalculatedMovie[]
   rewind: ({ historyEventId }: { historyEventId: string }) => Promise<void>
+  searching: boolean
   sortedMovies: CalculatedMovie[]
   state: State<Movie>
+  setQuery: (query: string) => void
 }
 export interface MovieContextValue extends Movie {
   label: string
@@ -80,10 +85,13 @@ export interface HistoryContextValue {
   isSingle: boolean
   toggleEvent: (id: string) => void
   openIds: string[]
+  resultEvents: Array<HistoryEvent<Movie>>
   restEvents: Array<HistoryEvent<Movie>>
   toggleExpanded: () => void
 }
 export interface HistoryEventContextValue extends HistoryEvent<Movie> {
   rewind: () => Promise<void>
   timestamp: string
+}
+export interface TableItemContextValue extends TableItem {
 }

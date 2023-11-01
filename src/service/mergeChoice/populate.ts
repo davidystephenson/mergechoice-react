@@ -2,13 +2,13 @@ import STATE from './STATE'
 import createChoice from './createChoice'
 import getOperationsSteps from './getOperationsSteps'
 import getOperations from './getOperations'
-import { Item, State } from './types'
+import { Item, Population, State } from './types'
 import getItem from './getItem'
 
 export default function populate <ListItem extends Item> ({ items, state }: {
   items: ListItem[]
   state: State<ListItem>
-}): State<ListItem> {
+}): Population<ListItem> {
   const newItems = items.filter(item => {
     try {
       getItem({ id: item.id, items: state.items })
@@ -39,14 +39,14 @@ export default function populate <ListItem extends Item> ({ items, state }: {
     const maxSteps = getOperationsSteps({ operations: newState.activeOperations })
     if (maxSteps === 0) {
       newState.finalized = true
-      return newState
+      return { state: newState, items: newItems }
     }
     newState.choice = createChoice(newState)
-    return newState
+    return { state: newState, items: newItems }
   }
   newItems.forEach(item => {
     state.items[item.id] = item
   })
   state.reserveIds.push(...newIds)
-  return state
+  return { state, items: newItems }
 }

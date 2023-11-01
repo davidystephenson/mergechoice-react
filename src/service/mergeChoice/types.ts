@@ -47,7 +47,7 @@ export interface HistoryEvent <ListItem extends Item> {
     item: Calculated<ListItem>
   }
   import?: {
-    items: ListItem[]
+    items: Array<Calculated<ListItem>>
   }
   previousState?: PreviousState<ListItem>
 }
@@ -58,4 +58,8 @@ export interface RemovalFromOperations {
 export interface CountRange {
   maximum: number
   minimum: number
+}
+export interface Population <ListItem extends Item> {
+  state: State<ListItem>
+  items: ListItem[]
 }

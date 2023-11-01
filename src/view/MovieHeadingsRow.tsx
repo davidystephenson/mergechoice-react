@@ -1,4 +1,4 @@
-import { Text, Th, HStack } from '@chakra-ui/react'
+import { Text, HStack, Th } from '@chakra-ui/react'
 
 export default function MovieHeadingsRowView (): JSX.Element {
   return (
@@ -8,8 +8,8 @@ export default function MovieHeadingsRowView (): JSX.Element {
           <Text w='max-content'>Movie</Text>
         </HStack>
       </Th>
+      <Th>Score</Th>
       <Th>Points</Th>
-      <Th colSpan={2}>Score</Th>
     </>
   )
 }

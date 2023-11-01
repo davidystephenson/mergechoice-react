@@ -1,4 +1,4 @@
-import { Text, Td, Icon } from '@chakra-ui/react'
+import { Text, Td, Icon, HStack } from '@chakra-ui/react'
 import MovieLink from './MovieLink'
 import useMovieContext from '../context/movie/useMovieContext'
 import useHistoryEventContext from '../context/historyEvent/useHistoryEventContext'
@@ -16,13 +16,13 @@ export default function HistoryImportRowView (): JSX.Element {
         <MovieLink />
       </Td>
       <Td>
-        <Text>0</Text>
-      </Td>
-      <Td>
         <Text>{movieContextValue.score}</Text>
       </Td>
-      <Td textAlign='center'>
-        <Icon as={BsCloudUpload} />
+      <Td>
+        <HStack>
+          <Text>0</Text>
+          <Icon as={BsCloudUpload} />
+        </HStack>
       </Td>
     </>
   )

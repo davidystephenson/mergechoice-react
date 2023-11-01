@@ -12,6 +12,7 @@ import rewindState from '../../service/mergeChoice/rewindState'
 import getChoiceCount from '../../service/mergeChoice/getChoiceCount'
 import getSortedMovies from '../../service/movies/getSortedMovies'
 import { State } from '../../service/mergeChoice/types'
+import isResult from '../../service/movies/isResult'
 
 export default function MoviesProvider ({
   children
@@ -26,12 +27,17 @@ export default function MoviesProvider ({
     return sortedMovies
   })
   const [choosing, setChoosing] = useState(false)
+  const [query, setQuery] = useState('')
   const defaultOptionIndex = getDefaultOptionIndex({
     movies: state.items,
     choice: state.choice
   })
   const choiceCount = getChoiceCount({ state })
   const random = state.choice?.random === true
+  const searching = query !== ''
+  const resultMovies = sortedMovies.filter(movie => {
+    return isResult({ movie, query })
+  })
   function storeState (newState: State<Movie>): void {
     const newHistory = state.history.map(event => {
       const { previousState, ...rest } = event
@@ -54,7 +60,7 @@ export default function MoviesProvider ({
   async function importMovies ({ movies }: {
     movies: Movie[]
   }): Promise<void> {
-    await updateState(async current => {
+    void updateState(async current => {
       const newState = importItems({ items: movies, state: current })
       return newState
     })
@@ -70,7 +76,7 @@ export default function MoviesProvider ({
     })
   }
   async function removeMovie ({ id }: { id: string }): Promise<void> {
-    await updateState(async current => {
+    void updateState(async current => {
       const newState = removeItem({ id, state: current })
       return newState
     })
@@ -78,13 +84,13 @@ export default function MoviesProvider ({
   async function rewind ({ historyEventId }: {
     historyEventId: string
   }): Promise<void> {
-    await updateState(async current => {
+    void updateState(async current => {
       const newState = rewindState({ state: current, historyEventId })
       return newState
     })
   }
   async function createRandomMovieChoice (): Promise<void> {
-    await updateState(async current => {
+    void updateState(async current => {
       const newState = createRandomChoice({ state: current })
       return newState
     })
@@ -99,7 +105,11 @@ export default function MoviesProvider ({
     importMovies,
     removeMovie,
     random,
+    query,
+    resultMovies,
     rewind,
+    searching,
+    setQuery,
     sortedMovies,
     state
   }

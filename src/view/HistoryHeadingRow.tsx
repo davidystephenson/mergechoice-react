@@ -10,7 +10,7 @@ export default function HistoryHeadingRowView (): JSX.Element {
   }
   return (
     <HeadingRowView onClick={handleClick} cursor='pointer'>
-      <Heading size='sm'>History ({historyContextValue.events.length})</Heading>
+      <Heading size='sm'>History ({historyContextValue.resultEvents.length})</Heading>
       <HistoryButtonView />
     </HeadingRowView>
   )

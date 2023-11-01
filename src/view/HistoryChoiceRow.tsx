@@ -1,4 +1,4 @@
-import { Text, Td } from '@chakra-ui/react'
+import { Text, Td, HStack } from '@chakra-ui/react'
 import MovieLink from './MovieLink'
 import useMovieContext from '../context/movie/useMovieContext'
 import useHistoryEventContext from '../context/historyEvent/useHistoryEventContext'
@@ -24,13 +24,13 @@ export default function HistoryChoiceRowView (): JSX.Element {
         <MovieLink {...betterStyles} />
       </Td>
       <Td>
-        <Text {...upsetStyles}>{movieContextValue.points}</Text>
-      </Td>
-      <Td>
         <Text {...upsetStyles}>{movieContextValue.score}</Text>
       </Td>
-      <Td textAlign='center'>
-        {iconView}
+      <Td>
+        <HStack>
+          <Text {...upsetStyles}>{movieContextValue.points}</Text>
+          {iconView}
+        </HStack>
       </Td>
     </>
   )

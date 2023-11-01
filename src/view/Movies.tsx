@@ -1,6 +1,6 @@
 import HistoryProvider from '../context/history/HistoryProvider'
-import MovieTableView from './MovieTable'
 import ChoiceView from './Choice'
+import MovieTableView from './MovieTable'
 
 export default function MoviesView (): JSX.Element {
   return (
