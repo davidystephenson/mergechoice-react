@@ -35,7 +35,7 @@ export default function ImportButtonView (): JSX.Element {
         url: row[' URL']
       }
       return movie
-    })
+    }).slice(0, 5)
     await moviesContextValue.importMovies({ movies })
     setInitializing(false)
   }

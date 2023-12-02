@@ -1,13 +1,24 @@
 import useMoviesContext from '../context/movies/useMoviesContext'
+import comparePercent from '../service/movies/comparePercent'
 
 export default function DifferenceLabelView (): JSX.Element {
-  const moviesContextValue = useMoviesContext()
-  if (moviesContextValue.random) {
+  const movies = useMoviesContext()
+  if (movies.random) {
     return <></>
   }
-  if (moviesContextValue.choiceCount.maximum === moviesContextValue.choiceCount.minimum) {
+  if (movies.choiceCount.maximum === movies.choiceCount.minimum) {
     return <></>
   }
-  const difference = moviesContextValue.choiceCount.maximum - moviesContextValue.choiceCount.minimum
-  return <span>({difference})</span>
+  const difference = movies.choiceCount.maximum - movies.choiceCount.minimum
+  const minimumComparison = comparePercent({
+    maximum: movies.choiceCount.maximum,
+    minimum: movies.choiceCount.minimum,
+    target: movies.choiceCount.minimum
+  })
+  const maximumComparison = comparePercent({
+    maximum: movies.choiceCount.maximum,
+    minimum: movies.choiceCount.minimum,
+    target: movies.choiceCount.maximum
+  })
+  return <span>({difference}, {minimumComparison}%, {maximumComparison}%)</span>
 }

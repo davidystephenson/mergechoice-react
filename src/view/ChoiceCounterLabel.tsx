@@ -14,7 +14,7 @@ export default function ChoiceCounterLabelView (): JSX.Element {
     return <span>1</span>
   }
   return (
-    <HStack>
+    <HStack gap='3px'>
       <MinimumLabelView />
       <Text>-</Text>
       <MaximumLabelView />

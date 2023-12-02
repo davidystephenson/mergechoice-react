@@ -9,6 +9,7 @@ export default function populate <ListItem extends Item> ({ items, state }: {
   items: ListItem[]
   state: State<ListItem>
 }): Population<ListItem> {
+  console.log('items', items)
   const newItems = items.filter(item => {
     try {
       getItem({ id: item.id, items: state.items })
@@ -17,6 +18,7 @@ export default function populate <ListItem extends Item> ({ items, state }: {
       return true
     }
   })
+  console.log('newItems', newItems)
 
   const newIds = newItems.map(item => item.id)
   if (state.finalized || (state.betterIds.length === 0 && state.worseIds.length === 0 && state.choice?.random !== true)) {

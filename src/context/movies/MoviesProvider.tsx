@@ -13,6 +13,7 @@ import getChoiceCount from '../../service/mergeChoice/getChoiceCount'
 import getSortedMovies from '../../service/movies/getSortedMovies'
 import { State } from '../../service/mergeChoice/types'
 import isResult from '../../service/movies/isResult'
+import resetItem from '../../service/mergeChoice/resetItem'
 
 export default function MoviesProvider ({
   children
@@ -81,6 +82,12 @@ export default function MoviesProvider ({
       return newState
     })
   }
+  async function resetMovie ({ id }: { id: string }): Promise<void> {
+    void updateState(async current => {
+      const newState = resetItem({ id, state: current })
+      return newState
+    })
+  }
   async function rewind ({ historyEventId }: {
     historyEventId: string
   }): Promise<void> {
@@ -103,9 +110,10 @@ export default function MoviesProvider ({
     createRandomMovieChoice,
     defaultOptionIndex,
     importMovies,
-    removeMovie,
-    random,
     query,
+    random,
+    removeMovie,
+    resetMovie,
     resultMovies,
     rewind,
     searching,

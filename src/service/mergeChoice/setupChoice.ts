@@ -61,8 +61,8 @@ export default function setupChoice <ListItem extends Item> (state: State<ListIt
         finalized: false
       }
       const reserveItems = state.reserveIds.map(id => getItem({ id, items: state.items }))
-      const newState = populate({ items: reserveItems, state: combinedState })
-      return newState
+      const population = populate({ items: reserveItems, state: combinedState })
+      return population.state
     }
   }
 }

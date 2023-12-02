@@ -24,6 +24,12 @@ export default function MovieProvider ({ children, movie, points }: {
     }
     await moviesContextValue.removeMovie({ id: movie.id })
   }
+  async function reset (): Promise<void> {
+    if (movie == null) {
+      throw new Error('There is no movie.')
+    }
+    await moviesContextValue.resetMovie({ id: movie.id })
+  }
   const moviePoints = points ?? getPoints({
     itemId: movie.id,
     state: moviesContextValue.state
@@ -32,6 +38,7 @@ export default function MovieProvider ({ children, movie, points }: {
     ...movie,
     label,
     remove,
+    reset,
     open,
     points: moviePoints,
     url

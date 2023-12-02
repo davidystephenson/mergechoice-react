@@ -10,13 +10,16 @@ export default function compareItems ({
   worseFirst?: boolean
 }): number {
   if (a.points === b.points) {
-    if (a.updatedAt === b.updatedAt) {
-      if (b.score === a.score) {
+    if (b.score === a.score) {
+      if (a.updatedAt === b.updatedAt) {
         return b.name.localeCompare(a.name) * -1
       }
-      return b.score - a.score
+      return b.updatedAt - a.updatedAt
     }
-    return b.updatedAt - a.updatedAt
+    if (worseFirst) {
+      return a.score - b.score
+    }
+    return b.score - a.score
   }
   if (worseFirst) {
     return a.points - b.points

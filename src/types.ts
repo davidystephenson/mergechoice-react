@@ -52,11 +52,12 @@ export interface MoviesContextValue extends State<Movie> {
   choosing: boolean
   createRandomMovieChoice: () => Promise<void>
   defaultOptionIndex: number | undefined
-  importMovies: ({ movies }: { movies: Movie[] }) => Promise<void>
-  removeMovie: ({ id }: { id: string }) => Promise<void>
   history: Array<HistoryEvent<Movie>>
+  importMovies: ({ movies }: { movies: Movie[] }) => Promise<void>
   query: string
   random: boolean
+  removeMovie: ({ id }: { id: string }) => Promise<void>
+  resetMovie: ({ id }: { id: string }) => Promise<void>
   resultMovies: CalculatedMovie[]
   rewind: ({ historyEventId }: { historyEventId: string }) => Promise<void>
   searching: boolean
@@ -69,6 +70,7 @@ export interface MovieContextValue extends Movie {
   open: () => void
   points: number
   remove: () => Promise<void>
+  reset: () => Promise<void>
   url: string
 }
 export interface OptionContextValue {
