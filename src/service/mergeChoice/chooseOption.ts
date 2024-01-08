@@ -1,14 +1,17 @@
 import applyChoice from './applyChoice'
 import asyncCreateYeastOperation from './asyncCreateYeastOperation'
+import asyncCreateYeastChoice from './asyncCreateYeastChoice'
 import getItem from './getItem'
 import getPoints from './getPoints'
-import { Item, State, HistoryEvent, Calculated, CreateOperation } from './merge-choice-types'
+import { Item, State, HistoryEvent, Calculated, CreateOperation, CreateChoice } from './merge-choice-types'
 
 export default async function chooseOption <ListItem extends Item> (props: {
   betterIndex: number
+  createChoice?: CreateChoice
   createOperation?: CreateOperation
   state: State<ListItem>
 }): Promise<State<ListItem>> {
+  const createChoice = props.createChoice ?? asyncCreateYeastChoice
   const createOperation = props.createOperation ?? asyncCreateYeastOperation
   if (props.state.choice == null) {
     throw new Error('There is no choice.')
@@ -24,6 +27,7 @@ export default async function chooseOption <ListItem extends Item> (props: {
     aItem,
     betterIndex: props.betterIndex,
     bItem,
+    createChoice,
     createOperation,
     state: props.state
   })

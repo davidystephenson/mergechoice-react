@@ -1,13 +1,14 @@
-import STATE from './STATE'
-import createChoice from './createChoice'
+import createYeastState from './createYeastState'
+import createActiveChoice from './createActiveChoice'
 import getOperationsSteps from './getOperationsSteps'
 import getOperations from './getOperations'
-import { CreateOperation, Item, Population, State } from './merge-choice-types'
+import { CreateChoice, CreateOperation, Item, Population, State } from './merge-choice-types'
 import getItem from './getItem'
 
 export default async function populate <ListItem extends Item> (props: {
   items: ListItem[]
   state: State<ListItem>
+  createChoice: CreateChoice
   createOperation: CreateOperation
 }): Promise<Population<ListItem>> {
   const newItems = props.items.filter(item => {
@@ -24,7 +25,7 @@ export default async function populate <ListItem extends Item> (props: {
     props.state.finalized ||
     (props.state.betterIds.length === 0 && props.state.worseIds.length === 0 && props.state.choice?.random !== true)
   ) {
-    const newState: State<ListItem> = STATE()
+    const newState: State<ListItem> = createYeastState()
     for (const id in props.state.items) {
       newState.items[id] = props.state.items[id]
     }
@@ -47,7 +48,10 @@ export default async function populate <ListItem extends Item> (props: {
       newState.finalized = true
       return { state: newState, items: newItems }
     }
-    newState.choice = createChoice(newState)
+    newState.choice = await createActiveChoice({
+      activeOperations: newState.activeOperations,
+      createChoice: props.createChoice
+    })
     return { state: newState, items: newItems }
   }
   newItems.forEach(item => {

@@ -1,7 +1,7 @@
 import getPoints from './getPoints'
 import setupChoice from './setupChoice'
 import applyRandomChoice from './applyRandomChoice'
-import { CreateOperation, Item, State } from './merge-choice-types'
+import { CreateChoice, CreateOperation, Item, State } from './merge-choice-types'
 import getItem from './getItem'
 import getOperation from './getOperation'
 
@@ -10,6 +10,7 @@ export default async function applyChoice <ListItem extends Item> (props: {
   aItem: ListItem
   betterIndex: number
   bItem: ListItem
+  createChoice: CreateChoice
   createOperation: CreateOperation
   state: State<ListItem>
 }): Promise<State<ListItem>> {
@@ -25,6 +26,7 @@ export default async function applyChoice <ListItem extends Item> (props: {
       aPoints,
       bItem: props.bItem,
       bPoints,
+      createChoice: props.createChoice,
       createOperation: props.createOperation,
       state: props.state
     })
@@ -51,6 +53,7 @@ export default async function applyChoice <ListItem extends Item> (props: {
     currentOperation.input[props.betterIndex] = []
   }
   return await setupChoice({
+    createChoice: props.createChoice,
     createOperation: props.createOperation,
     state: props.state
   })

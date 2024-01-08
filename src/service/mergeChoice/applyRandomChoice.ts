@@ -1,7 +1,7 @@
-import createChoice from './createChoice'
+import createActiveChoice from './createActiveChoice'
 import getOperations from './getOperations'
 import getPoints from './getPoints'
-import { Item, State, CreateOperation } from './merge-choice-types'
+import { Item, State, CreateOperation, CreateChoice } from './merge-choice-types'
 
 export default async function applyRandomChoice <ListItem extends Item> (props: {
   aBetter: boolean
@@ -9,6 +9,7 @@ export default async function applyRandomChoice <ListItem extends Item> (props: 
   aPoints: number
   bItem: ListItem
   bPoints: number
+  createChoice: CreateChoice
   createOperation: CreateOperation
   state: State<ListItem>
 }): Promise<State<ListItem>> {
@@ -72,6 +73,9 @@ export default async function applyRandomChoice <ListItem extends Item> (props: 
     activeOperations: newState.activeOperations,
     createOperation: props.createOperation
   })
-  newState.choice = createChoice(newState)
+  newState.choice = await createActiveChoice({
+    activeOperations: newState.activeOperations,
+    createChoice: props.createChoice
+  })
   return newState
 }

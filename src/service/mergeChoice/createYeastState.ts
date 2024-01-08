@@ -1,15 +1,16 @@
+import createYeastChoice from './createYeastChoice'
 import { Item, State } from './merge-choice-types'
 
-export default function STATE <ListItem extends Item> (): State<ListItem> {
+export default function createYeastState <ListItem extends Item> (): State<ListItem> {
   return {
     activeIds: [],
     activeOperations: [],
-    choice: {
+    choice: createYeastChoice({
       options: [],
       aIndex: 0,
       bIndex: 1,
       random: false
-    },
+    }),
     history: [],
     finalized: false,
     betterIds: [],

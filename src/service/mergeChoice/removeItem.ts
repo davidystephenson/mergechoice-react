@@ -1,18 +1,21 @@
 import yeast from 'yeast'
-import createChoice from './createChoice'
+import createActiveChoice from './createActiveChoice'
 import getPoints from './getPoints'
 import removeFromOperations from './removeFromOperations'
 import setupChoice from './setupChoice'
-import { Item, State, HistoryEvent, Calculated, CreateOperation, Id } from './merge-choice-types'
+import { Item, State, HistoryEvent, Calculated, CreateOperation, Id, CreateChoice } from './merge-choice-types'
 import getItem from './getItem'
 import asyncCreateYeastOperation from './asyncCreateYeastOperation'
+import asyncCreateYeastChoice from './asyncCreateYeastChoice'
 
 export default async function removeItem <ListItem extends Item> (props: {
-  createOpearation?: CreateOperation
+  createChoice?: CreateChoice
+  createOperation?: CreateOperation
   id: Id
   state: State<ListItem>
 }): Promise<State<ListItem>> {
-  const createOperation = props.createOpearation ?? asyncCreateYeastOperation
+  const createChoice = props.createChoice ?? asyncCreateYeastChoice
+  const createOperation = props.createOperation ?? asyncCreateYeastOperation
   const item = getItem({ id: props.id, items: props.state.items })
   const statePoints = getPoints({ itemId: props.id, state: props.state })
   const historyItem: Calculated<ListItem> = { ...item, points: statePoints }
@@ -46,9 +49,16 @@ export default async function removeItem <ListItem extends Item> (props: {
 
   const emptiedCurrentOperation = activeRemoval.emptiedOperationId === props.state.choice?.currentOperationId
   if (emptiedCurrentOperation) {
-    return await setupChoice({ state: props.state, createOperation })
+    return await setupChoice({
+      state: props.state,
+      createChoice,
+      createOperation
+    })
   } else if (props.state.choice?.options.includes(props.id) === true) {
-    props.state.choice = createChoice(props.state)
+    props.state.choice = await createActiveChoice({
+      activeOperations: props.state.activeOperations,
+      createChoice
+    })
   }
   return props.state
 }

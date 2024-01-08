@@ -3,7 +3,7 @@ import { Movie, MoviesContextValue } from '../../types'
 import moviesContext from './moviesContext'
 import getDefaultOptionIndex from '../../service/movies/getDefaultOptionIndex'
 import getStorage from '../../service/mergeChoice/getStorage'
-import STATE from '../../service/mergeChoice/STATE'
+import createYeastState from '../../service/mergeChoice/createYeastState'
 import chooseOption from '../../service/mergeChoice/chooseOption'
 import createRandomChoice from '../../service/mergeChoice/createRandomChoice'
 import removeItem from '../../service/mergeChoice/removeItem'
@@ -21,7 +21,7 @@ export default function MoviesProvider ({
   children: ReactNode
 }): JSX.Element {
   const [state, setState] = useState<State<Movie>>(() => {
-    return getStorage({ key: 'state', defaultValue: STATE() })
+    return getStorage({ key: 'state', defaultValue: createYeastState() })
   })
   const [sortedMovies, setSortedMovies] = useState(() => {
     const sortedMovies = getSortedMovies({ state })
@@ -98,7 +98,7 @@ export default function MoviesProvider ({
   }
   async function createRandomMovieChoice (): Promise<void> {
     void updateState(async current => {
-      const newState = createRandomChoice({ state: current })
+      const newState = await createRandomChoice({ state: current })
       return newState
     })
   }

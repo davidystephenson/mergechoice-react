@@ -10,12 +10,15 @@ export interface Operation {
   input: Id[][]
   output: Id[]
 }
-export interface Choice {
+export interface ChoiceData {
   options: Id[]
   currentOperationId?: Id
   aIndex: number
   bIndex: number
   random: boolean
+}
+export interface Choice extends ChoiceData {
+  id: Id
 }
 export interface State <ListItem extends Item> {
   items: Record<Id, ListItem>
@@ -69,3 +72,4 @@ export type CreateOperation = (props?: {
   input?: [Id[], Id[]]
   output?: Id[]
 }) => Promise<Operation>
+export type CreateChoice = (props: ChoiceData) => Promise<Choice>

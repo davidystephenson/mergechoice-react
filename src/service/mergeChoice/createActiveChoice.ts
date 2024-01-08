@@ -1,19 +1,13 @@
 import getChoiceOperation from './getChoiceOperation'
 import getOperation from './getOperation'
 import getRandom from './getRandom'
-import { Operation, Choice } from './merge-choice-types'
+import { Operation, Choice, ChoiceData, CreateChoice } from './merge-choice-types'
 
-export default function createChoice (props: {
+export default async function createActiveChoice (props: {
   activeOperations: Operation[]
-}): Choice {
+  createChoice: CreateChoice
+}): Promise<Choice> {
   const choiceOperation = getChoiceOperation({ operations: props.activeOperations })
-  const newChoice: Choice = {
-    options: [],
-    currentOperationId: choiceOperation.operation.id,
-    aIndex: 0,
-    bIndex: 1,
-    random: false
-  }
   const currentOperation = getOperation({
     operations: props.activeOperations,
     id: choiceOperation.operation.id
@@ -26,9 +20,15 @@ export default function createChoice (props: {
   if (secondOption == null) {
     throw new Error('There is no second option.')
   }
-  newChoice.options[0] = firstOption
-  newChoice.options[1] = secondOption
-  newChoice.aIndex = getRandom([0, 1])
-  newChoice.bIndex = 1 - newChoice.aIndex
+  const aIndex = getRandom([0, 1])
+  const bIndex = 1 - aIndex
+  const newChoiceData: ChoiceData = {
+    options: [firstOption, secondOption],
+    currentOperationId: choiceOperation.operation.id,
+    aIndex,
+    bIndex,
+    random: false
+  }
+  const newChoice = await props.createChoice(newChoiceData)
   return newChoice
 }
