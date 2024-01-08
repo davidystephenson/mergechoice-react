@@ -44,7 +44,7 @@ export default async function removeItem <ListItem extends Item> (props: {
   }
   props.state.history.unshift(removeEvent)
 
-  const emptiedCurrentOperation = activeRemoval.emptiedOperationIndex === props.state.choice?.currentOperationIndex
+  const emptiedCurrentOperation = activeRemoval.emptiedOperationId === props.state.choice?.currentOperationId
   if (emptiedCurrentOperation) {
     return await setupChoice({ state: props.state, createOperation })
   } else if (props.state.choice?.options.includes(props.id) === true) {

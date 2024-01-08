@@ -13,6 +13,7 @@ export interface Operation {
 export interface Choice {
   options: Id[]
   currentOperationIndex: number
+  currentOperationId: Id
   aIndex: number
   bIndex: number
   random: boolean
@@ -54,7 +55,7 @@ export interface HistoryEvent <ListItem extends Item> {
   previousState?: PreviousState<ListItem>
 }
 export interface RemovalFromOperations {
-  emptiedOperationIndex: number
+  emptiedOperationId?: Id
   operations: Operation[]
 }
 export interface CountRange {

@@ -1,4 +1,4 @@
-import getOperationIndex from './getOperationIndex'
+import getChoiceOperation from './getChoiceOperation'
 import getRandom from './getRandom'
 import { Operation, Choice } from './merge-choice-types'
 
@@ -7,14 +7,15 @@ export default function createChoice ({
 }: {
   activeOperations: Operation[]
 }): Choice {
+  const choiceOperation = getChoiceOperation({ operations: activeOperations })
   const newChoice: Choice = {
     options: [],
-    currentOperationIndex: 0,
+    currentOperationIndex: choiceOperation.index,
+    currentOperationId: choiceOperation.operation.id,
     aIndex: 0,
     bIndex: 1,
     random: false
   }
-  newChoice.currentOperationIndex = getOperationIndex({ operations: activeOperations })
   const currentOperation = activeOperations[newChoice.currentOperationIndex]
   const firstOption = currentOperation.input[0][0]
   if (firstOption == null) {
