@@ -18,11 +18,11 @@ export default function createChoice (props: {
     operations: props.activeOperations,
     id: choiceOperation.operation.id
   })
-  const firstOption = currentOperation.input[0][0]
+  const firstOption = currentOperation.input.first[0]
   if (firstOption == null) {
     throw new Error('There is no first option.')
   }
-  const secondOption = currentOperation.input[1][0]
+  const secondOption = currentOperation.input.second[0]
   if (secondOption == null) {
     throw new Error('There is no second option.')
   }

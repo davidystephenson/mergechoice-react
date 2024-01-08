@@ -1,8 +1,8 @@
-import { Id, Operation } from './merge-choice-types'
+import { Id, Input, Operation } from './merge-choice-types'
 import createYeastOperation from './createYeastOperation'
 
 export default async function asyncCreateYeastOperation (props?: {
-  input?: [Id[], Id[]]
+  input?: Input
   output?: Id[]
 }): Promise<Operation> {
   return createYeastOperation(props)

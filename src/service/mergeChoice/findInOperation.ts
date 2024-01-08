@@ -8,12 +8,12 @@ export default function findInOperation ({
   operations: Operation[]
 }): Operation {
   const operation = operations.find(operation => {
-    const input0 = operation.input[0].some(id => id === itemId)
-    if (input0) {
+    const inputFirst = operation.input.first.some(id => id === itemId)
+    if (inputFirst) {
       return true
     }
-    const input1 = operation.input[1].some(id => id === itemId)
-    if (input1) {
+    const inputSecond = operation.input.second.some(id => id === itemId)
+    if (inputSecond) {
       return true
     }
     const output = operation.output.some(id => id === itemId)

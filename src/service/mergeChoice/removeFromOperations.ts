@@ -8,27 +8,27 @@ export default function removeFromOperations (props: {
   let emptiedOperationId: Id | undefined
   const newOperations = props.operations.map((operation) => {
     const newOperation = cloneOperation({ operation })
-    const inFirstInput = newOperation.input[0].includes(props.itemId)
-    const inSecondInput = newOperation.input[1].includes(props.itemId)
+    const inFirstInput = newOperation.input.first.includes(props.itemId)
+    const inSecondInput = newOperation.input.second.includes(props.itemId)
     const inInput = inFirstInput || inSecondInput
     if (!inInput) {
       newOperation.output = newOperation.output.filter(existingId => existingId !== props.itemId)
       return newOperation
     }
     if (inFirstInput) {
-      newOperation.input[0] = newOperation.input[0].filter(existingId => existingId !== props.itemId)
-      if (newOperation.input[0].length === 0) {
+      newOperation.input.first = newOperation.input.first.filter(existingId => existingId !== props.itemId)
+      if (newOperation.input.first.length === 0) {
         emptiedOperationId = operation.id
-        newOperation.output.push(...newOperation.input[1])
-        newOperation.input[1] = []
+        newOperation.output.push(...newOperation.input.second)
+        newOperation.input.second = []
       }
     }
     if (inSecondInput) {
-      newOperation.input[1] = newOperation.input[1].filter(existingId => existingId !== props.itemId)
-      if (newOperation.input[1].length === 0) {
+      newOperation.input.second = newOperation.input.second.filter(existingId => existingId !== props.itemId)
+      if (newOperation.input.second.length === 0) {
         emptiedOperationId = operation.id
-        newOperation.output.push(...newOperation.input[0])
-        newOperation.input[1] = []
+        newOperation.output.push(...newOperation.input.first)
+        newOperation.input.first = []
       }
     }
     return newOperation

@@ -5,13 +5,13 @@ export default function getPointsFromOperations (props: {
   operations: Operation[]
 }): number {
   for (const operation of props.operations) {
-    const input0 = operation.input[0].some(id => id === props.itemId)
-    if (input0) {
-      return operation.input[0].indexOf(props.itemId) + operation.output.length
+    const inputFirst = operation.input.first.some(id => id === props.itemId)
+    if (inputFirst) {
+      return operation.input.first.indexOf(props.itemId) + operation.output.length
     }
-    const input1 = operation.input[1].some(id => id === props.itemId)
-    if (input1) {
-      return operation.input[1].indexOf(props.itemId) + operation.output.length
+    const inputSecond = operation.input.second.some(id => id === props.itemId)
+    if (inputSecond) {
+      return operation.input.second.indexOf(props.itemId) + operation.output.length
     }
     const output = operation.output.some(id => id === props.itemId)
     if (output) {

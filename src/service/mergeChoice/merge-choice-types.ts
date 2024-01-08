@@ -5,9 +5,13 @@ export interface Item {
   updatedAt: number
 }
 export type Calculated<T> = T & { points: number }
+export interface Input {
+  first: Id[]
+  second: Id[]
+}
 export interface Operation {
   id: Id
-  input: Id[][]
+  input: Input
   output: Id[]
 }
 export interface Choice {
@@ -66,6 +70,6 @@ export interface Population <ListItem extends Item> {
   items: ListItem[]
 }
 export type CreateOperation = (props?: {
-  input?: [Id[], Id[]]
+  input?: Input
   output?: Id[]
 }) => Promise<Operation>

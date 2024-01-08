@@ -20,7 +20,7 @@ export default async function getOperations (props: {
       throw new Error('blockB is null')
     }
     const newOperation = await props.createOperation({
-      input: [blockA, blockB]
+      input: { first: blockA, second: blockB }
     })
     newOperations.unshift(newOperation)
   })

@@ -36,9 +36,8 @@ export default async function applyChoice <ListItem extends Item> (props: {
     operations: props.state.activeOperations,
     id: props.state.choice.currentOperationId
   })
-  const betterInput = currentOperation.input[props.betterIndex]
-  const worseIndex = 1 - props.betterIndex
-  const worseInput = currentOperation.input[worseIndex]
+  const firstBetter = props.betterIndex === 0
+  const worseInput = firstBetter ? currentOperation.input.second : currentOperation.input.first
   const worseId = worseInput.shift()
   if (worseId == null) {
     throw new Error('There is no worseId')
@@ -47,8 +46,13 @@ export default async function applyChoice <ListItem extends Item> (props: {
   worseItem.updatedAt = Date.now()
   currentOperation.output.push(worseId)
   if (worseInput.length === 0) {
+    const betterInput = firstBetter ? currentOperation.input.first : currentOperation.input.second
     currentOperation.output.push(...betterInput)
-    currentOperation.input[props.betterIndex] = []
+    if (firstBetter) {
+      currentOperation.input.first = []
+    } else {
+      currentOperation.input.second = []
+    }
   }
   return await setupChoice({
     createOperation: props.createOperation,

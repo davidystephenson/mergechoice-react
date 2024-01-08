@@ -6,6 +6,6 @@ export default function getOperationStructure ({
   operations: Operation[]
 }): number[][] {
   return operations.map(operation => {
-    return [operation.input[0].length, operation.input[1].length, operation.output.length]
+    return [operation.input.first.length, operation.input.second.length, operation.output.length]
   })
 }

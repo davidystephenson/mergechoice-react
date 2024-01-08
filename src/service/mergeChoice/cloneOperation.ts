@@ -5,7 +5,9 @@ export default function cloneOperation ({
 }: {
   operation: Operation
 }): Operation {
-  const input = operation.input.map(input => [...input])
+  const first = [...operation.input.first]
+  const second = [...operation.input.second]
+  const input = { first, second }
   const output = [...operation.output]
   const newOperation: Operation = {
     id: operation.id,

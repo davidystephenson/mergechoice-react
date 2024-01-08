@@ -19,7 +19,10 @@ export default function getYeastOperations ({ activeOperations }: {
       throw new Error('blockB is null')
     }
     const newOperation = createYeastOperation({
-      input: [blockA, blockB]
+      input: {
+        first: blockA,
+        second: blockB
+      }
     })
     newOperations.unshift(newOperation)
   })
