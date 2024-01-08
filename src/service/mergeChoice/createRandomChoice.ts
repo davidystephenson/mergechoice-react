@@ -10,7 +10,6 @@ export default function createRandomChoice <ListItem extends Item> ({
   const [first, second] = shuffledActiveIds
   const newChoice: Choice = {
     options: [first, second],
-    currentOperationIndex: -1,
     aIndex: 0,
     bIndex: 1,
     random: true

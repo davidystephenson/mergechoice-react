@@ -77,7 +77,6 @@ export default function TableItemView (): JSX.Element {
     )
   }
   if (tableItem.list != null) {
-    console.log('TableItemView tableItem.list.movie.points', tableItem.list.movie.points)
     return (
       <MovieProvider movie={tableItem.list.movie} points={tableItem.list.movie.points}>
         <MovieListRow />

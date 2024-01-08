@@ -3,6 +3,7 @@ import setupChoice from './setupChoice'
 import applyRandomChoice from './applyRandomChoice'
 import { CreateOperation, Item, State } from './merge-choice-types'
 import getItem from './getItem'
+import getOperation from './getOperation'
 
 export default async function applyChoice <ListItem extends Item> (props: {
   aBetter: boolean
@@ -28,7 +29,13 @@ export default async function applyChoice <ListItem extends Item> (props: {
       state: props.state
     })
   }
-  const currentOperation = props.state.activeOperations[props.state.choice.currentOperationIndex]
+  if (props.state.choice.currentOperationId == null) {
+    throw new Error('There is no currentOperationId')
+  }
+  const currentOperation = getOperation({
+    operations: props.state.activeOperations,
+    id: props.state.choice.currentOperationId
+  })
   const betterInput = currentOperation.input[props.betterIndex]
   const worseIndex = 1 - props.betterIndex
   const worseInput = currentOperation.input[worseIndex]

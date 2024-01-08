@@ -18,7 +18,6 @@ export default async function populate <ListItem extends Item> (props: {
       return true
     }
   })
-  console.log('newItems', newItems)
 
   const newIds = newItems.map(item => item.id)
   if (

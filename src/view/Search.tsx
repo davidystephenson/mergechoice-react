@@ -19,7 +19,6 @@ export default function SearchView (): JSX.Element {
   function handleKeyUp (event: React.KeyboardEvent<HTMLInputElement>): void {
     if (event.key === 'Escape') {
       setAutoFocus(false)
-      console.log('inputRef.current', inputRef.current)
       inputRef.current?.blur()
     }
   }

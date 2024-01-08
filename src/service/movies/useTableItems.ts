@@ -61,7 +61,6 @@ export default function useTableItems (): TableItem[] {
     movieHeading: true
   })
   if (moviesContextValue.sortedMovies.length > 0) {
-    console.log('movieHeadings')
     tableItems.push({
       movieHeadings: true
     })

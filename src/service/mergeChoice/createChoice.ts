@@ -1,22 +1,23 @@
 import getChoiceOperation from './getChoiceOperation'
+import getOperation from './getOperation'
 import getRandom from './getRandom'
 import { Operation, Choice } from './merge-choice-types'
 
-export default function createChoice ({
-  activeOperations
-}: {
+export default function createChoice (props: {
   activeOperations: Operation[]
 }): Choice {
-  const choiceOperation = getChoiceOperation({ operations: activeOperations })
+  const choiceOperation = getChoiceOperation({ operations: props.activeOperations })
   const newChoice: Choice = {
     options: [],
-    currentOperationIndex: choiceOperation.index,
     currentOperationId: choiceOperation.operation.id,
     aIndex: 0,
     bIndex: 1,
     random: false
   }
-  const currentOperation = activeOperations[newChoice.currentOperationIndex]
+  const currentOperation = getOperation({
+    operations: props.activeOperations,
+    id: choiceOperation.operation.id
+  })
   const firstOption = currentOperation.input[0][0]
   if (firstOption == null) {
     throw new Error('There is no first option.')

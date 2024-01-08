@@ -12,8 +12,7 @@ export interface Operation {
 }
 export interface Choice {
   options: Id[]
-  currentOperationIndex: number
-  currentOperationId: Id
+  currentOperationId?: Id
   aIndex: number
   bIndex: number
   random: boolean

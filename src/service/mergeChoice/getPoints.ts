@@ -30,7 +30,6 @@ export default function getPoints <ListItem extends Item> (props: {
     itemId: props.itemId,
     operations: props.state.activeOperations
   })
-  console.log('activePoints', activePoints)
   const points = activePoints + props.state.worseIds.length
   return points
 }

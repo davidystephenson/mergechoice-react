@@ -27,7 +27,6 @@ export default function MoviesProvider ({
     const sortedMovies = getSortedMovies({ state })
     return sortedMovies
   })
-  console.log('sortedMovies', sortedMovies)
   const [choosing, setChoosing] = useState(false)
   const [query, setQuery] = useState('')
   const defaultOptionIndex = getDefaultOptionIndex({

@@ -4,9 +4,7 @@ export default function getPointsFromOperations (props: {
   itemId: Id
   operations: Operation[]
 }): number {
-  console.log('getPointsFromOperations', props)
   for (const operation of props.operations) {
-    console.log('operation', operation)
     const input0 = operation.input[0].some(id => id === props.itemId)
     if (input0) {
       return operation.input[0].indexOf(props.itemId) + operation.output.length

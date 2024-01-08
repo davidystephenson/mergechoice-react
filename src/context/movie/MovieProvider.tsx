@@ -30,7 +30,6 @@ export default function MovieProvider (props: {
     }
     await moviesContextValue.resetMovie({ id: props.movie.id })
   }
-  console.log('MovieProvider props.points', props.points)
   const moviePoints = props.points ?? getPoints({
     itemId: props.movie.id,
     state: moviesContextValue.state

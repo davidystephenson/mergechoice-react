@@ -6,7 +6,6 @@ export default function STATE <ListItem extends Item> (): State<ListItem> {
     activeOperations: [],
     choice: {
       options: [],
-      currentOperationIndex: 0,
       aIndex: 0,
       bIndex: 1,
       random: false
