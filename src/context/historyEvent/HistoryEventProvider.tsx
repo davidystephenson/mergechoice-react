@@ -2,30 +2,27 @@ import { ReactNode } from 'react'
 import { HistoryEventContextValue, Movie } from '../../types'
 import historyEventContext from './historyEventContext'
 import useMoviesContext from '../movies/useMoviesContext'
-import { HistoryEvent } from '../../service/mergeChoice/types'
+import { HistoryEvent } from '../../service/mergeChoice/merge-choice-types'
 
-export default function HistoryEventProvider ({
-  children,
-  historyEvent
-}: {
+export default function HistoryEventProvider (props: {
   children: ReactNode
   historyEvent: HistoryEvent<Movie>
 }): JSX.Element {
   const moviesContextValue = useMoviesContext()
   async function rewind (): Promise<void> {
     await moviesContextValue.rewind({
-      historyEventId: historyEvent.id
+      historyEventId: props.historyEvent.id
     })
   }
-  const timestamp = new Date(historyEvent.createdAt).toLocaleString()
+  const timestamp = new Date(props.historyEvent.createdAt).toLocaleString()
   const value: HistoryEventContextValue = {
-    ...historyEvent,
+    ...props.historyEvent,
     rewind,
     timestamp
   }
   return (
     <historyEventContext.Provider value={value}>
-      {children}
+      {props.children}
     </historyEventContext.Provider>
   )
 }

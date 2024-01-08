@@ -1,7 +1,7 @@
 import getNextStructure from './getNextStructure'
 import getOperationStructure from './getOperationStructure'
 import getStructureSteps from './getStructureSteps'
-import { Operation, CountRange } from './types'
+import { Operation, CountRange } from './merge-choice-types'
 
 export default function getTotalSteps ({ operations }: {
   operations: Operation[]

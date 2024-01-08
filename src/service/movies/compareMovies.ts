@@ -1,28 +1,24 @@
 import { CalculatedMovie } from '../../types'
 
-export default function compareItems ({
-  a,
-  b,
-  worseFirst = false
-}: {
+export default function compareItems (props: {
   a: CalculatedMovie
   b: CalculatedMovie
   worseFirst?: boolean
 }): number {
-  if (a.points === b.points) {
-    if (b.score === a.score) {
-      if (a.updatedAt === b.updatedAt) {
-        return b.name.localeCompare(a.name) * -1
+  if (props.a.points === props.b.points) {
+    if (props.b.score === props.a.score) {
+      if (props.a.updatedAt === props.b.updatedAt) {
+        return props.b.name.localeCompare(props.a.name) * -1
       }
-      return b.updatedAt - a.updatedAt
+      return props.b.updatedAt - props.a.updatedAt
     }
-    if (worseFirst) {
-      return a.score - b.score
+    if (props.worseFirst === true) {
+      return props.a.score - props.b.score
     }
-    return b.score - a.score
+    return props.b.score - props.a.score
   }
-  if (worseFirst) {
-    return a.points - b.points
+  if (props.worseFirst === true) {
+    return props.a.points - props.b.points
   }
-  return b.points - a.points
+  return props.b.points - props.a.points
 }

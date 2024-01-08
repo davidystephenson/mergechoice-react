@@ -1,32 +1,32 @@
 import applyChoice from './applyChoice'
+import asyncCreateYeastOperation from './asyncCreateYeastOperation'
 import getItem from './getItem'
 import getPoints from './getPoints'
-import { Item, State, HistoryEvent, Calculated } from './types'
+import { Item, State, HistoryEvent, Calculated, CreateOperation } from './merge-choice-types'
 
-export default function chooseOption <ListItem extends Item> ({
-  state,
-  betterIndex
-}: {
-  state: State<ListItem>
+export default async function chooseOption <ListItem extends Item> (props: {
   betterIndex: number
-}): State<ListItem> {
-  if (state.choice == null) {
+  createOperation?: CreateOperation
+  state: State<ListItem>
+}): Promise<State<ListItem>> {
+  const createOperation = props.createOperation ?? asyncCreateYeastOperation
+  if (props.state.choice == null) {
     throw new Error('There is no choice.')
   }
-  const oldState = JSON.parse(JSON.stringify(state))
-  const aId = state.choice.options[state.choice.aIndex]
-  const bId = state.choice.options[state.choice.bIndex]
-  const aBetter = betterIndex === state.choice.aIndex
-  const aItem = getItem({ id: aId, items: state.items })
-  const bItem = getItem({ id: bId, items: state.items })
-  const newState = applyChoice({
+  const oldState = JSON.parse(JSON.stringify(props.state))
+  const aId = props.state.choice.options[props.state.choice.aIndex]
+  const bId = props.state.choice.options[props.state.choice.bIndex]
+  const aBetter = props.betterIndex === props.state.choice.aIndex
+  const aItem = getItem({ id: aId, items: props.state.items })
+  const bItem = getItem({ id: bId, items: props.state.items })
+  const newState = await applyChoice({
     aBetter,
     aItem,
-    betterIndex,
+    betterIndex: props.betterIndex,
     bItem,
-    state
+    createOperation,
+    state: props.state
   })
-  console.log('newState', newState)
   const newAPoints = getPoints({ debug: true, itemId: aItem.id, state: newState })
   const calculatedA: Calculated<ListItem> = {
     ...aItem,

@@ -2,7 +2,7 @@ import getOperationsSteps from './getOperationsSteps'
 import getRandom from './getRandom'
 import getMaximumSteps from './getMaximumSteps'
 import range from './range'
-import { Operation } from './types'
+import { Operation } from './merge-choice-types'
 
 export default function getOperationIndex ({
   operations

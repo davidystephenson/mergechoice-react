@@ -1,5 +1,5 @@
 import { Movie } from '../../types'
-import { Choice } from '../mergeChoice/types'
+import { Choice } from '../mergeChoice/merge-choice-types'
 
 export default function findByOption ({
   choice,

@@ -1,5 +1,5 @@
 import labelOperation from './labelOperation'
-import { Item, Operation } from './types'
+import { Item, Operation } from './merge-choice-types'
 
 export default function debugOperations <ListItem extends Item> ({ label, items, operations }: {
   label: string

@@ -11,7 +11,7 @@ import importItems from '../../service/mergeChoice/importItems'
 import rewindState from '../../service/mergeChoice/rewindState'
 import getChoiceCount from '../../service/mergeChoice/getChoiceCount'
 import getSortedMovies from '../../service/movies/getSortedMovies'
-import { State } from '../../service/mergeChoice/types'
+import { Id, State } from '../../service/mergeChoice/merge-choice-types'
 import isResult from '../../service/movies/isResult'
 import resetItem from '../../service/mergeChoice/resetItem'
 
@@ -27,6 +27,7 @@ export default function MoviesProvider ({
     const sortedMovies = getSortedMovies({ state })
     return sortedMovies
   })
+  console.log('sortedMovies', sortedMovies)
   const [choosing, setChoosing] = useState(false)
   const [query, setQuery] = useState('')
   const defaultOptionIndex = getDefaultOptionIndex({
@@ -62,7 +63,7 @@ export default function MoviesProvider ({
     movies: Movie[]
   }): Promise<void> {
     void updateState(async current => {
-      const newState = importItems({ items: movies, state: current })
+      const newState = await importItems({ items: movies, state: current })
       return newState
     })
   }
@@ -73,23 +74,23 @@ export default function MoviesProvider ({
     void updateState(async current => {
       const newState = chooseOption({ state: current, betterIndex })
       setChoosing(false)
+      return await newState
+    })
+  }
+  async function removeMovie ({ id }: { id: Id }): Promise<void> {
+    void updateState(async current => {
+      const newState = await removeItem({ id, state: current })
       return newState
     })
   }
-  async function removeMovie ({ id }: { id: string }): Promise<void> {
+  async function resetMovie ({ id }: { id: Id }): Promise<void> {
     void updateState(async current => {
-      const newState = removeItem({ id, state: current })
-      return newState
-    })
-  }
-  async function resetMovie ({ id }: { id: string }): Promise<void> {
-    void updateState(async current => {
-      const newState = resetItem({ id, state: current })
+      const newState = await resetItem({ id, state: current })
       return newState
     })
   }
   async function rewind ({ historyEventId }: {
-    historyEventId: string
+    historyEventId: Id
   }): Promise<void> {
     void updateState(async current => {
       const newState = rewindState({ state: current, historyEventId })

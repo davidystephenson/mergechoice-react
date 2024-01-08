@@ -1,4 +1,4 @@
-import { Item, State } from './types'
+import { Item, State } from './merge-choice-types'
 
 export default function STATE <ListItem extends Item> (): State<ListItem> {
   return {

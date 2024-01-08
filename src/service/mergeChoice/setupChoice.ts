@@ -3,56 +3,62 @@ import getOperationsSteps from './getOperationsSteps'
 import getOperations from './getOperations'
 import populate from './populate'
 import sortItems from './sortItems'
-import { Item, State } from './types'
+import { CreateOperation, Item, State } from './merge-choice-types'
 import getItem from './getItem'
 
-export default function setupChoice <ListItem extends Item> (state: State<ListItem>): State<ListItem> {
-  const maxSteps = getOperationsSteps({ operations: state.activeOperations })
+export default async function setupChoice <ListItem extends Item> (props: {
+  createOperation: CreateOperation
+  state: State<ListItem>
+}): Promise<State<ListItem>> {
+  const maxSteps = getOperationsSteps({ operations: props.state.activeOperations })
   if (maxSteps > 0) {
-    const newChoice = createChoice(state)
+    const newChoice = createChoice({ activeOperations: props.state.activeOperations })
     return {
-      ...state,
+      ...props.state,
       choice: newChoice,
       finalized: false
     }
   } else {
-    const newOperations = getOperations(state)
+    const newOperations = await getOperations({
+      activeOperations: props.state.activeOperations,
+      createOperation: props.createOperation
+    })
     const maxSteps = getOperationsSteps({ operations: newOperations })
     if (maxSteps > 0) {
       const nextChoice = createChoice({
         activeOperations: newOperations
       })
       return {
-        ...state,
+        ...props.state,
         activeOperations: newOperations,
         choice: nextChoice,
         finalized: false
       }
     } else {
       sortItems({
-        ids: state.worseIds,
-        state,
+        ids: props.state.worseIds,
+        state: props.state,
         worseFirst: true
       })
       sortItems({
-        ids: state.activeIds,
-        state,
+        ids: props.state.activeIds,
+        state: props.state,
         worseFirst: true
       })
       sortItems({
-        ids: state.betterIds,
-        state,
+        ids: props.state.betterIds,
+        state: props.state,
         worseFirst: true
       })
       const combinedIds = [
-        ...state.worseIds, ...state.activeIds, ...state.betterIds
+        ...props.state.worseIds, ...props.state.activeIds, ...props.state.betterIds
       ]
-      const combinedOperations = [{
-        input: [[], []],
+      const combinedOperation = await props.createOperation({
         output: combinedIds
-      }]
+      })
+      const combinedOperations = [combinedOperation]
       const combinedState: State<ListItem> = {
-        ...state,
+        ...props.state,
         activeIds: combinedIds,
         betterIds: [],
         worseIds: [],
@@ -60,8 +66,12 @@ export default function setupChoice <ListItem extends Item> (state: State<ListIt
         choice: undefined,
         finalized: false
       }
-      const reserveItems = state.reserveIds.map(id => getItem({ id, items: state.items }))
-      const population = populate({ items: reserveItems, state: combinedState })
+      const reserveItems = props.state.reserveIds.map(id => getItem({ id, items: props.state.items }))
+      const population = await populate({
+        createOperation: props.createOperation,
+        items: reserveItems,
+        state: combinedState
+      })
       return population.state
     }
   }

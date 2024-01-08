@@ -1,13 +1,16 @@
-import { Operation } from './types'
+import { Operation } from './merge-choice-types'
 
 export default function cloneOperation ({
   operation
 }: {
   operation: Operation
 }): Operation {
+  const input = operation.input.map(input => [...input])
+  const output = [...operation.output]
   const newOperation: Operation = {
-    input: operation.input.map(input => [...input]),
-    output: [...operation.output]
+    id: operation.id,
+    input,
+    output
   }
   return newOperation
 }

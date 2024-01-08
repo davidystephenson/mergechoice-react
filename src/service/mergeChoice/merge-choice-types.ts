@@ -1,26 +1,28 @@
+export type Id = string | number
 export interface Item {
-  id: string
+  id: Id
   name: string
   updatedAt: number
 }
 export type Calculated<T> = T & { points: number }
 export interface Operation {
-  input: string[][]
-  output: string[]
+  id: Id
+  input: Id[][]
+  output: Id[]
 }
 export interface Choice {
-  options: string[]
+  options: Id[]
   currentOperationIndex: number
   aIndex: number
   bIndex: number
   random: boolean
 }
 export interface State <ListItem extends Item> {
-  items: Record<string, ListItem>
-  activeIds: string[]
-  betterIds: string[]
-  worseIds: string[]
-  reserveIds: string[]
+  items: Record<Id, ListItem>
+  activeIds: Id[]
+  betterIds: Id[]
+  worseIds: Id[]
+  reserveIds: Id[]
   activeOperations: Operation[]
   betterOperations: Operation[]
   worseOperations: Operation[]
@@ -33,17 +35,17 @@ export type PreviousState <ListItem extends Item> = Omit<State<ListItem>, 'histo
 }
 export interface HistoryEvent <ListItem extends Item> {
   createdAt: number
-  id: string
+  id: Id
   choice?: {
     aBetter: boolean
-    aId: string
+    aId: Id
     aItem: Calculated<ListItem>
-    bId: string
+    bId: Id
     bItem: Calculated<ListItem>
     random: boolean
   }
   remove?: {
-    id: string
+    id: Id
     item: Calculated<ListItem>
   }
   import?: {
@@ -63,3 +65,7 @@ export interface Population <ListItem extends Item> {
   state: State<ListItem>
   items: ListItem[]
 }
+export type CreateOperation = (props?: {
+  input?: [Id[], Id[]]
+  output?: Id[]
+}) => Promise<Operation>

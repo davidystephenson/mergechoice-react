@@ -3,17 +3,18 @@ import useMoviesContext from '../movies/useMoviesContext'
 import historyContext from './historyContext'
 import { HistoryContextValue } from '../../types'
 import isEventResult from '../../service/movies/isEventResult'
+import { Id } from '../../service/mergeChoice/merge-choice-types'
 
-export default function HistoryProvider ({ children }: {
+export default function HistoryProvider (props: {
   children: ReactNode
 }): JSX.Element {
   const moviesContextValue = useMoviesContext()
   const [expanded, setExpanded] = useState(false)
-  const [openIds, setOpenIds] = useState<string[]>([])
-  function closeEvent (id: string): void {
+  const [openIds, setOpenIds] = useState<Id[]>([])
+  function closeEvent (id: Id): void {
     setOpenIds(current => current.filter(currentId => currentId !== id))
   }
-  function toggleEvent (id: string): void {
+  function toggleEvent (id: Id): void {
     setOpenIds(current => {
       if (current.includes(id)) {
         return current.filter(currentId => currentId !== id)
@@ -43,7 +44,7 @@ export default function HistoryProvider ({ children }: {
   }
   return (
     <historyContext.Provider value={value}>
-      {children}
+      {props.children}
     </historyContext.Provider>
   )
 }

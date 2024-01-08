@@ -1,38 +1,35 @@
-import getOperations from './getOperations'
+import createYeastOperation from './createYeastOperation'
 import getTotalSteps from './getTotalSteps'
-import { Item, State, CountRange } from './types'
+import getYeastOperations from './getYeastOperations'
+import { Item, State, CountRange } from './merge-choice-types'
 
-export default function getChoiceCount <ListItem extends Item> ({ state }: { state: State<ListItem> }): CountRange {
+export default function getChoiceCount <ListItem extends Item> (props: {
+  state: State<ListItem>
+}): CountRange {
   const activeTotal = getTotalSteps({
-    operations: state.activeOperations
+    operations: props.state.activeOperations
   })
   const betterTotal = getTotalSteps({
-    operations: state.betterOperations
+    operations: props.state.betterOperations
   })
   const worseTotal = getTotalSteps({
-    operations: state.worseOperations
+    operations: props.state.worseOperations
   })
-  const reserveOperations = state.reserveIds.map(id => {
-    return {
-      input: [[], []],
-      output: [id]
-    }
+  const reserveOperations = props.state.reserveIds.map(id => {
+    return createYeastOperation({ output: [id] })
   })
-  const newReserveOperations = getOperations({
+  const newReserveOperations = getYeastOperations({
     activeOperations: reserveOperations
   })
-  const activePostOperation = {
-    input: [[], []],
-    output: state.activeIds
-  }
-  const betterPostOperation = {
-    input: [[], []],
-    output: state.betterIds
-  }
-  const worsePostOperation = {
-    input: [[], []],
-    output: state.worseIds
-  }
+  const activePostOperation = createYeastOperation({
+    output: props.state.activeIds
+  })
+  const betterPostOperation = createYeastOperation({
+    output: props.state.betterIds
+  })
+  const worsePostOperation = createYeastOperation({
+    output: props.state.worseIds
+  })
   const reserveTotal = getTotalSteps({
     operations: [
       ...newReserveOperations,

@@ -1,5 +1,5 @@
 import getItem from './getItem'
-import { Choice, Item } from './types'
+import { Choice, Item } from './merge-choice-types'
 
 export default function debugChoice <ListItem extends Item> ({ choice, items }: {
   choice: Choice

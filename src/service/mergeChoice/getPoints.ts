@@ -1,29 +1,36 @@
 import getPointsFromOperations from './getPointsFromOperations'
-import { Item, State } from './types'
+import { Id, Item, State } from './merge-choice-types'
 
-export default function getPoints <ListItem extends Item> ({
-  debug = false,
-  itemId,
-  state
-}: {
+export default function getPoints <ListItem extends Item> (props: {
   debug?: boolean
-  itemId: string
+  itemId: Id
   state: State<ListItem>
 }): number {
-  if (debug) {
-    console.debug('state', state)
+  if (props.debug === true) {
+    console.debug('state', props.state)
   }
-  const betterItem = state.betterIds.some(betterId => betterId === itemId)
+  const betterItem = props.state.betterIds.some(betterId => betterId === props.itemId)
   if (betterItem) {
-    return getPointsFromOperations({ itemId, operations: state.betterOperations }) + state.activeIds.length + state.worseIds.length
+    const betterPoints = getPointsFromOperations({
+      itemId: props.itemId,
+      operations: props.state.betterOperations
+    })
+    const points = betterPoints + props.state.activeIds.length + props.state.worseIds.length
+    return points
   }
-  const worseItem = state.worseIds.some(worseId => worseId === itemId)
+  const worseItem = props.state.worseIds.some(worseId => worseId === props.itemId)
   if (worseItem) {
-    return getPointsFromOperations({ itemId, operations: state.worseOperations })
+    return getPointsFromOperations({ itemId: props.itemId, operations: props.state.worseOperations })
   }
-  const reserveItem = state.reserveIds.some(reserveId => reserveId === itemId)
+  const reserveItem = props.state.reserveIds.some(reserveId => reserveId === props.itemId)
   if (reserveItem) {
     return 0
   }
-  return getPointsFromOperations({ itemId, operations: state.activeOperations }) + state.worseIds.length
+  const activePoints = getPointsFromOperations({
+    itemId: props.itemId,
+    operations: props.state.activeOperations
+  })
+  console.log('activePoints', activePoints)
+  const points = activePoints + props.state.worseIds.length
+  return points
 }

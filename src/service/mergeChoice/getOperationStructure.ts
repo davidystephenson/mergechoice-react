@@ -1,4 +1,4 @@
-import { Operation } from './types'
+import { Operation } from './merge-choice-types'
 
 export default function getOperationStructure ({
   operations

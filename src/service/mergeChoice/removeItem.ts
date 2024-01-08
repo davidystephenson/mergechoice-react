@@ -3,52 +3,52 @@ import createChoice from './createChoice'
 import getPoints from './getPoints'
 import removeFromOperations from './removeFromOperations'
 import setupChoice from './setupChoice'
-import { Item, State, HistoryEvent, Calculated } from './types'
+import { Item, State, HistoryEvent, Calculated, CreateOperation, Id } from './merge-choice-types'
 import getItem from './getItem'
+import asyncCreateYeastOperation from './asyncCreateYeastOperation'
 
-export default function removeItem <ListItem extends Item> ({
-  id,
-  state
-}: {
-  id: string
+export default async function removeItem <ListItem extends Item> (props: {
+  createOpearation?: CreateOperation
+  id: Id
   state: State<ListItem>
-}): State<ListItem> {
-  const item = getItem({ id, items: state.items })
-  const statePoints = getPoints({ itemId: id, state })
+}): Promise<State<ListItem>> {
+  const createOperation = props.createOpearation ?? asyncCreateYeastOperation
+  const item = getItem({ id: props.id, items: props.state.items })
+  const statePoints = getPoints({ itemId: props.id, state: props.state })
   const historyItem: Calculated<ListItem> = { ...item, points: statePoints }
-  const oldState = JSON.parse(JSON.stringify(state))
-  const { [id]: removedItem, ...newItems } = state.items
+  const oldState = JSON.parse(JSON.stringify(props.state))
+  const { [props.id]: removedItem, ...newItems } = props.state.items
   void removedItem
-  state.items = newItems
-  state.activeIds = state.activeIds.filter(activeId => activeId !== id)
-  state.reserveIds = state.reserveIds.filter(reserveId => reserveId !== id)
-  state.betterIds = state.betterIds.filter(betterId => betterId !== id)
-  state.worseIds = state.worseIds.filter(worseId => worseId !== id)
+  props.state.items = newItems
+  props.state.activeIds = props.state.activeIds.filter(activeId => activeId !== props.id)
+  props.state.reserveIds = props.state.reserveIds.filter(reserveId => reserveId !== props.id)
+  props.state.betterIds = props.state.betterIds.filter(betterId => betterId !== props.id)
+  props.state.worseIds = props.state.worseIds.filter(worseId => worseId !== props.id)
   const activeRemoval = removeFromOperations({
-    itemId: id,
-    operations: state.activeOperations
+    itemId: props.id,
+    operations: props.state.activeOperations
   })
-  state.activeOperations = activeRemoval.operations
-  state.betterOperations = removeFromOperations({ itemId: id, operations: state.betterOperations }).operations
-  state.worseOperations = removeFromOperations({ itemId: id, operations: state.worseOperations }).operations
+  props.state.activeOperations = activeRemoval.operations
+  props.state.betterOperations = removeFromOperations({ itemId: props.id, operations: props.state.betterOperations }).operations
+  props.state.worseOperations = removeFromOperations({ itemId: props.id, operations: props.state.worseOperations }).operations
   const { history, ...previousState } = oldState
   void history
   const removeEvent: HistoryEvent<ListItem> = {
     createdAt: Date.now(),
     remove: {
-      id,
+      id: props.id,
       item: historyItem
     },
     id: yeast(),
     previousState
   }
-  state.history.unshift(removeEvent)
+  props.state.history.unshift(removeEvent)
 
-  const emptiedCurrentOperation = activeRemoval.emptiedOperationIndex === state.choice?.currentOperationIndex
+  const emptiedCurrentOperation = activeRemoval.emptiedOperationIndex === props.state.choice?.currentOperationIndex
   if (emptiedCurrentOperation) {
-    return setupChoice(state)
-  } else if (state.choice?.options.includes(id) === true) {
-    state.choice = createChoice(state)
+    return await setupChoice({ state: props.state, createOperation })
+  } else if (props.state.choice?.options.includes(props.id) === true) {
+    props.state.choice = createChoice(props.state)
   }
-  return state
+  return props.state
 }

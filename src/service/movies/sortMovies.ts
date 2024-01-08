@@ -1,21 +1,17 @@
 import { CalculatedMovie, Movie } from '../../types'
 import getItem from '../mergeChoice/getItem'
 import getPoints from '../mergeChoice/getPoints'
-import { State } from '../mergeChoice/types'
+import { Id, State } from '../mergeChoice/merge-choice-types'
 import compareMovies from './compareMovies'
 
-export default function sortMovies ({
-  ids,
-  state,
-  worseFirst = false
-}: {
-  ids: string[]
+export default function sortMovies (props: {
+  ids: Id[]
   state: State<Movie>
   worseFirst?: boolean
 }): CalculatedMovie[] {
-  const calculatedMovies = ids.map((id) => {
-    const movie = getItem({ id, items: state.items })
-    const points = getPoints({ itemId: id, state })
+  const calculatedMovies = props.ids.map((id) => {
+    const movie = getItem({ id, items: props.state.items })
+    const points = getPoints({ itemId: id, state: props.state })
     return {
       ...movie,
       points
@@ -25,7 +21,7 @@ export default function sortMovies ({
     return compareMovies({
       a,
       b,
-      worseFirst
+      worseFirst: props.worseFirst
     })
   })
   return calculatedMovies

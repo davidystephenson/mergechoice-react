@@ -1,16 +1,15 @@
+import { Operation } from './merge-choice-types'
 import range from './range'
-import { CreateOperation, Operation } from './merge-choice-types'
+import createYeastOperation from './createYeastOperation'
 
-export default async function getOperations (props: {
+export default function getYeastOperations ({ activeOperations }: {
   activeOperations: Operation[]
-  createOperation: CreateOperation
-}): Promise<Operation[]> {
-  const blocks = props.activeOperations.map(operation => operation.output)
+}): Operation[] {
+  const blocks = activeOperations.map(operation => operation.output)
   blocks.sort((a, b) => b.length - a.length)
   const newOperations: Operation[] = []
   const pairsCount = Math.floor(blocks.length / 2)
-  const pairsRange = range(pairsCount)
-  const pairsPromises = pairsRange.map(async () => {
+  range(pairsCount).forEach(() => {
     const blockA = blocks.pop()
     if (blockA == null) {
       throw new Error('blockA is null')
@@ -19,18 +18,17 @@ export default async function getOperations (props: {
     if (blockB == null) {
       throw new Error('blockB is null')
     }
-    const newOperation = await props.createOperation({
+    const newOperation = createYeastOperation({
       input: [blockA, blockB]
     })
     newOperations.unshift(newOperation)
   })
-  await Promise.all(pairsPromises)
   if (blocks.length === 1) {
     const output = blocks.pop()
     if (output == null) {
       throw new Error('output is null')
     }
-    const newOperation = await props.createOperation({ output })
+    const newOperation = createYeastOperation({ output })
     newOperations.push(newOperation)
   }
   return newOperations

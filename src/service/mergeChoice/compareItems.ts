@@ -1,5 +1,5 @@
 import getPoints from './getPoints'
-import { Item, State } from './types'
+import { Id, Item, State } from './merge-choice-types'
 
 export default function compareItems <ListItem extends Item> ({
   aId,
@@ -7,8 +7,8 @@ export default function compareItems <ListItem extends Item> ({
   state,
   worseFirst = false
 }: {
-  aId: string
-  bId: string
+  aId: Id
+  bId: Id
   state: State<ListItem>
   worseFirst?: boolean
 }): number {

@@ -1,5 +1,5 @@
 import { Movie } from '../../types'
-import { HistoryEvent } from '../mergeChoice/types'
+import { HistoryEvent } from '../mergeChoice/merge-choice-types'
 import isResult from './isResult'
 
 export default function isEventResult ({

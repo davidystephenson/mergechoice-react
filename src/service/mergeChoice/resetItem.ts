@@ -1,17 +1,21 @@
-import { Item, State } from './types'
+import { CreateOperation, Id, Item, State } from './merge-choice-types'
 import getItem from './getItem'
 import removeItem from './removeItem'
 import populate from './populate'
+import asyncCreateYeastOperation from './asyncCreateYeastOperation'
 
-export default function resetItem <ListItem extends Item> ({
-  id,
-  state
-}: {
-  id: string
+export default async function resetItem <ListItem extends Item> (props: {
+  createOperation?: CreateOperation
+  id: Id
   state: State<ListItem>
-}): State<ListItem> {
-  const item = getItem({ id, items: state.items })
-  const removedState = removeItem({ id, state })
-  const populatedState = populate({ items: [item], state: removedState })
-  return populatedState.state
+}): Promise<State<ListItem>> {
+  const createOperation = props.createOperation ?? asyncCreateYeastOperation
+  const item = getItem({ id: props.id, items: props.state.items })
+  const removedState = await removeItem({ id: props.id, state: props.state })
+  const population = await populate({
+    createOperation,
+    items: [item],
+    state: removedState
+  })
+  return population.state
 }
