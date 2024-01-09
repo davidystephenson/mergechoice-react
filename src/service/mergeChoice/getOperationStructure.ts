@@ -1,11 +1,12 @@
-import { Operation } from './merge-choice-types'
+import { OperationDictionary } from './merge-choice-types'
 
 export default function getOperationStructure ({
   operations
 }: {
-  operations: Operation[]
+  operations: OperationDictionary
 }): number[][] {
-  return operations.map(operation => {
+  const values = Object.values(operations)
+  return values.map(operation => {
     return [operation.input[0].length, operation.input[1].length, operation.output.length]
   })
 }

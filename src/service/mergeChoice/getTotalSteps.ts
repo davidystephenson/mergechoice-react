@@ -1,10 +1,10 @@
 import getNextStructure from './getNextStructure'
 import getOperationStructure from './getOperationStructure'
 import getStructureSteps from './getStructureSteps'
-import { Operation, CountRange } from './merge-choice-types'
+import { CountRange, OperationDictionary } from './merge-choice-types'
 
 export default function getTotalSteps ({ operations }: {
-  operations: Operation[]
+  operations: OperationDictionary
 }): CountRange {
   let maximum = 0
   let minimum = 0

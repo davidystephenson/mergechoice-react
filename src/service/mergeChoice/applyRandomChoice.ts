@@ -1,3 +1,4 @@
+import arrayToDictionary from './arrayToDictionary'
 import createActiveChoice from './createActiveChoice'
 import getOperations from './getOperations'
 import getPoints from './getPoints'
@@ -40,9 +41,10 @@ export default async function applyRandomChoice <ListItem extends Item> (props: 
     betterIds.unshift(chosenItem.id)
     const output = [...worseIds, ...betterIds]
     const newOperation = await props.createOperation({ output })
+    const newOperations = { [newOperation.id]: newOperation }
     return {
       ...props.state,
-      activeOperations: [newOperation],
+      activeOperations: newOperations,
       complete: true
     }
   }
@@ -52,21 +54,24 @@ export default async function applyRandomChoice <ListItem extends Item> (props: 
     const operation = await props.createOperation({ output: [id] })
     return operation
   })
-  const completedOperations = await Promise.all(completedOperationPromises)
+  const completedOperationArray = await Promise.all(completedOperationPromises)
+  const completedOperations = arrayToDictionary({ array: completedOperationArray })
   const betterOperation = await props.createOperation({
     output: betterIds
   })
+  const betterOperations = { [betterOperation.id]: betterOperation }
   const worseOperation = await props.createOperation({
     output: worseIds
   })
+  const worseOperations = { [worseOperation.id]: worseOperation }
   const newState: State<ListItem> = {
     ...props.state,
     betterIds,
     worseIds,
     activeIds,
     activeOperations: completedOperations,
-    betterOperations: [betterOperation],
-    worseOperations: [worseOperation],
+    betterOperations,
+    worseOperations,
     complete: false
   }
   newState.activeOperations = await getOperations({

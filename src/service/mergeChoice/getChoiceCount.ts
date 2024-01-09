@@ -1,3 +1,4 @@
+import arrayToDictionary from './arrayToDictionary'
 import createYeastOperation from './createYeastOperation'
 import getTotalSteps from './getTotalSteps'
 import getYeastOperations from './getYeastOperations'
@@ -15,9 +16,10 @@ export default function getChoiceCount <ListItem extends Item> (props: {
   const worseTotal = getTotalSteps({
     operations: props.state.worseOperations
   })
-  const reserveOperations = props.state.reserveIds.map(id => {
+  const reserveOperationArray = props.state.reserveIds.map(id => {
     return createYeastOperation({ output: [id] })
   })
+  const reserveOperations = arrayToDictionary({ array: reserveOperationArray })
   const newReserveOperations = getYeastOperations({
     activeOperations: reserveOperations
   })
@@ -30,13 +32,14 @@ export default function getChoiceCount <ListItem extends Item> (props: {
   const worsePostOperation = createYeastOperation({
     output: props.state.worseIds
   })
+  const operations = {
+    ...newReserveOperations,
+    [activePostOperation.id]: activePostOperation,
+    [betterPostOperation.id]: betterPostOperation,
+    [worsePostOperation.id]: worsePostOperation
+  }
   const reserveTotal = getTotalSteps({
-    operations: [
-      ...newReserveOperations,
-      activePostOperation,
-      betterPostOperation,
-      worsePostOperation
-    ]
+    operations
   })
   const maximum = activeTotal.maximum + betterTotal.maximum + worseTotal.maximum + reserveTotal.maximum
   const minimum = activeTotal.minimum + betterTotal.minimum + worseTotal.minimum + reserveTotal.minimum

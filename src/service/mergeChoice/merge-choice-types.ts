@@ -1,12 +1,13 @@
 export type Id = string | number
-export interface Item {
+export interface Identity {
   id: Id
+}
+export interface Item extends Identity {
   name: string
   updatedAt: Date
 }
 export type Calculated<T> = T & { points: number }
-export interface Operation {
-  id: Id
+export interface Operation extends Identity {
   input: Id[][]
   output: Id[]
 }
@@ -17,9 +18,7 @@ export interface ChoiceData {
   bIndex: number
   random: boolean
 }
-export interface Choice extends ChoiceData {
-  id: Id
-}
+export type Choice = ChoiceData & Identity
 export type OperationDictionary = Record<Id, Operation>
 export interface State <ListItem extends Item> {
   activeIds: Id[]
@@ -38,9 +37,8 @@ export interface State <ListItem extends Item> {
 export type PreviousState <ListItem extends Item> = Omit<State<ListItem>, 'history'> & {
   history?: Array<HistoryEvent<ListItem>>
 }
-export interface HistoryEvent <ListItem extends Item> {
+export interface HistoryEvent <ListItem extends Item> extends Identity {
   createdAt: number
-  id: Id
   choice?: {
     aBetter: boolean
     aId: Id

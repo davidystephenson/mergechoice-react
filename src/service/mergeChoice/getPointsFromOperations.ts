@@ -1,10 +1,11 @@
-import { Id, Operation } from './merge-choice-types'
+import { Id, OperationDictionary } from './merge-choice-types'
 
 export default function getPointsFromOperations (props: {
   itemId: Id
-  operations: Operation[]
+  operations: OperationDictionary
 }): number {
-  for (const operation of props.operations) {
+  const values = Object.values(props.operations)
+  for (const operation of values) {
     const input0 = operation.input[0].some(id => id === props.itemId)
     if (input0) {
       return operation.input[0].indexOf(props.itemId) + operation.output.length

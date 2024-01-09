@@ -53,7 +53,7 @@ export interface MoviesContextValue extends State<Movie> {
   createRandomMovieChoice: () => Promise<void>
   defaultOptionIndex: number | undefined
   history: Array<HistoryEvent<Movie>>
-  importMovies: ({ movies }: { movies: Movie[] }) => Promise<void>
+  importMovies: (porps: { movies: Movie[], slice?: number }) => Promise<void>
   query: string
   random: boolean
   removeMovie: ({ id }: { id: Id }) => Promise<void>

@@ -1,11 +1,13 @@
-import { Operation } from './merge-choice-types'
+import { Operation, OperationDictionary } from './merge-choice-types'
 import range from './range'
 import createYeastOperation from './createYeastOperation'
+import arrayToDictionary from './arrayToDictionary'
 
 export default function getYeastOperations ({ activeOperations }: {
-  activeOperations: Operation[]
-}): Operation[] {
-  const blocks = activeOperations.map(operation => operation.output)
+  activeOperations: OperationDictionary
+}): OperationDictionary {
+  const values = Object.values(activeOperations)
+  const blocks = values.map(operation => operation.output)
   blocks.sort((a, b) => b.length - a.length)
   const newOperations: Operation[] = []
   const pairsCount = Math.floor(blocks.length / 2)
@@ -31,5 +33,6 @@ export default function getYeastOperations ({ activeOperations }: {
     const newOperation = createYeastOperation({ output })
     newOperations.push(newOperation)
   }
-  return newOperations
+  const dictionary = arrayToDictionary({ array: newOperations })
+  return dictionary
 }

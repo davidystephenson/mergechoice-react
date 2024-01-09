@@ -58,11 +58,16 @@ export default function MoviesProvider ({
     setState(newState)
     void storeState(newState)
   }
-  async function importMovies ({ movies }: {
+  async function importMovies (props: {
     movies: Movie[]
+    slice?: number
   }): Promise<void> {
     void updateState(async current => {
-      const newState = await importItems({ items: movies, state: current })
+      const newState = await importItems({
+        items: props.movies,
+        slice: props.slice,
+        state: current
+      })
       return newState
     })
   }
