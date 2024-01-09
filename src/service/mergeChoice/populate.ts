@@ -22,7 +22,7 @@ export default async function populate <ListItem extends Item> (props: {
 
   const newIds = newItems.map(item => item.id)
   if (
-    props.state.finalized ||
+    props.state.complete ||
     (props.state.betterIds.length === 0 && props.state.worseIds.length === 0 && props.state.choice?.random !== true)
   ) {
     const newState: State<ListItem> = createYeastState()
@@ -45,7 +45,7 @@ export default async function populate <ListItem extends Item> (props: {
     newState.activeOperations.push(...props.state.activeOperations)
     const maxSteps = getOperationsSteps({ operations: newState.activeOperations })
     if (maxSteps === 0) {
-      newState.finalized = true
+      newState.complete = true
       return { state: newState, items: newItems }
     }
     newState.choice = await createActiveChoice({
