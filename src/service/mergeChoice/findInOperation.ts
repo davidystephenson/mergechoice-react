@@ -1,13 +1,14 @@
-import { Operation } from './merge-choice-types'
+import { Operation, OperationDictionary } from './merge-choice-types'
 
 export default function findInOperation ({
   itemId,
   operations
 }: {
   itemId: string
-  operations: Operation[]
+  operations: OperationDictionary
 }): Operation {
-  const operation = operations.find(operation => {
+  const values = Object.values(operations)
+  const operation = values.find(operation => {
     const input0 = operation.input[0].some(id => id === itemId)
     if (input0) {
       return true

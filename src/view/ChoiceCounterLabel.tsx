@@ -7,7 +7,7 @@ import DifferenceLabelView from './DifferenceLabel'
 
 export default function ChoiceCounterLabelView (): JSX.Element {
   const moviesContextValue = useMoviesContext()
-  if (moviesContextValue.finalized) {
+  if (moviesContextValue.complete) {
     return <CheckIcon />
   }
   if (moviesContextValue.choiceCount.maximum === 1) {

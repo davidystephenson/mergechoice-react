@@ -6,7 +6,7 @@ import { GiPerspectiveDiceSixFacesRandom } from 'react-icons/gi'
 export default function RandomButtonView (): JSX.Element {
   const moviesContextValue = useMoviesContext()
   useHotkeys('r', moviesContextValue.createRandomMovieChoice)
-  if (!moviesContextValue.finalized) {
+  if (!moviesContextValue.complete) {
     return <></>
   }
   function handleClick (): void {

@@ -1,9 +1,11 @@
 import getMaximumSteps from './getMaximumSteps'
-import { Operation } from './merge-choice-types'
+import { OperationDictionary } from './merge-choice-types'
 
 export default function getOperationsSteps ({ operations }: {
-  operations: Operation[]
+  operations: OperationDictionary
 }): number {
-  const maxSteps = Math.max(...operations.map(operation => getMaximumSteps({ operation })))
+  const values = Object.values(operations)
+  const steps = values.map(operation => getMaximumSteps({ operation }))
+  const maxSteps = Math.max(...steps)
   return maxSteps
 }

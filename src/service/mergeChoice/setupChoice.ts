@@ -20,7 +20,7 @@ export default async function setupChoice <ListItem extends Item> (props: {
     return {
       ...props.state,
       choice: newChoice,
-      finalized: false
+      complete: false
     }
   } else {
     const newOperations = await getOperations({
@@ -37,7 +37,7 @@ export default async function setupChoice <ListItem extends Item> (props: {
         ...props.state,
         activeOperations: newOperations,
         choice: nextChoice,
-        finalized: false
+        complete: false
       }
     } else {
       sortItems({
@@ -69,7 +69,7 @@ export default async function setupChoice <ListItem extends Item> (props: {
         worseIds: [],
         activeOperations: combinedOperations,
         choice: undefined,
-        finalized: false
+        complete: false
       }
       const reserveItems = props.state.reserveIds.map(id => getItem({ id, items: props.state.items }))
       const population = await populate({

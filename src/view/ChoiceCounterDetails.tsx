@@ -3,7 +3,7 @@ import useMoviesContext from '../context/movies/useMoviesContext'
 
 export default function ChoiceCounterDetailsView (): JSX.Element {
   const moviesContextValue = useMoviesContext()
-  if (moviesContextValue.finalized) {
+  if (moviesContextValue.complete) {
     return <>Your list is sorted!</>
   }
   if (moviesContextValue.random) {

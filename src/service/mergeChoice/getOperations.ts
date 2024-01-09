@@ -1,11 +1,12 @@
 import range from './range'
-import { CreateOperation, Operation } from './merge-choice-types'
+import { CreateOperation, Operation, OperationDictionary } from './merge-choice-types'
 
 export default async function getOperations (props: {
-  activeOperations: Operation[]
+  activeOperations: OperationDictionary
   createOperation: CreateOperation
 }): Promise<Operation[]> {
-  const blocks = props.activeOperations.map(operation => operation.output)
+  const values = Object.values(props.activeOperations)
+  const blocks = values.map(operation => operation.output)
   blocks.sort((a, b) => b.length - a.length)
   const newOperations: Operation[] = []
   const pairsCount = Math.floor(blocks.length / 2)

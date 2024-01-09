@@ -4,7 +4,7 @@ import { Item, State } from './merge-choice-types'
 export default function createYeastState <ListItem extends Item> (): State<ListItem> {
   return {
     activeIds: [],
-    activeOperations: [],
+    activeOperations: {},
     choice: createYeastChoice({
       options: [],
       aIndex: 0,
@@ -12,12 +12,12 @@ export default function createYeastState <ListItem extends Item> (): State<ListI
       random: false
     }),
     history: [],
-    finalized: false,
+    complete: false,
     betterIds: [],
     worseIds: [],
-    betterOperations: [],
+    betterOperations: {},
     reserveIds: [],
     items: {},
-    worseOperations: []
+    worseOperations: {}
   }
 }

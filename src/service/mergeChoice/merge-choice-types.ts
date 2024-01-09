@@ -2,7 +2,7 @@ export type Id = string | number
 export interface Item {
   id: Id
   name: string
-  updatedAt: number
+  updatedAt: Date
 }
 export type Calculated<T> = T & { points: number }
 export interface Operation {
@@ -12,7 +12,7 @@ export interface Operation {
 }
 export interface ChoiceData {
   options: Id[]
-  currentOperationId?: Id
+  operationId?: Id
   aIndex: number
   bIndex: number
   random: boolean
@@ -20,19 +20,21 @@ export interface ChoiceData {
 export interface Choice extends ChoiceData {
   id: Id
 }
+export type OperationDictionary = Record<Id, Operation>
 export interface State <ListItem extends Item> {
-  items: Record<Id, ListItem>
   activeIds: Id[]
+  activeOperations: OperationDictionary
   betterIds: Id[]
-  worseIds: Id[]
-  reserveIds: Id[]
-  activeOperations: Operation[]
-  betterOperations: Operation[]
-  worseOperations: Operation[]
+  betterOperations: OperationDictionary
   choice?: Choice
+  complete: boolean
   history: Array<HistoryEvent<ListItem>>
-  finalized: boolean
+  items: Record<Id, ListItem>
+  reserveIds: Id[]
+  worseIds: Id[]
+  worseOperations: OperationDictionary
 }
+
 export type PreviousState <ListItem extends Item> = Omit<State<ListItem>, 'history'> & {
   history?: Array<HistoryEvent<ListItem>>
 }
@@ -58,7 +60,7 @@ export interface HistoryEvent <ListItem extends Item> {
 }
 export interface RemovalFromOperations {
   emptiedOperationId?: Id
-  operations: Operation[]
+  operations: OperationDictionary
 }
 export interface CountRange {
   maximum: number

@@ -19,7 +19,7 @@ export default async function applyRandomChoice <ListItem extends Item> (props: 
   const unchosenPoints = props.aBetter ? props.bPoints : props.aPoints
   const consistent = chosenPoints > unchosenPoints
   if (consistent) {
-    return { ...props.state, finalized: true }
+    return { ...props.state, complete: true }
   }
   // TODO single reduce
   const betterIds = props.state.activeIds.filter(id => {
@@ -43,7 +43,7 @@ export default async function applyRandomChoice <ListItem extends Item> (props: 
     return {
       ...props.state,
       activeOperations: [newOperation],
-      finalized: true
+      complete: true
     }
   }
   activeIds.push(chosenItem.id)
@@ -67,7 +67,7 @@ export default async function applyRandomChoice <ListItem extends Item> (props: 
     activeOperations: completedOperations,
     betterOperations: [betterOperation],
     worseOperations: [worseOperation],
-    finalized: false
+    complete: false
   }
   newState.activeOperations = await getOperations({
     activeOperations: newState.activeOperations,

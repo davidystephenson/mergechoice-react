@@ -19,6 +19,6 @@ export default async function createRandomChoice <ListItem extends Item> (props:
   return {
     ...props.state,
     choice: newChoice,
-    finalized: false
+    complete: false
   }
 }

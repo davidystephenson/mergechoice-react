@@ -10,7 +10,7 @@ export default function compareItems (props: {
       if (props.a.updatedAt === props.b.updatedAt) {
         return props.b.name.localeCompare(props.a.name) * -1
       }
-      return props.b.updatedAt - props.a.updatedAt
+      return props.b.updatedAt.getTime() - props.a.updatedAt.getTime()
     }
     if (props.worseFirst === true) {
       return props.a.score - props.b.score

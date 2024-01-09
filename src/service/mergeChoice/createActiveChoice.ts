@@ -1,16 +1,16 @@
 import getChoiceOperation from './getChoiceOperation'
 import getOperation from './getOperation'
 import getRandom from './getRandom'
-import { Operation, Choice, ChoiceData, CreateChoice } from './merge-choice-types'
+import { Choice, ChoiceData, CreateChoice, OperationDictionary } from './merge-choice-types'
 
 export default async function createActiveChoice (props: {
-  activeOperations: Operation[]
+  activeOperations: OperationDictionary
   createChoice: CreateChoice
 }): Promise<Choice> {
   const choiceOperation = getChoiceOperation({ operations: props.activeOperations })
   const currentOperation = getOperation({
     operations: props.activeOperations,
-    id: choiceOperation.operation.id
+    id: choiceOperation.id
   })
   const firstOption = currentOperation.input[0][0]
   if (firstOption == null) {
@@ -24,7 +24,7 @@ export default async function createActiveChoice (props: {
   const bIndex = 1 - aIndex
   const newChoiceData: ChoiceData = {
     options: [firstOption, secondOption],
-    currentOperationId: choiceOperation.operation.id,
+    operationId: choiceOperation.id,
     aIndex,
     bIndex,
     random: false

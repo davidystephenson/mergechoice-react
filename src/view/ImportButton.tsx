@@ -18,7 +18,7 @@ export default function ImportButtonView (): JSX.Element {
   }: {
     data: CritickerRow[]
   }): Promise<void> {
-    const updatedAt = Date.now()
+    const updatedAt = new Date()
     const movies: Movie[] = data.map((row: CritickerRow) => {
       const date = new Date(row[' Date Rated'])
       const score = Number(row.Score)
