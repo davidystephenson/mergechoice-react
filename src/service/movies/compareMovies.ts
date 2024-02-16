@@ -1,6 +1,6 @@
 import { CalculatedMovie } from '../../types'
 
-export default function compareItems (props: {
+export default function compareMovies (props: {
   a: CalculatedMovie
   b: CalculatedMovie
   worseFirst?: boolean
@@ -10,7 +10,7 @@ export default function compareItems (props: {
       if (props.a.updatedAt === props.b.updatedAt) {
         return props.b.name.localeCompare(props.a.name) * -1
       }
-      return props.b.updatedAt.getTime() - props.a.updatedAt.getTime()
+      return props.b.updatedAt - props.a.updatedAt
     }
     if (props.worseFirst === true) {
       return props.a.score - props.b.score

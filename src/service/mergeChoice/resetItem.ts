@@ -1,4 +1,4 @@
-import { CreateChoice, CreateOperation, Id, Item, State } from './merge-choice-types'
+import { CreateChoice, CreateOperation, ItemId, Item, State } from './merge-choice-types'
 import getItem from './getItem'
 import removeItem from './removeItem'
 import populate from './populate'
@@ -8,7 +8,7 @@ import asyncCreateYeastChoice from './asyncCreateYeastChoice'
 export default async function resetItem <ListItem extends Item> (props: {
   createChoice?: CreateChoice
   createOperation?: CreateOperation
-  id: Id
+  id: ItemId
   state: State<ListItem>
 }): Promise<State<ListItem>> {
   const createChoice = props.createChoice ?? asyncCreateYeastChoice

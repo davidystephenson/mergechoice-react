@@ -21,7 +21,7 @@ export default function useTableItems (): TableItem[] {
       tableItems.push(
         { historyImportHeading: { event } }
       )
-      const open = event.import.items.length === 1 || historyContextValue.openIds.includes(event.id)
+      const open = event.import.items.length === 1 || historyContextValue.openIds.includes(event.mergeChoiceId)
       if (!open) {
         return
       }

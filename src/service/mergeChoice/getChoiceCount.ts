@@ -34,9 +34,9 @@ export default function getChoiceCount <ListItem extends Item> (props: {
   })
   const operations = {
     ...newReserveOperations,
-    [activePostOperation.id]: activePostOperation,
-    [betterPostOperation.id]: betterPostOperation,
-    [worsePostOperation.id]: worsePostOperation
+    [activePostOperation.mergeChoiceId]: activePostOperation,
+    [betterPostOperation.mergeChoiceId]: betterPostOperation,
+    [worsePostOperation.mergeChoiceId]: worsePostOperation
   }
   const reserveTotal = getTotalSteps({
     operations

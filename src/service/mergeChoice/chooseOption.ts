@@ -53,7 +53,7 @@ export default async function chooseOption <ListItem extends Item> (props: {
       random: oldState.choice.random
     },
     createdAt: Date.now(),
-    id: Math.random().toString(),
+    mergeChoiceId: Math.random().toString(),
     previousState
   }
   newState.history = [newHistoryEvent, ...newState.history]

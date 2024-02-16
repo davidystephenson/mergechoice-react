@@ -11,7 +11,7 @@ export default function HistoryEventProvider (props: {
   const moviesContextValue = useMoviesContext()
   async function rewind (): Promise<void> {
     await moviesContextValue.rewind({
-      historyEventId: props.historyEvent.id
+      historyEventId: props.historyEvent.mergeChoiceId
     })
   }
   const timestamp = new Date(props.historyEvent.createdAt).toLocaleString()

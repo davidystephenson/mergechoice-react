@@ -11,9 +11,10 @@ import importItems from '../../service/mergeChoice/importItems'
 import rewindState from '../../service/mergeChoice/rewindState'
 import getChoiceCount from '../../service/mergeChoice/getChoiceCount'
 import getSortedMovies from '../../service/movies/getSortedMovies'
-import { Id, State } from '../../service/mergeChoice/merge-choice-types'
+import { ItemId, State } from '../../service/mergeChoice/merge-choice-types'
 import isResult from '../../service/movies/isResult'
 import resetItem from '../../service/mergeChoice/resetItem'
+import debugOperations from '../../service/mergeChoice/debugOperations'
 
 export default function MoviesProvider ({
   children
@@ -23,6 +24,7 @@ export default function MoviesProvider ({
   const [state, setState] = useState<State<Movie>>(() => {
     return getStorage({ key: 'state', defaultValue: createYeastState() })
   })
+  debugOperations({ label: 'render', items: state.items, operations: state.activeOperations })
   const [sortedMovies, setSortedMovies] = useState(() => {
     const sortedMovies = getSortedMovies({ state })
     return sortedMovies
@@ -81,20 +83,20 @@ export default function MoviesProvider ({
       return await newState
     })
   }
-  async function removeMovie ({ id }: { id: Id }): Promise<void> {
+  async function removeMovie ({ id }: { id: ItemId }): Promise<void> {
     void updateState(async current => {
       const newState = await removeItem({ id, state: current })
       return newState
     })
   }
-  async function resetMovie ({ id }: { id: Id }): Promise<void> {
+  async function resetMovie ({ id }: { id: ItemId }): Promise<void> {
     void updateState(async current => {
       const newState = await resetItem({ id, state: current })
       return newState
     })
   }
   async function rewind ({ historyEventId }: {
-    historyEventId: Id
+    historyEventId: ItemId
   }): Promise<void> {
     void updateState(async current => {
       const newState = rewindState({ state: current, historyEventId })

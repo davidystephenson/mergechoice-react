@@ -4,6 +4,7 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import useMoviesContext from '../context/movies/useMoviesContext'
 import ClearButtonView from './ClearButton'
 import { useHotkeys } from 'react-hotkeys-hook'
+import MovieHeadingsRowView from './MovieHeadingsRow'
 
 export default function SearchView (): JSX.Element {
   const moviesContextValue = useMoviesContext()
@@ -32,22 +33,27 @@ export default function SearchView (): JSX.Element {
     setAutoFocus(true)
   })
   return (
-    <Tr background='var(--chakra-colors-chakra-body-bg)'>
-      <SingleRowView py='0'>
-        <InputGroup>
-          <Input
-            ref={inputRef}
-            value={moviesContextValue.query}
-            variant='flushed'
-            placeholder='Search'
-            onBlur={handleBlur}
-            onChange={handleChange}
-            onKeyDown={handleKeyUp}
-            autoFocus={autoFocus}
-          />
-          <ClearButtonView />
-        </InputGroup>
-      </SingleRowView>
-    </Tr>
+    <>
+      <Tr background='var(--chakra-colors-chakra-body-bg)'>
+        <SingleRowView py='0'>
+          <InputGroup>
+            <Input
+              ref={inputRef}
+              value={moviesContextValue.query}
+              variant='flushed'
+              placeholder='Search'
+              onBlur={handleBlur}
+              onChange={handleChange}
+              onKeyDown={handleKeyUp}
+              autoFocus={autoFocus}
+            />
+            <ClearButtonView />
+          </InputGroup>
+        </SingleRowView>
+      </Tr>
+      <Tr>
+        <MovieHeadingsRowView />
+      </Tr>
+    </>
   )
 }

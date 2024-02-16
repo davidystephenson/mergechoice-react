@@ -1,7 +1,7 @@
-import { Id, OperationDictionary } from './merge-choice-types'
+import { ItemId, OperationDictionary } from './merge-choice-types'
 
 export default function getPointsFromOperations (props: {
-  itemId: Id
+  itemId: ItemId
   operations: OperationDictionary
 }): number {
   const values = Object.values(props.operations)

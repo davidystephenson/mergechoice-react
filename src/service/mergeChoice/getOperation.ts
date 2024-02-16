@@ -1,8 +1,8 @@
-import { Operation, Id, OperationDictionary } from './merge-choice-types'
+import { Operation, ItemId, OperationDictionary } from './merge-choice-types'
 
 export default function getOperation (props: {
   operations: OperationDictionary
-  id: Id
+  id: ItemId
 }): Operation {
   const operation = props.operations[props.id]
   if (operation == null) {

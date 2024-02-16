@@ -1,11 +1,11 @@
 import cloneOperation from './cloneOperation'
-import { Id, OperationDictionary, RemovalFromOperations } from './merge-choice-types'
+import { ItemId, OperationDictionary, RemovalFromOperations } from './merge-choice-types'
 
 export default function removeFromOperations (props: {
-  itemId: Id
+  itemId: ItemId
   operations: OperationDictionary
 }): RemovalFromOperations {
-  let emptiedOperationId: Id | undefined
+  let emptiedOperationId: ItemId | undefined
   const entries = Object.entries(props.operations)
   const newEntries = entries.map((entry) => {
     const [id, operation] = entry
@@ -20,7 +20,7 @@ export default function removeFromOperations (props: {
     if (inFirstInput) {
       newOperation.input[0] = newOperation.input[0].filter(existingId => existingId !== props.itemId)
       if (newOperation.input[0].length === 0) {
-        emptiedOperationId = operation.id
+        emptiedOperationId = operation.mergeChoiceId
         newOperation.output.push(...newOperation.input[1])
         newOperation.input[1] = []
       }
@@ -28,7 +28,7 @@ export default function removeFromOperations (props: {
     if (inSecondInput) {
       newOperation.input[1] = newOperation.input[1].filter(existingId => existingId !== props.itemId)
       if (newOperation.input[1].length === 0) {
-        emptiedOperationId = operation.id
+        emptiedOperationId = operation.mergeChoiceId
         newOperation.output.push(...newOperation.input[0])
         newOperation.input[1] = []
       }

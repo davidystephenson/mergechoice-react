@@ -1,12 +1,12 @@
 import yeast from 'yeast'
-import { Id, Operation } from './merge-choice-types'
+import { ItemId, Operation } from './merge-choice-types'
 
 export default function createYeastOperation (props?: {
-  input?: [Id[], Id[]]
-  output?: Id[]
+  input?: [ItemId[], ItemId[]]
+  output?: ItemId[]
 }): Operation {
   return {
-    id: yeast(),
+    mergeChoiceId: yeast(),
     input: props?.input ?? [[], []],
     output: props?.output ?? []
   }

@@ -31,12 +31,12 @@ export default async function applyChoice <ListItem extends Item> (props: {
       state: props.state
     })
   }
-  if (props.state.choice.operationId == null) {
+  if (props.state.choice.operationMergeChoiceId == null) {
     throw new Error('There is no currentOperationId')
   }
   const currentOperation = getOperation({
     operations: props.state.activeOperations,
-    id: props.state.choice.operationId
+    id: props.state.choice.operationMergeChoiceId
   })
   const betterInput = currentOperation.input[props.betterIndex]
   const worseIndex = 1 - props.betterIndex
@@ -46,7 +46,7 @@ export default async function applyChoice <ListItem extends Item> (props: {
     throw new Error('There is no worseId')
   }
   const worseItem = getItem({ id: worseId, items: props.state.items })
-  worseItem.updatedAt = new Date()
+  worseItem.updatedAt = Date.now()
   currentOperation.output.push(worseId)
   if (worseInput.length === 0) {
     currentOperation.output.push(...betterInput)

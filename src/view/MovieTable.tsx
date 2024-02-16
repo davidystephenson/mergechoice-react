@@ -15,9 +15,9 @@ export default function MovieTableView (): JSX.Element {
   const TableComponents: TableComponents<TableItem> = {
     Scroller,
     Table: (props) => <Table {...props} size='sm' />,
+    TableBody: forwardRef((props, ref) => <Tbody {...props} ref={ref} />),
     TableHead: Thead,
-    TableRow: Tr,
-    TableBody: forwardRef((props, ref) => <Tbody {...props} ref={ref} />)
+    TableRow: Tr
   }
   return (
     <TableVirtuoso

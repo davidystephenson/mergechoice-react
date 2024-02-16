@@ -5,7 +5,7 @@ export default function createYeastChoice (props: ChoiceData): Choice {
   const id = yeast()
   const newChoice: Choice = {
     ...props,
-    id
+    mergeChoiceId: id
   }
   return newChoice
 }

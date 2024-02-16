@@ -4,6 +4,7 @@ import { Item, State, HistoryEvent, CreateOperation, CreateChoice } from './merg
 import getShuffled from './getShuffled'
 import asyncCreateYeastOperation from './asyncCreateYeastOperation'
 import asyncCreateYeastChoice from './asyncCreateYeastChoice'
+import setupChoice from './setupChoice'
 
 export default async function importItems <ListItem extends Item> (props: {
   createChoice?: CreateChoice
@@ -32,14 +33,19 @@ export default async function importItems <ListItem extends Item> (props: {
       points: 0
     }
   })
+  const setupState = await setupChoice({
+    createChoice,
+    createOperation,
+    state: population.state
+  })
   const historyEvent: HistoryEvent<ListItem> = {
     createdAt: Date.now(),
-    id: yeast(),
+    mergeChoiceId: yeast(),
     import: {
       items: calculated
     },
     previousState
   }
-  population.state.history.unshift(historyEvent)
-  return population.state
+  setupState.history.unshift(historyEvent)
+  return setupState
 }

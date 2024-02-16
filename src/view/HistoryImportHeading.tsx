@@ -15,9 +15,9 @@ export default function HistoryImportHeadingView (): JSX.Element {
   if (historyEventContextValue.import == null) {
     throw new Error('There is no import.')
   }
-  const open = historyContextValue.openIds.includes(historyEventContextValue.id)
+  const open = historyContextValue.openIds.includes(historyEventContextValue.mergeChoiceId)
   function handleOpenClick (): void {
-    historyContextValue.toggleEvent(historyEventContextValue.id)
+    historyContextValue.toggleEvent(historyEventContextValue.mergeChoiceId)
   }
   const matches = historyEventContextValue.import.items.filter(item => {
     return isResult({ movie: item, query: moviesContextValue.query })

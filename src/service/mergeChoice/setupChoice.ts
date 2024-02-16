@@ -61,7 +61,7 @@ export default async function setupChoice <ListItem extends Item> (props: {
       const combinedOperation = await props.createOperation({
         output: combinedIds
       })
-      const combinedOperations = { [combinedOperation.id]: combinedOperation }
+      const combinedOperations = { [combinedOperation.mergeChoiceId]: combinedOperation }
       const combinedState: State<ListItem> = {
         ...props.state,
         activeIds: combinedIds,

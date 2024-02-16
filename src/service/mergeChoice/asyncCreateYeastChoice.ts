@@ -5,7 +5,7 @@ export default async function asyncCreateYeastChoice (props: ChoiceData): Promis
   const id = yeast()
   const newChoice: Choice = {
     ...props,
-    id
+    mergeChoiceId: id
   }
   return newChoice
 }

@@ -8,7 +8,7 @@ export default function cloneOperation ({
   const input = operation.input.map(input => [...input])
   const output = [...operation.output]
   const newOperation: Operation = {
-    id: operation.id,
+    mergeChoiceId: operation.mergeChoiceId,
     input,
     output
   }

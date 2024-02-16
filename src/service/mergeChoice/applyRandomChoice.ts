@@ -41,7 +41,7 @@ export default async function applyRandomChoice <ListItem extends Item> (props: 
     betterIds.unshift(chosenItem.id)
     const output = [...worseIds, ...betterIds]
     const newOperation = await props.createOperation({ output })
-    const newOperations = { [newOperation.id]: newOperation }
+    const newOperations = { [newOperation.mergeChoiceId]: newOperation }
     return {
       ...props.state,
       activeOperations: newOperations,
@@ -59,11 +59,11 @@ export default async function applyRandomChoice <ListItem extends Item> (props: 
   const betterOperation = await props.createOperation({
     output: betterIds
   })
-  const betterOperations = { [betterOperation.id]: betterOperation }
+  const betterOperations = { [betterOperation.mergeChoiceId]: betterOperation }
   const worseOperation = await props.createOperation({
     output: worseIds
   })
-  const worseOperations = { [worseOperation.id]: worseOperation }
+  const worseOperations = { [worseOperation.mergeChoiceId]: worseOperation }
   const newState: State<ListItem> = {
     ...props.state,
     betterIds,

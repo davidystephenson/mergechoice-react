@@ -1,13 +1,13 @@
-import { Id, Item, State } from './merge-choice-types'
+import { ItemId, Item, State } from './merge-choice-types'
 
 export default function rewindState <ListItem extends Item> ({
   historyEventId,
   state
 }: {
-  historyEventId: Id
+  historyEventId: ItemId
   state: State<ListItem>
 }): State<ListItem> {
-  const historyEvent = state.history.find(event => event.id === historyEventId)
+  const historyEvent = state.history.find(event => event.mergeChoiceId === historyEventId)
   if (historyEvent == null) {
     const message = `There is no history event with id ${historyEventId}.`
     throw new Error(message)

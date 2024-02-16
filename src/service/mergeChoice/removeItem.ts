@@ -3,7 +3,7 @@ import createActiveChoice from './createActiveChoice'
 import getPoints from './getPoints'
 import removeFromOperations from './removeFromOperations'
 import setupChoice from './setupChoice'
-import { Item, State, HistoryEvent, Calculated, CreateOperation, Id, CreateChoice } from './merge-choice-types'
+import { Item, State, HistoryEvent, Calculated, CreateOperation, ItemId, CreateChoice } from './merge-choice-types'
 import getItem from './getItem'
 import asyncCreateYeastOperation from './asyncCreateYeastOperation'
 import asyncCreateYeastChoice from './asyncCreateYeastChoice'
@@ -11,7 +11,7 @@ import asyncCreateYeastChoice from './asyncCreateYeastChoice'
 export default async function removeItem <ListItem extends Item> (props: {
   createChoice?: CreateChoice
   createOperation?: CreateOperation
-  id: Id
+  id: ItemId
   state: State<ListItem>
 }): Promise<State<ListItem>> {
   const createChoice = props.createChoice ?? asyncCreateYeastChoice
@@ -42,12 +42,12 @@ export default async function removeItem <ListItem extends Item> (props: {
       id: props.id,
       item: historyItem
     },
-    id: yeast(),
+    mergeChoiceId: yeast(),
     previousState
   }
   props.state.history.unshift(removeEvent)
 
-  const emptiedCurrentOperation = activeRemoval.emptiedOperationId === props.state.choice?.operationId
+  const emptiedCurrentOperation = activeRemoval.emptiedOperationId === props.state.choice?.operationMergeChoiceId
   if (emptiedCurrentOperation) {
     return await setupChoice({
       state: props.state,

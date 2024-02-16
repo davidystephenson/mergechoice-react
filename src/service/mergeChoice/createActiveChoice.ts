@@ -10,7 +10,7 @@ export default async function createActiveChoice (props: {
   const choiceOperation = getChoiceOperation({ operations: props.activeOperations })
   const currentOperation = getOperation({
     operations: props.activeOperations,
-    id: choiceOperation.id
+    id: choiceOperation.mergeChoiceId
   })
   const firstOption = currentOperation.input[0][0]
   if (firstOption == null) {
@@ -24,7 +24,7 @@ export default async function createActiveChoice (props: {
   const bIndex = 1 - aIndex
   const newChoiceData: ChoiceData = {
     options: [firstOption, secondOption],
-    operationId: choiceOperation.id,
+    operationMergeChoiceId: choiceOperation.mergeChoiceId,
     aIndex,
     bIndex,
     random: false
