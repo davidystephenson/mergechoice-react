@@ -5,7 +5,6 @@ export interface Identity {
 export interface Item {
   id: ItemId
   name: string
-  updatedAt: number
 }
 export type Calculated<T> = T & { points: number }
 export interface Operation extends Identity {
@@ -69,8 +68,3 @@ export interface Population <ListItem extends Item> {
   state: State<ListItem>
   items: ListItem[]
 }
-export type CreateOperation = (props?: {
-  input?: [ItemId[], ItemId[]]
-  output?: ItemId[]
-}) => Promise<Operation>
-export type CreateChoice = (props: ChoiceData) => Promise<Choice>

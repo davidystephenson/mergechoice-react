@@ -1,6 +1,6 @@
 import { Operation, OperationDictionary } from './merge-choice-types'
 import range from './range'
-import createYeastOperation from './createYeastOperation'
+import createOperation from './createOperation'
 import arrayToDictionary from './arrayToDictionary'
 
 export default function getYeastOperations ({ activeOperations }: {
@@ -20,7 +20,7 @@ export default function getYeastOperations ({ activeOperations }: {
     if (blockB == null) {
       throw new Error('blockB is null')
     }
-    const newOperation = createYeastOperation({
+    const newOperation = createOperation({
       input: [blockA, blockB]
     })
     newOperations.unshift(newOperation)
@@ -30,7 +30,7 @@ export default function getYeastOperations ({ activeOperations }: {
     if (output == null) {
       throw new Error('output is null')
     }
-    const newOperation = createYeastOperation({ output })
+    const newOperation = createOperation({ output })
     newOperations.push(newOperation)
   }
   const dictionary = arrayToDictionary({ array: newOperations })

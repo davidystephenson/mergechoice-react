@@ -1,12 +1,10 @@
-import asyncCreateYeastChoice from './asyncCreateYeastChoice'
+import createChoice from './createChoice'
 import getShuffled from './getShuffled'
-import { Item, State, ChoiceData, CreateChoice } from './merge-choice-types'
+import { Item, State, ChoiceData } from './merge-choice-types'
 
-export default async function createRandomChoice <ListItem extends Item> (props: {
-  createChoice?: CreateChoice
+export default function createRandomChoice <ListItem extends Item> (props: {
   state: State<ListItem>
-}): Promise<State<ListItem>> {
-  const createChoice = props.createChoice ?? asyncCreateYeastChoice
+}): State<ListItem> {
   const shuffledActiveIds = getShuffled(props.state.activeIds)
   const [first, second] = shuffledActiveIds
   const newChoiceData: ChoiceData = {
@@ -15,7 +13,7 @@ export default async function createRandomChoice <ListItem extends Item> (props:
     bIndex: 1,
     random: true
   }
-  const newChoice = await createChoice(newChoiceData)
+  const newChoice = createChoice(newChoiceData)
   return {
     ...props.state,
     choice: newChoice,

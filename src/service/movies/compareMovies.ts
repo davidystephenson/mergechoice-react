@@ -7,10 +7,7 @@ export default function compareMovies (props: {
 }): number {
   if (props.a.points === props.b.points) {
     if (props.b.score === props.a.score) {
-      if (props.a.updatedAt === props.b.updatedAt) {
-        return props.b.name.localeCompare(props.a.name) * -1
-      }
-      return props.b.updatedAt - props.a.updatedAt
+      return props.b.name.localeCompare(props.a.name) * -1
     }
     if (props.worseFirst === true) {
       return props.a.score - props.b.score

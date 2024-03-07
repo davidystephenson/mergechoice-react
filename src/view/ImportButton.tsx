@@ -18,7 +18,6 @@ export default function ImportButtonView (): JSX.Element {
   }: {
     data: CritickerRow[]
   }): Promise<void> {
-    const updatedAt = Date.now()
     const movies: Movie[] = data.map((row: CritickerRow) => {
       const date = new Date(row[' Date Rated'])
       const score = Number(row.Score)
@@ -31,12 +30,11 @@ export default function ImportButtonView (): JSX.Element {
         score,
         name: row[' Film Name'],
         year,
-        updatedAt,
         url: row[' URL']
       }
       return movie
     })
-    await moviesContextValue.importMovies({ movies, slice: 10 })
+    await moviesContextValue.importMovies({ movies, slice: 1 })
     setInitializing(false)
   }
   function handleFileChange (e: ChangeEvent<HTMLInputElement>): void {

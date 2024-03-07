@@ -1,12 +1,12 @@
+import createChoice from './createChoice'
 import getChoiceOperation from './getChoiceOperation'
 import getOperation from './getOperation'
 import getRandom from './getRandom'
-import { Choice, ChoiceData, CreateChoice, OperationDictionary } from './merge-choice-types'
+import { Choice, ChoiceData, OperationDictionary } from './merge-choice-types'
 
-export default async function createActiveChoice (props: {
+export default function createActiveChoice (props: {
   activeOperations: OperationDictionary
-  createChoice: CreateChoice
-}): Promise<Choice> {
+}): Choice {
   const choiceOperation = getChoiceOperation({ operations: props.activeOperations })
   const currentOperation = getOperation({
     operations: props.activeOperations,
@@ -29,6 +29,6 @@ export default async function createActiveChoice (props: {
     bIndex,
     random: false
   }
-  const newChoice = await props.createChoice(newChoiceData)
+  const newChoice = createChoice(newChoiceData)
   return newChoice
 }

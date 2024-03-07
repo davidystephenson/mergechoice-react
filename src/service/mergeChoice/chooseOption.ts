@@ -1,18 +1,12 @@
 import applyChoice from './applyChoice'
-import asyncCreateYeastOperation from './asyncCreateYeastOperation'
-import asyncCreateYeastChoice from './asyncCreateYeastChoice'
 import getItem from './getItem'
 import getPoints from './getPoints'
-import { Item, State, HistoryEvent, Calculated, CreateOperation, CreateChoice } from './merge-choice-types'
+import { Item, State, HistoryEvent, Calculated } from './merge-choice-types'
 
-export default async function chooseOption <ListItem extends Item> (props: {
+export default function chooseOption <ListItem extends Item> (props: {
   betterIndex: number
-  createChoice?: CreateChoice
-  createOperation?: CreateOperation
   state: State<ListItem>
-}): Promise<State<ListItem>> {
-  const createChoice = props.createChoice ?? asyncCreateYeastChoice
-  const createOperation = props.createOperation ?? asyncCreateYeastOperation
+}): State<ListItem> {
   if (props.state.choice == null) {
     throw new Error('There is no choice.')
   }
@@ -22,13 +16,11 @@ export default async function chooseOption <ListItem extends Item> (props: {
   const aBetter = props.betterIndex === props.state.choice.aIndex
   const aItem = getItem({ id: aId, items: props.state.items })
   const bItem = getItem({ id: bId, items: props.state.items })
-  const newState = await applyChoice({
+  const newState = applyChoice({
     aBetter,
     aItem,
     betterIndex: props.betterIndex,
     bItem,
-    createChoice,
-    createOperation,
     state: props.state
   })
   const newAPoints = getPoints({ debug: true, itemId: aItem.id, state: newState })

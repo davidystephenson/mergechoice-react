@@ -3,19 +3,13 @@ import createActiveChoice from './createActiveChoice'
 import getPoints from './getPoints'
 import removeFromOperations from './removeFromOperations'
 import setupChoice from './setupChoice'
-import { Item, State, HistoryEvent, Calculated, CreateOperation, ItemId, CreateChoice } from './merge-choice-types'
+import { Item, State, HistoryEvent, Calculated, ItemId } from './merge-choice-types'
 import getItem from './getItem'
-import asyncCreateYeastOperation from './asyncCreateYeastOperation'
-import asyncCreateYeastChoice from './asyncCreateYeastChoice'
 
-export default async function removeItem <ListItem extends Item> (props: {
-  createChoice?: CreateChoice
-  createOperation?: CreateOperation
+export default function removeItem <ListItem extends Item> (props: {
   id: ItemId
   state: State<ListItem>
-}): Promise<State<ListItem>> {
-  const createChoice = props.createChoice ?? asyncCreateYeastChoice
-  const createOperation = props.createOperation ?? asyncCreateYeastOperation
+}): State<ListItem> {
   const item = getItem({ id: props.id, items: props.state.items })
   const statePoints = getPoints({ itemId: props.id, state: props.state })
   const historyItem: Calculated<ListItem> = { ...item, points: statePoints }
@@ -49,15 +43,12 @@ export default async function removeItem <ListItem extends Item> (props: {
 
   const emptiedCurrentOperation = activeRemoval.emptiedOperationId === props.state.choice?.operationMergeChoiceId
   if (emptiedCurrentOperation) {
-    return await setupChoice({
-      state: props.state,
-      createChoice,
-      createOperation
+    return setupChoice({
+      state: props.state
     })
   } else if (props.state.choice?.options.includes(props.id) === true) {
-    props.state.choice = await createActiveChoice({
-      activeOperations: props.state.activeOperations,
-      createChoice
+    props.state.choice = createActiveChoice({
+      activeOperations: props.state.activeOperations
     })
   }
   return props.state

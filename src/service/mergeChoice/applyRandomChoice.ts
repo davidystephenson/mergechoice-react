@@ -1,19 +1,18 @@
 import arrayToDictionary from './arrayToDictionary'
 import createActiveChoice from './createActiveChoice'
+import createOperation from './createOperation'
 import getOperations from './getOperations'
 import getPoints from './getPoints'
-import { Item, State, CreateOperation, CreateChoice } from './merge-choice-types'
+import { Item, State } from './merge-choice-types'
 
-export default async function applyRandomChoice <ListItem extends Item> (props: {
+export default function applyRandomChoice <ListItem extends Item> (props: {
   aBetter: boolean
   aItem: ListItem
   aPoints: number
   bItem: ListItem
   bPoints: number
-  createChoice: CreateChoice
-  createOperation: CreateOperation
   state: State<ListItem>
-}): Promise<State<ListItem>> {
+}): State<ListItem> {
   const chosenItem = props.aBetter ? props.aItem : props.bItem
   const unchosenItem = props.aBetter ? props.bItem : props.aItem
   const chosenPoints = props.aBetter ? props.aPoints : props.bPoints
@@ -40,7 +39,7 @@ export default async function applyRandomChoice <ListItem extends Item> (props: 
     worseIds.push(unchosenItem.id)
     betterIds.unshift(chosenItem.id)
     const output = [...worseIds, ...betterIds]
-    const newOperation = await props.createOperation({ output })
+    const newOperation = createOperation({ output })
     const newOperations = { [newOperation.mergeChoiceId]: newOperation }
     return {
       ...props.state,
@@ -50,17 +49,16 @@ export default async function applyRandomChoice <ListItem extends Item> (props: 
   }
   activeIds.push(chosenItem.id)
   activeIds.unshift(unchosenItem.id)
-  const completedOperationPromises = activeIds.map(async id => {
-    const operation = await props.createOperation({ output: [id] })
+  const completedOperationArray = activeIds.map(id => {
+    const operation = createOperation({ output: [id] })
     return operation
   })
-  const completedOperationArray = await Promise.all(completedOperationPromises)
   const completedOperations = arrayToDictionary({ array: completedOperationArray })
-  const betterOperation = await props.createOperation({
+  const betterOperation = createOperation({
     output: betterIds
   })
   const betterOperations = { [betterOperation.mergeChoiceId]: betterOperation }
-  const worseOperation = await props.createOperation({
+  const worseOperation = createOperation({
     output: worseIds
   })
   const worseOperations = { [worseOperation.mergeChoiceId]: worseOperation }
@@ -74,13 +72,11 @@ export default async function applyRandomChoice <ListItem extends Item> (props: 
     worseOperations,
     complete: false
   }
-  newState.activeOperations = await getOperations({
-    activeOperations: newState.activeOperations,
-    createOperation: props.createOperation
+  newState.activeOperations = getOperations({
+    activeOperations: newState.activeOperations
   })
-  newState.choice = await createActiveChoice({
-    activeOperations: newState.activeOperations,
-    createChoice: props.createChoice
+  newState.choice = createActiveChoice({
+    activeOperations: newState.activeOperations
   })
   return newState
 }

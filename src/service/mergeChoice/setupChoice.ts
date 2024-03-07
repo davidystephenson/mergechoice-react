@@ -3,19 +3,17 @@ import getOperationsSteps from './getOperationsSteps'
 import getOperations from './getOperations'
 import populate from './populate'
 import sortItems from './sortItems'
-import { CreateChoice, CreateOperation, Item, State } from './merge-choice-types'
+import { Item, State } from './merge-choice-types'
 import getItem from './getItem'
+import createOperation from './createOperation'
 
-export default async function setupChoice <ListItem extends Item> (props: {
-  createChoice: CreateChoice
-  createOperation: CreateOperation
+export default function setupChoice <ListItem extends Item> (props: {
   state: State<ListItem>
-}): Promise<State<ListItem>> {
+}): State<ListItem> {
   const maxSteps = getOperationsSteps({ operations: props.state.activeOperations })
   if (maxSteps > 0) {
-    const newChoice = await createActiveChoice({
-      activeOperations: props.state.activeOperations,
-      createChoice: props.createChoice
+    const newChoice = createActiveChoice({
+      activeOperations: props.state.activeOperations
     })
     return {
       ...props.state,
@@ -23,15 +21,13 @@ export default async function setupChoice <ListItem extends Item> (props: {
       complete: false
     }
   } else {
-    const newOperations = await getOperations({
-      activeOperations: props.state.activeOperations,
-      createOperation: props.createOperation
+    const newOperations = getOperations({
+      activeOperations: props.state.activeOperations
     })
     const maxSteps = getOperationsSteps({ operations: newOperations })
     if (maxSteps > 0) {
-      const nextChoice = await createActiveChoice({
-        activeOperations: newOperations,
-        createChoice: props.createChoice
+      const nextChoice = createActiveChoice({
+        activeOperations: newOperations
       })
       return {
         ...props.state,
@@ -58,7 +54,7 @@ export default async function setupChoice <ListItem extends Item> (props: {
       const combinedIds = [
         ...props.state.worseIds, ...props.state.activeIds, ...props.state.betterIds
       ]
-      const combinedOperation = await props.createOperation({
+      const combinedOperation = createOperation({
         output: combinedIds
       })
       const combinedOperations = { [combinedOperation.mergeChoiceId]: combinedOperation }
@@ -72,9 +68,7 @@ export default async function setupChoice <ListItem extends Item> (props: {
         complete: false
       }
       const reserveItems = props.state.reserveIds.map(id => getItem({ id, items: props.state.items }))
-      const population = await populate({
-        createChoice: props.createChoice,
-        createOperation: props.createOperation,
+      const population = populate({
         items: reserveItems,
         state: combinedState
       })

@@ -3,7 +3,7 @@ import { Movie, MoviesContextValue } from '../../types'
 import moviesContext from './moviesContext'
 import getDefaultOptionIndex from '../../service/movies/getDefaultOptionIndex'
 import getStorage from '../../service/mergeChoice/getStorage'
-import createYeastState from '../../service/mergeChoice/createYeastState'
+import createState from '../../service/mergeChoice/createState'
 import chooseOption from '../../service/mergeChoice/chooseOption'
 import createRandomChoice from '../../service/mergeChoice/createRandomChoice'
 import removeItem from '../../service/mergeChoice/removeItem'
@@ -22,8 +22,9 @@ export default function MoviesProvider ({
   children: ReactNode
 }): JSX.Element {
   const [state, setState] = useState<State<Movie>>(() => {
-    return getStorage({ key: 'state', defaultValue: createYeastState() })
+    return getStorage({ key: 'state', defaultValue: createState() })
   })
+  console.log('state:', state)
   debugOperations({ label: 'render', items: state.items, operations: state.activeOperations })
   const [sortedMovies, setSortedMovies] = useState(() => {
     const sortedMovies = getSortedMovies({ state })
@@ -65,7 +66,8 @@ export default function MoviesProvider ({
     slice?: number
   }): Promise<void> {
     void updateState(async current => {
-      const newState = await importItems({
+      console.log('current state:', JSON.parse(JSON.stringify(current)))
+      const newState = importItems({
         items: props.movies,
         slice: props.slice,
         state: current
@@ -80,18 +82,18 @@ export default function MoviesProvider ({
     void updateState(async current => {
       const newState = chooseOption({ state: current, betterIndex })
       setChoosing(false)
-      return await newState
+      return newState
     })
   }
   async function removeMovie ({ id }: { id: ItemId }): Promise<void> {
     void updateState(async current => {
-      const newState = await removeItem({ id, state: current })
+      const newState = removeItem({ id, state: current })
       return newState
     })
   }
   async function resetMovie ({ id }: { id: ItemId }): Promise<void> {
     void updateState(async current => {
-      const newState = await resetItem({ id, state: current })
+      const newState = resetItem({ id, state: current })
       return newState
     })
   }
@@ -105,7 +107,7 @@ export default function MoviesProvider ({
   }
   async function createRandomMovieChoice (): Promise<void> {
     void updateState(async current => {
-      const newState = await createRandomChoice({ state: current })
+      const newState = createRandomChoice({ state: current })
       return newState
     })
   }

@@ -1,29 +1,21 @@
 import yeast from 'yeast'
 import populate from './populate'
-import { Item, State, HistoryEvent, CreateOperation, CreateChoice } from './merge-choice-types'
+import { Item, State, HistoryEvent } from './merge-choice-types'
 import getShuffled from './getShuffled'
-import asyncCreateYeastOperation from './asyncCreateYeastOperation'
-import asyncCreateYeastChoice from './asyncCreateYeastChoice'
 import setupChoice from './setupChoice'
 
-export default async function importItems <ListItem extends Item> (props: {
-  createChoice?: CreateChoice
-  createOperation?: CreateOperation
+export default function importItems <ListItem extends Item> (props: {
   items: ListItem[]
   slice?: number
   state: State<ListItem>
-}): Promise<State<ListItem>> {
-  const createChoice = props.createChoice ?? asyncCreateYeastChoice
-  const createOperation = props.createOperation ?? asyncCreateYeastOperation
+}): State<ListItem> {
   const shuffled = getShuffled(props.items)
   const items = props.slice == null
     ? shuffled
     : shuffled.slice(0, props.slice)
   const { history, ...previousState } = props.state
   void history
-  const population = await populate({
-    createChoice,
-    createOperation,
+  const population = populate({
     items,
     state: props.state
   })
@@ -33,9 +25,7 @@ export default async function importItems <ListItem extends Item> (props: {
       points: 0
     }
   })
-  const setupState = await setupChoice({
-    createChoice,
-    createOperation,
+  const setupState = setupChoice({
     state: population.state
   })
   const historyEvent: HistoryEvent<ListItem> = {

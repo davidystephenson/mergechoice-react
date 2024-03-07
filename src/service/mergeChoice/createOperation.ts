@@ -1,7 +1,7 @@
 import yeast from 'yeast'
 import { ItemId, Operation } from './merge-choice-types'
 
-export default function createYeastOperation (props?: {
+export default function createOperation (props?: {
   input?: [ItemId[], ItemId[]]
   output?: ItemId[]
 }): Operation {
