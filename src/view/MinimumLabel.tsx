@@ -5,5 +5,5 @@ export default function MinimumLabelView (): JSX.Element {
   if (moviesContextValue.random) {
     return <span>1</span>
   }
-  return <span>{moviesContextValue.choiceCount.minimum}</span>
+  return <span>{moviesContextValue.choiceCountRange.minimum}</span>
 }

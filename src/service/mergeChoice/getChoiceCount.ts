@@ -1,12 +1,13 @@
 import arrayToDictionary from './arrayToDictionary'
 import createOperation from './createOperation'
 import getTotalSteps from './getTotalSteps'
-import getYeastOperations from './getYeastOperations'
+import getOperations from './getOperations'
 import { Item, State, CountRange } from './merge-choice-types'
 
-export default function getChoiceCount <ListItem extends Item> (props: {
+export default function getChoiceCountRange <ListItem extends Item> (props: {
   state: State<ListItem>
 }): CountRange {
+  const fakeState = { ...props.state }
   const activeTotal = getTotalSteps({
     operations: props.state.activeOperations
   })
@@ -17,20 +18,27 @@ export default function getChoiceCount <ListItem extends Item> (props: {
     operations: props.state.worseOperations
   })
   const reserveOperationArray = props.state.reserveIds.map(id => {
-    return createOperation({ output: [id] })
+    return createOperation({
+      output: [id],
+      state: fakeState
+    })
   })
   const reserveOperations = arrayToDictionary({ array: reserveOperationArray })
-  const newReserveOperations = getYeastOperations({
-    activeOperations: reserveOperations
+  const newReserveOperations = getOperations({
+    activeOperations: reserveOperations,
+    state: fakeState
   })
   const activePostOperation = createOperation({
-    output: props.state.activeIds
+    output: props.state.activeIds,
+    state: fakeState
   })
   const betterPostOperation = createOperation({
-    output: props.state.betterIds
+    output: props.state.betterIds,
+    state: fakeState
   })
   const worsePostOperation = createOperation({
-    output: props.state.worseIds
+    output: props.state.worseIds,
+    state: fakeState
   })
   const operations = {
     ...newReserveOperations,

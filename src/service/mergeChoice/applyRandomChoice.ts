@@ -21,25 +21,26 @@ export default function applyRandomChoice <ListItem extends Item> (props: {
   if (consistent) {
     return { ...props.state, complete: true }
   }
+  const newState = { ...props.state }
   // TODO single reduce
-  const betterIds = props.state.activeIds.filter(id => {
+  newState.betterIds = props.state.activeIds.filter(id => {
     const points = getPoints({ itemId: id, state: props.state })
     return points > unchosenPoints
   })
-  const worseIds = props.state.activeIds.filter(id => {
+  newState.worseIds = props.state.activeIds.filter(id => {
     const points = getPoints({ itemId: id, state: props.state })
     return points < chosenPoints
   })
-  const activeIds = props.state.activeIds.filter(id => {
+  newState.activeIds = props.state.activeIds.filter(id => {
     const points = getPoints({ itemId: id, state: props.state })
     return chosenPoints < points && points < unchosenPoints
   })
-  const pairedChoice = activeIds.length === 0
+  const pairedChoice = newState.activeIds.length === 0
   if (pairedChoice) {
-    worseIds.push(unchosenItem.id)
-    betterIds.unshift(chosenItem.id)
-    const output = [...worseIds, ...betterIds]
-    const newOperation = createOperation({ output })
+    newState.worseIds.push(unchosenItem.id)
+    newState.betterIds.unshift(chosenItem.id)
+    const output = [...newState.worseIds, ...newState.betterIds]
+    const newOperation = createOperation({ output, state: newState })
     const newOperations = { [newOperation.mergeChoiceId]: newOperation }
     return {
       ...props.state,
@@ -47,36 +48,30 @@ export default function applyRandomChoice <ListItem extends Item> (props: {
       complete: true
     }
   }
-  activeIds.push(chosenItem.id)
-  activeIds.unshift(unchosenItem.id)
-  const completedOperationArray = activeIds.map(id => {
-    const operation = createOperation({ output: [id] })
+  newState.activeIds.push(chosenItem.id)
+  newState.activeIds.unshift(unchosenItem.id)
+  const completedOperationArray = newState.activeIds.map(id => {
+    const operation = createOperation({ output: [id], state: newState })
     return operation
   })
-  const completedOperations = arrayToDictionary({ array: completedOperationArray })
+  newState.activeOperations = arrayToDictionary({ array: completedOperationArray })
   const betterOperation = createOperation({
-    output: betterIds
+    output: newState.betterIds,
+    state: newState
   })
-  const betterOperations = { [betterOperation.mergeChoiceId]: betterOperation }
+  newState.betterOperations = { [betterOperation.mergeChoiceId]: betterOperation }
   const worseOperation = createOperation({
-    output: worseIds
+    output: newState.worseIds,
+    state: newState
   })
-  const worseOperations = { [worseOperation.mergeChoiceId]: worseOperation }
-  const newState: State<ListItem> = {
-    ...props.state,
-    betterIds,
-    worseIds,
-    activeIds,
-    activeOperations: completedOperations,
-    betterOperations,
-    worseOperations,
-    complete: false
-  }
+  newState.worseOperations = { [worseOperation.mergeChoiceId]: worseOperation }
+  newState.complete = false
   newState.activeOperations = getOperations({
-    activeOperations: newState.activeOperations
+    activeOperations: newState.activeOperations,
+    state: newState
   })
   newState.choice = createActiveChoice({
-    activeOperations: newState.activeOperations
+    state: newState
   })
   return newState
 }

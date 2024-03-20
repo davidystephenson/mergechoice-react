@@ -36,14 +36,15 @@ export default function populate <ListItem extends Item> (props: {
     newState.activeIds = newIds
     const activeOperationArray = newState.activeIds.map(id => {
       const output = [id]
-      const operation = createOperation({ output })
+      const operation = createOperation({ output, state: newState })
       return operation
     })
     const activeOperationDictionary = arrayToDictionary({ array: activeOperationArray })
     newState.activeOperations = activeOperationDictionary
     newState.activeIds.push(...props.state.activeIds)
     const newActiveOperations = getOperations({
-      activeOperations: newState.activeOperations
+      activeOperations: newState.activeOperations,
+      state: newState
     })
     newState.activeOperations = newActiveOperations
     newState.activeOperations = {
@@ -56,7 +57,7 @@ export default function populate <ListItem extends Item> (props: {
       return { state: newState, items: newItems }
     }
     newState.choice = createActiveChoice({
-      activeOperations: newState.activeOperations
+      state: newState
     })
     return { state: newState, items: newItems }
   }

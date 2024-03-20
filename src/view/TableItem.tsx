@@ -14,7 +14,6 @@ import MovieHeadingsRowView from './MovieHeadingsRow'
 import MovieListRow from './MovieListRow'
 
 export default function TableItemView (): JSX.Element {
-  console.log('Rendering TableItemView')
   const tableItem = useTableItemContext()
   if (tableItem.historyChoiceHeading != null) {
     return (

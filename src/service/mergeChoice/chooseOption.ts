@@ -45,7 +45,7 @@ export default function chooseOption <ListItem extends Item> (props: {
       random: oldState.choice.random
     },
     createdAt: Date.now(),
-    mergeChoiceId: Math.random().toString(),
+    mergeChoiceId: newState.history.length,
     previousState
   }
   newState.history = [newHistoryEvent, ...newState.history]

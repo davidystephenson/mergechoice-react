@@ -13,7 +13,10 @@ export default function createRandomChoice <ListItem extends Item> (props: {
     bIndex: 1,
     random: true
   }
-  const newChoice = createChoice(newChoiceData)
+  const newChoice = createChoice({
+    choice: newChoiceData,
+    state: props.state
+  })
   return {
     ...props.state,
     choice: newChoice,

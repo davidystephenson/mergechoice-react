@@ -9,6 +9,7 @@ import OptionButtonView from './OptionButton'
 
 export default function ChoiceView (): JSX.Element {
   const moviesContextValue = useMoviesContext()
+
   return (
     <VStack spacing='0'>
       <HStack mb='5px'>

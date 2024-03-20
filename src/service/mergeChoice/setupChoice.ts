@@ -13,7 +13,7 @@ export default function setupChoice <ListItem extends Item> (props: {
   const maxSteps = getOperationsSteps({ operations: props.state.activeOperations })
   if (maxSteps > 0) {
     const newChoice = createActiveChoice({
-      activeOperations: props.state.activeOperations
+      state: props.state
     })
     return {
       ...props.state,
@@ -21,56 +21,55 @@ export default function setupChoice <ListItem extends Item> (props: {
       complete: false
     }
   } else {
+    console.log('setupChoice props.state', props.state)
+    const newState = { ...props.state }
     const newOperations = getOperations({
-      activeOperations: props.state.activeOperations
+      activeOperations: props.state.activeOperations,
+      state: newState
     })
     const maxSteps = getOperationsSteps({ operations: newOperations })
     if (maxSteps > 0) {
+      newState.activeOperations = newOperations
       const nextChoice = createActiveChoice({
-        activeOperations: newOperations
+        state: newState
       })
-      return {
-        ...props.state,
-        activeOperations: newOperations,
-        choice: nextChoice,
-        complete: false
-      }
+      newState.choice = nextChoice
+      newState.complete = false
+      return newState
     } else {
       sortItems({
-        ids: props.state.worseIds,
-        state: props.state,
+        ids: newState.worseIds,
+        state: newState,
         worseFirst: true
       })
       sortItems({
-        ids: props.state.activeIds,
-        state: props.state,
+        ids: newState.activeIds,
+        state: newState,
         worseFirst: true
       })
       sortItems({
-        ids: props.state.betterIds,
-        state: props.state,
+        ids: newState.betterIds,
+        state: newState,
         worseFirst: true
       })
       const combinedIds = [
-        ...props.state.worseIds, ...props.state.activeIds, ...props.state.betterIds
+        ...newState.worseIds, ...newState.activeIds, ...newState.betterIds
       ]
       const combinedOperation = createOperation({
-        output: combinedIds
+        output: combinedIds,
+        state: newState
       })
       const combinedOperations = { [combinedOperation.mergeChoiceId]: combinedOperation }
-      const combinedState: State<ListItem> = {
-        ...props.state,
-        activeIds: combinedIds,
-        betterIds: [],
-        worseIds: [],
-        activeOperations: combinedOperations,
-        choice: undefined,
-        complete: false
-      }
+      newState.activeIds = combinedIds
+      newState.betterIds = []
+      newState.worseIds = []
+      newState.activeOperations = combinedOperations
+      newState.choice = undefined
+      newState.complete = false
       const reserveItems = props.state.reserveIds.map(id => getItem({ id, items: props.state.items }))
       const population = populate({
         items: reserveItems,
-        state: combinedState
+        state: newState
       })
       return population.state
     }

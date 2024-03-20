@@ -47,7 +47,7 @@ export interface TableItem {
   search?: boolean
 }
 export interface MoviesContextValue extends State<Movie> {
-  choiceCount: CountRange
+  choiceCountRange: CountRange
   choose: ({ betterIndex }: { betterIndex: number }) => Promise<void>
   choosing: boolean
   createRandomMovieChoice: () => Promise<void>

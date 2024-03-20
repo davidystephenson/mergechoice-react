@@ -8,7 +8,7 @@ export default function getDefaultOptionIndex ({
   choice: Choice | undefined
   movies: Record<string, Movie>
 }): number | undefined {
-  if (choice == null || choice.options.length === 0) {
+  if (choice == null || choice.options.length === 0 || choice.random) {
     return undefined
   }
   const choices = choice.options.map(option => {

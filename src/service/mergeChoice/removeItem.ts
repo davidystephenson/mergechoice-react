@@ -1,4 +1,3 @@
-import yeast from 'yeast'
 import createActiveChoice from './createActiveChoice'
 import getPoints from './getPoints'
 import removeFromOperations from './removeFromOperations'
@@ -36,7 +35,7 @@ export default function removeItem <ListItem extends Item> (props: {
       id: props.id,
       item: historyItem
     },
-    mergeChoiceId: yeast(),
+    mergeChoiceId: props.state.history.length,
     previousState
   }
   props.state.history.unshift(removeEvent)
@@ -48,7 +47,7 @@ export default function removeItem <ListItem extends Item> (props: {
     })
   } else if (props.state.choice?.options.includes(props.id) === true) {
     props.state.choice = createActiveChoice({
-      activeOperations: props.state.activeOperations
+      state: props.state
     })
   }
   return props.state

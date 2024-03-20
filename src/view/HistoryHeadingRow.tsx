@@ -10,8 +10,8 @@ export default function HistoryHeadingRowView (): JSX.Element {
   function handleClick (): void {
     history.toggleExpanded()
   }
-  const minimumTotal = movies.choiceCount.minimum + history.resultEvents.length
-  const maximumTotal = movies.choiceCount.maximum + history.resultEvents.length
+  const minimumTotal = movies.choiceCountRange.minimum + history.resultEvents.length
+  const maximumTotal = movies.choiceCountRange.maximum + history.resultEvents.length
   const minimumRatio = history.resultEvents.length / minimumTotal
   const maximumRatio = history.resultEvents.length / maximumTotal
   const minimumPercent = Math.round(minimumRatio * 100)

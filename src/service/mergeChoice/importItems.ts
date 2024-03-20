@@ -1,4 +1,3 @@
-import yeast from 'yeast'
 import populate from './populate'
 import { Item, State, HistoryEvent } from './merge-choice-types'
 import getShuffled from './getShuffled'
@@ -30,7 +29,7 @@ export default function importItems <ListItem extends Item> (props: {
   })
   const historyEvent: HistoryEvent<ListItem> = {
     createdAt: Date.now(),
-    mergeChoiceId: yeast(),
+    mergeChoiceId: setupState.history.length,
     import: {
       items: calculated
     },

@@ -7,5 +7,5 @@ export default function MaximumLabelView (): JSX.Element {
   if (moviesContextValue.random) {
     return <Icon as={GiPerspectiveDiceSixFacesRandom} />
   }
-  return <span>{moviesContextValue.choiceCount.maximum}</span>
+  return <span>{moviesContextValue.choiceCountRange.maximum}</span>
 }

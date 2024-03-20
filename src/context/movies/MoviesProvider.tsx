@@ -9,7 +9,7 @@ import createRandomChoice from '../../service/mergeChoice/createRandomChoice'
 import removeItem from '../../service/mergeChoice/removeItem'
 import importItems from '../../service/mergeChoice/importItems'
 import rewindState from '../../service/mergeChoice/rewindState'
-import getChoiceCount from '../../service/mergeChoice/getChoiceCount'
+import getChoiceCountRange from '../../service/mergeChoice/getChoiceCount'
 import getSortedMovies from '../../service/movies/getSortedMovies'
 import { ItemId, State } from '../../service/mergeChoice/merge-choice-types'
 import isResult from '../../service/movies/isResult'
@@ -24,7 +24,7 @@ export default function MoviesProvider ({
   const [state, setState] = useState<State<Movie>>(() => {
     return getStorage({ key: 'state', defaultValue: createState() })
   })
-  console.log('state:', state)
+  // console.log('state:', state)
   debugOperations({ label: 'render', items: state.items, operations: state.activeOperations })
   const [sortedMovies, setSortedMovies] = useState(() => {
     const sortedMovies = getSortedMovies({ state })
@@ -36,7 +36,7 @@ export default function MoviesProvider ({
     movies: state.items,
     choice: state.choice
   })
-  const choiceCount = getChoiceCount({ state })
+  const choiceCountRange = getChoiceCountRange({ state })
   const random = state.choice?.random === true
   const searching = query !== ''
   const resultMovies = sortedMovies.filter(movie => {
@@ -66,7 +66,6 @@ export default function MoviesProvider ({
     slice?: number
   }): Promise<void> {
     void updateState(async current => {
-      console.log('current state:', JSON.parse(JSON.stringify(current)))
       const newState = importItems({
         items: props.movies,
         slice: props.slice,
@@ -114,7 +113,7 @@ export default function MoviesProvider ({
   const value: MoviesContextValue = {
     ...state,
     choose,
-    choiceCount,
+    choiceCountRange,
     choosing,
     createRandomMovieChoice,
     defaultOptionIndex,

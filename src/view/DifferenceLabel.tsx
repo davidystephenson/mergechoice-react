@@ -6,19 +6,19 @@ export default function DifferenceLabelView (): JSX.Element {
   if (movies.random) {
     return <></>
   }
-  if (movies.choiceCount.maximum === movies.choiceCount.minimum) {
+  if (movies.choiceCountRange.maximum === movies.choiceCountRange.minimum) {
     return <></>
   }
-  const difference = movies.choiceCount.maximum - movies.choiceCount.minimum
+  const difference = movies.choiceCountRange.maximum - movies.choiceCountRange.minimum
   const minimumComparison = comparePercent({
-    maximum: movies.choiceCount.maximum,
-    minimum: movies.choiceCount.minimum,
-    target: movies.choiceCount.minimum
+    maximum: movies.choiceCountRange.maximum,
+    minimum: movies.choiceCountRange.minimum,
+    target: movies.choiceCountRange.minimum
   })
   const maximumComparison = comparePercent({
-    maximum: movies.choiceCount.maximum,
-    minimum: movies.choiceCount.minimum,
-    target: movies.choiceCount.maximum
+    maximum: movies.choiceCountRange.maximum,
+    minimum: movies.choiceCountRange.minimum,
+    target: movies.choiceCountRange.maximum
   })
   return <span>({difference}, {minimumComparison}%, {maximumComparison}%)</span>
 }

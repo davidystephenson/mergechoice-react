@@ -1,10 +1,11 @@
 import range from './range'
-import { Operation, OperationDictionary } from './merge-choice-types'
+import { Item, Operation, OperationDictionary, State } from './merge-choice-types'
 import arrayToDictionary from './arrayToDictionary'
 import createOperation from './createOperation'
 
-export default function getOperations (props: {
+export default function getOperations <ListItem extends Item> (props: {
   activeOperations: OperationDictionary
+  state: State<ListItem>
 }): OperationDictionary {
   const values = Object.values(props.activeOperations)
   const blocks = values.map(operation => operation.output)
@@ -22,7 +23,8 @@ export default function getOperations (props: {
       throw new Error('blockB is null')
     }
     const newOperation = createOperation({
-      input: [blockA, blockB]
+      input: [blockA, blockB],
+      state: props.state
     })
     newOperations.unshift(newOperation)
   })
@@ -31,7 +33,10 @@ export default function getOperations (props: {
     if (output == null) {
       throw new Error('output is null')
     }
-    const newOperation = createOperation({ output })
+    const newOperation = createOperation({
+      output,
+      state: props.state
+    })
     newOperations.push(newOperation)
   }
   const dictionary = arrayToDictionary({ array: newOperations })

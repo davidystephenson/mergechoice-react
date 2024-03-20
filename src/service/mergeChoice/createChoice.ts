@@ -1,11 +1,13 @@
-import yeast from 'yeast'
-import { Choice, ChoiceData } from './merge-choice-types'
+import { Choice, ChoiceData, Item, State } from './merge-choice-types'
 
-export default function createChoice (props: ChoiceData): Choice {
-  const mergeChoiceId = yeast()
+export default function createChoice <ListItem extends Item> (props: {
+  choice: ChoiceData
+  state: State<ListItem>
+}): Choice {
   const newChoice: Choice = {
-    ...props,
-    mergeChoiceId
+    ...props.choice,
+    mergeChoiceId: props.state.choiceCount
   }
+  props.state.choiceCount += 1
   return newChoice
 }

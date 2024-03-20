@@ -34,7 +34,7 @@ export default function ImportButtonView (): JSX.Element {
       }
       return movie
     })
-    await moviesContextValue.importMovies({ movies, slice: 1 })
+    await moviesContextValue.importMovies({ movies, slice: 3 })
     setInitializing(false)
   }
   function handleFileChange (e: ChangeEvent<HTMLInputElement>): void {
