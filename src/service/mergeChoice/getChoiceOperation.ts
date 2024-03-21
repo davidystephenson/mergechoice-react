@@ -6,7 +6,6 @@ import { Operation, OperationDictionary } from './merge-choice-types'
 export default function getChoiceOperation (props: {
   operations: OperationDictionary
 }): Operation {
-  console.log('props.operations', props.operations)
   const maxSteps = getOperationsSteps({ operations: props.operations })
   const values = Object.values(props.operations)
   const maximalIndices = values.filter(operation => {

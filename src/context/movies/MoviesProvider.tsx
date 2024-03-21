@@ -14,7 +14,6 @@ import getSortedMovies from '../../service/movies/getSortedMovies'
 import { ItemId, State } from '../../service/mergeChoice/merge-choice-types'
 import isResult from '../../service/movies/isResult'
 import resetItem from '../../service/mergeChoice/resetItem'
-import debugOperations from '../../service/mergeChoice/debugOperations'
 
 export default function MoviesProvider ({
   children
@@ -24,8 +23,6 @@ export default function MoviesProvider ({
   const [state, setState] = useState<State<Movie>>(() => {
     return getStorage({ key: 'state', defaultValue: createState() })
   })
-  // console.log('state:', state)
-  debugOperations({ label: 'render', items: state.items, operations: state.activeOperations })
   const [sortedMovies, setSortedMovies] = useState(() => {
     const sortedMovies = getSortedMovies({ state })
     return sortedMovies

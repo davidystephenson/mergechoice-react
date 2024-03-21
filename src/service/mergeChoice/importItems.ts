@@ -8,6 +8,9 @@ export default function importItems <ListItem extends Item> (props: {
   slice?: number
   state: State<ListItem>
 }): State<ListItem> {
+  if (props.state.choice?.random === true) {
+    throw new Error('You cannot import during a random choice')
+  }
   const shuffled = getShuffled(props.items)
   const items = props.slice == null
     ? shuffled

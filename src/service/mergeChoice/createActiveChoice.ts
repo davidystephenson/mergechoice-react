@@ -8,7 +8,6 @@ export default function createActiveChoice <ListItem extends Item> (props: {
   state: State<ListItem>
 }): Choice {
   const choiceOperation = getChoiceOperation({ operations: props.state.activeOperations })
-  console.log('choiceOperation', choiceOperation)
   const currentOperation = getOperation({
     operations: props.state.activeOperations,
     id: choiceOperation.mergeChoiceId

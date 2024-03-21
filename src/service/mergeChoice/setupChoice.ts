@@ -21,7 +21,6 @@ export default function setupChoice <ListItem extends Item> (props: {
       complete: false
     }
   } else {
-    console.log('setupChoice props.state', props.state)
     const newState = { ...props.state }
     const newOperations = getOperations({
       activeOperations: props.state.activeOperations,
