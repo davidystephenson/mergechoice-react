@@ -1,6 +1,7 @@
 import { Item, State } from './merge-choice-types'
 
 export default function createState <ListItem extends Item> (): State<ListItem> {
+  const seed = String(Math.random())
   return {
     activeIds: [],
     activeOperations: {},
@@ -19,6 +20,7 @@ export default function createState <ListItem extends Item> (): State<ListItem> 
     items: {},
     operationCount: 0,
     reserveIds: [],
+    seed,
     worseIds: [],
     worseOperations: {}
   }

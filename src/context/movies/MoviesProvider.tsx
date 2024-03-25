@@ -14,6 +14,7 @@ import getSortedMovies from '../../service/movies/getSortedMovies'
 import { ItemId, State } from '../../service/mergeChoice/merge-choice-types'
 import isResult from '../../service/movies/isResult'
 import resetItem from '../../service/mergeChoice/resetItem'
+import shuffleSlice from '../../service/shuffleSlice/shuffleSlice'
 
 export default function MoviesProvider ({
   children
@@ -63,9 +64,12 @@ export default function MoviesProvider ({
     slice?: number
   }): Promise<void> {
     void updateState(async current => {
-      const newState = importItems({
-        items: props.movies,
+      const sliced = shuffleSlice({
         slice: props.slice,
+        items: props.movies
+      })
+      const newState = importItems({
+        items: sliced,
         state: current
       })
       return newState

@@ -10,6 +10,7 @@ export type Calculated<T> = T & { points: number }
 export interface Operation extends Identity {
   input: ItemId[][]
   output: ItemId[]
+  priority: number
 }
 export interface ChoiceData {
   options: ItemId[]
@@ -19,7 +20,7 @@ export interface ChoiceData {
   random: boolean
 }
 export type Choice = ChoiceData & Identity
-export type OperationDictionary = Record<string, Operation>
+export type OperationDictionary = Record<number, Operation>
 export interface State<ListItem extends Item> {
   activeIds: ItemId[]
   activeOperations: OperationDictionary
@@ -32,6 +33,7 @@ export interface State<ListItem extends Item> {
   items: Record<ItemId, ListItem>
   operationCount: number
   reserveIds: ItemId[]
+  seed: string
   worseIds: ItemId[]
   worseOperations: OperationDictionary
 }
@@ -69,4 +71,7 @@ export interface CountRange {
 export interface Population<ListItem extends Item> {
   state: State<ListItem>
   items: ListItem[]
+}
+export interface Prioritized {
+  priority: number
 }

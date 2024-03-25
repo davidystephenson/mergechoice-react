@@ -17,6 +17,7 @@
     "clink-react": "^0.1.8",
     "framer-motion": "^10.16.4",
     "papaparse": "^5.4.1",
+    "rand-seed": "^1.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hotkeys-hook": "^4.4.1",

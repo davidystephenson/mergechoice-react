@@ -1,5 +1,5 @@
 import getOperationsSteps from './getOperationsSteps'
-import getRandom from './getRandom'
+import getPrioritized from './getPrioritized'
 import getMaximumSteps from './getMaximumSteps'
 import { Operation, OperationDictionary } from './merge-choice-types'
 
@@ -12,6 +12,6 @@ export default function getChoiceOperation (props: {
     const steps = getMaximumSteps({ operation })
     return steps === maxSteps
   })
-  const operation = getRandom(maximalIndices)
+  const operation = getPrioritized(maximalIndices)
   return operation
 }

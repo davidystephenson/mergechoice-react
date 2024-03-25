@@ -9,8 +9,9 @@ export default function labelOperation <ListItem extends Item> (props: {
   const input2Names = props.operation.input[1].map(id => getItem({ id, items: props.items }).name)
   const outputNames = props.operation.output.map(id => getItem({ id, items: props.items }).name)
   return {
-    mergeChoiceId: props.operation.mergeChoiceId,
     input: [input1Names, input2Names],
-    output: outputNames
+    mergeChoiceId: props.operation.mergeChoiceId,
+    output: outputNames,
+    priority: props.operation.priority
   }
 }
