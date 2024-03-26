@@ -1,7 +1,7 @@
-import { Item } from './merge-choice-types'
+import { Item, ItemId } from './merge-choice-types'
 
 export default function getItem <ListItem extends Item> ({ id, items }: {
-  id: string | number
+  id: ItemId
   items: Record<string, ListItem>
 }): ListItem {
   const item = items[id]

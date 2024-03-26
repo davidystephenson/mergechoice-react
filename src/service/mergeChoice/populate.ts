@@ -60,6 +60,7 @@ export default function populate<ListItem extends Item> (props: {
   }
   const maxSteps = getOperationsSteps({ operations: newState.activeOperations })
   if (maxSteps === 0) {
+    newState.choice = undefined
     newState.complete = true
     return { state: newState, items: newItems }
   }

@@ -24,6 +24,7 @@ export default function MoviesProvider ({
   const [state, setState] = useState<State<Movie>>(() => {
     return getStorage({ key: 'state', defaultValue: createState() })
   })
+  console.log('MoviesProvider state.choice.mergeChoiceId', state.choice?.mergeChoiceId)
   const [sortedMovies, setSortedMovies] = useState(() => {
     const sortedMovies = getSortedMovies({ state })
     return sortedMovies

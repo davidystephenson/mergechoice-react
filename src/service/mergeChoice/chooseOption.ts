@@ -23,7 +23,7 @@ export default function chooseOption <ListItem extends Item> (props: {
     bItem,
     state: props.state
   })
-  const newAPoints = getPoints({ debug: true, itemId: aItem.id, state: newState })
+  const newAPoints = getPoints({ itemId: aItem.id, state: newState })
   const calculatedA: Calculated<ListItem> = {
     ...aItem,
     points: newAPoints
