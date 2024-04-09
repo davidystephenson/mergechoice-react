@@ -1,5 +1,5 @@
 import range from './range'
-import { Item, Operation, OperationDictionary, State } from './merge-choice-types'
+import { Item, Operation, OperationDictionary, State } from './mergeChoiceTypes'
 import arrayToDictionary from './arrayToDictionary'
 import createOperation from './createOperation'
 

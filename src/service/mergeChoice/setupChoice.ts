@@ -3,7 +3,7 @@ import getOperationsSteps from './getOperationsSteps'
 import getOperations from './getOperations'
 import populate from './populate'
 import sortItems from './sortItems'
-import { Item, State } from './merge-choice-types'
+import { Item, State } from './mergeChoiceTypes'
 import getItem from './getItem'
 import createOperation from './createOperation'
 
@@ -65,7 +65,7 @@ export default function setupChoice <ListItem extends Item> (props: {
       newState.activeOperations = combinedOperations
       newState.choice = undefined
       newState.complete = false
-      const reserveItems = props.state.reserveIds.map(id => getItem({ id, items: props.state.items }))
+      const reserveItems = props.state.reserveIds.map(itemId => getItem({ itemId, items: props.state.items }))
       const population = populate({
         items: reserveItems,
         state: newState

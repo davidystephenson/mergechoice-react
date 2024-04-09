@@ -1,4 +1,4 @@
-import { ItemId, Operation, OperationDictionary } from './merge-choice-types'
+import { ItemId, Operation, OperationDictionary } from './mergeChoiceTypes'
 
 export default function findInOperation ({
   itemId,

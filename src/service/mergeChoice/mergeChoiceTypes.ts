@@ -1,4 +1,4 @@
-export type ItemId = number
+export type ItemId = number | string
 export interface Identity {
   mergeChoiceId: number
 }
@@ -52,7 +52,7 @@ export interface HistoryEvent<ListItem extends Item> extends Identity {
     random: boolean
   }
   remove?: {
-    id: ItemId
+    itemId: ItemId
     item: Calculated<ListItem>
   }
   import?: {

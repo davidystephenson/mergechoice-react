@@ -1,4 +1,4 @@
-import { Operation } from './merge-choice-types'
+import { Operation } from './mergeChoiceTypes'
 
 export default function getMinimumSteps ({ operation }: {
   operation: Operation

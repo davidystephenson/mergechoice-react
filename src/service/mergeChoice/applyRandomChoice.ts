@@ -3,7 +3,7 @@ import createActiveChoice from './createActiveChoice'
 import createOperation from './createOperation'
 import getOperations from './getOperations'
 import getPoints from './getPoints'
-import { Item, State } from './merge-choice-types'
+import { Item, State } from './mergeChoiceTypes'
 
 export default function applyRandomChoice <ListItem extends Item> (props: {
   aBetter: boolean
@@ -23,16 +23,16 @@ export default function applyRandomChoice <ListItem extends Item> (props: {
   }
   const newState = { ...props.state }
   // TODO single reduce
-  newState.betterIds = props.state.activeIds.filter(id => {
-    const points = getPoints({ itemId: id, state: props.state })
+  newState.betterIds = props.state.activeIds.filter(itemId => {
+    const points = getPoints({ itemId, state: props.state })
     return points > unchosenPoints
   })
-  newState.worseIds = props.state.activeIds.filter(id => {
-    const points = getPoints({ itemId: id, state: props.state })
+  newState.worseIds = props.state.activeIds.filter(itemId => {
+    const points = getPoints({ itemId, state: props.state })
     return points < chosenPoints
   })
-  newState.activeIds = props.state.activeIds.filter(id => {
-    const points = getPoints({ itemId: id, state: props.state })
+  newState.activeIds = props.state.activeIds.filter(itemId => {
+    const points = getPoints({ itemId, state: props.state })
     return chosenPoints < points && points < unchosenPoints
   })
   const pairedChoice = newState.activeIds.length === 0

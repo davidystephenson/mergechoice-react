@@ -1,5 +1,5 @@
 import cloneOperation from './cloneOperation'
-import { ItemId, OperationDictionary, RemovalFromOperations } from './merge-choice-types'
+import { ItemId, OperationDictionary, RemovalFromOperations } from './mergeChoiceTypes'
 
 export default function removeFromOperations (props: {
   itemId: ItemId

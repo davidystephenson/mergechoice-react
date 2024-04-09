@@ -22,13 +22,13 @@ export default function MovieProvider (props: {
     if (props.movie == null) {
       throw new Error('There is no movie.')
     }
-    await moviesContextValue.removeMovie({ id: props.movie.id })
+    await moviesContextValue.removeMovie({ itemId: props.movie.id })
   }
   async function reset (): Promise<void> {
     if (props.movie == null) {
       throw new Error('There is no movie.')
     }
-    await moviesContextValue.resetMovie({ id: props.movie.id })
+    await moviesContextValue.resetMovie({ itemId: props.movie.id })
   }
   const moviePoints = props.points ?? getPoints({
     itemId: props.movie.id,

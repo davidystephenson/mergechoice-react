@@ -1,4 +1,4 @@
-import { Calculated, CountRange, HistoryEvent, ItemId, Item, State } from './service/mergeChoice/merge-choice-types'
+import { Calculated, CountRange, HistoryEvent, ItemId, Item, State } from './service/mergeChoice/mergeChoiceTypes'
 
 export interface CritickerRow {
   ' Date Rated': string
@@ -56,8 +56,8 @@ export interface MoviesContextValue extends State<Movie> {
   importMovies: (porps: { movies: Movie[], slice?: number }) => Promise<void>
   query: string
   random: boolean
-  removeMovie: ({ id }: { id: ItemId }) => Promise<void>
-  resetMovie: ({ id }: { id: ItemId }) => Promise<void>
+  removeMovie: ({ itemId }: { itemId: ItemId }) => Promise<void>
+  resetMovie: ({ itemId }: { itemId: ItemId }) => Promise<void>
   resultMovies: CalculatedMovie[]
   rewind: ({ historyEventId }: { historyEventId: ItemId }) => Promise<void>
   searching: boolean
@@ -80,12 +80,12 @@ export interface OptionContextValue {
   optionIndex: number
 }
 export interface HistoryContextValue {
-  closeEvent: (id: ItemId) => void
+  closeEvent: (itemId: ItemId) => void
   events: Array<HistoryEvent<Movie>>
   expanded: boolean
   firstEvent: HistoryEvent<Movie> | undefined
   isSingle: boolean
-  toggleEvent: (id: ItemId) => void
+  toggleEvent: (itemId: ItemId) => void
   openIds: ItemId[]
   resultEvents: Array<HistoryEvent<Movie>>
   restEvents: Array<HistoryEvent<Movie>>

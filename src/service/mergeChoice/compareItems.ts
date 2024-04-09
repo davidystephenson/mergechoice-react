@@ -1,5 +1,5 @@
 import getPoints from './getPoints'
-import { ItemId, Item, State } from './merge-choice-types'
+import { ItemId, Item, State } from './mergeChoiceTypes'
 
 export default function compareItems <ListItem extends Item> ({
   aId,

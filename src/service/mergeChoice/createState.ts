@@ -1,4 +1,4 @@
-import { Item, State } from './merge-choice-types'
+import { Item, State } from './mergeChoiceTypes'
 
 export default function createState <ListItem extends Item> (): State<ListItem> {
   const seed = String(Math.random())

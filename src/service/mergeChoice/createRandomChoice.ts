@@ -1,6 +1,6 @@
 import createChoice from './createChoice'
 import getRandomElement from './getRandomElement'
-import { Item, State, ChoiceData } from './merge-choice-types'
+import { Item, State, ChoiceData } from './mergeChoiceTypes'
 
 export default function createRandomChoice <ListItem extends Item> (props: {
   state: State<ListItem>

@@ -1,4 +1,4 @@
-import { ItemId, OperationDictionary } from './merge-choice-types'
+import { ItemId, OperationDictionary } from './mergeChoiceTypes'
 
 export default function getPointsFromOperations (props: {
   itemId: ItemId

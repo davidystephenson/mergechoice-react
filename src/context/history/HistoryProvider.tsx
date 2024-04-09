@@ -3,7 +3,7 @@ import useMoviesContext from '../movies/useMoviesContext'
 import historyContext from './historyContext'
 import { HistoryContextValue } from '../../types'
 import isEventResult from '../../service/movies/isEventResult'
-import { ItemId } from '../../service/mergeChoice/merge-choice-types'
+import { ItemId } from '../../service/mergeChoice/mergeChoiceTypes'
 
 export default function HistoryProvider (props: {
   children: ReactNode
@@ -11,15 +11,15 @@ export default function HistoryProvider (props: {
   const moviesContextValue = useMoviesContext()
   const [expanded, setExpanded] = useState(false)
   const [openIds, setOpenIds] = useState<ItemId[]>([])
-  function closeEvent (id: ItemId): void {
-    setOpenIds(current => current.filter(currentId => currentId !== id))
+  function closeEvent (itemId: ItemId): void {
+    setOpenIds(current => current.filter(currentId => currentId !== itemId))
   }
-  function toggleEvent (id: ItemId): void {
+  function toggleEvent (itemId: ItemId): void {
     setOpenIds(current => {
-      if (current.includes(id)) {
-        return current.filter(currentId => currentId !== id)
+      if (current.includes(itemId)) {
+        return current.filter(currentId => currentId !== itemId)
       }
-      return [...current, id]
+      return [...current, itemId]
     })
   }
   function toggleExpanded (): void {

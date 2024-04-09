@@ -1,5 +1,5 @@
 import { CalculatedMovie, Movie } from '../../types'
-import { State } from '../mergeChoice/merge-choice-types'
+import { State } from '../mergeChoice/mergeChoiceTypes'
 import sortMovies from './sortMovies'
 
 export default function getSortedMovies (props: {

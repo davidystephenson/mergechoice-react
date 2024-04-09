@@ -1,5 +1,5 @@
 import getPointsFromOperations from './getPointsFromOperations'
-import { ItemId, Item, State } from './merge-choice-types'
+import { ItemId, Item, State } from './mergeChoiceTypes'
 
 export default function getPoints <ListItem extends Item> (props: {
   debug?: boolean

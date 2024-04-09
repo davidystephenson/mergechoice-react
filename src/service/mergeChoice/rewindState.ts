@@ -1,4 +1,4 @@
-import { ItemId, Item, State } from './merge-choice-types'
+import { ItemId, Item, State } from './mergeChoiceTypes'
 
 export default function rewindState <ListItem extends Item> ({
   historyEventId,

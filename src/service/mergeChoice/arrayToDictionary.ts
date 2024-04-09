@@ -1,4 +1,4 @@
-import { ItemId, Identity } from './merge-choice-types'
+import { ItemId, Identity } from './mergeChoiceTypes'
 
 export default function arrayToDictionary <Element extends Identity> (props: {
   array: Element[]

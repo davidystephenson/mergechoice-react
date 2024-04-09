@@ -1,5 +1,5 @@
 import { Movie } from '../../types'
-import { Choice } from '../mergeChoice/merge-choice-types'
+import { Choice } from '../mergeChoice/mergeChoiceTypes'
 
 export default function getDefaultOptionIndex ({
   choice,

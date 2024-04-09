@@ -1,5 +1,5 @@
 import compareItems from './compareItems'
-import { ItemId, Item, State } from './merge-choice-types'
+import { ItemId, Item, State } from './mergeChoiceTypes'
 
 export default function sortItems <ListItem extends Item> ({
   ids,

@@ -1,5 +1,5 @@
 import getRandom from './getRandom'
-import { Item, ItemId, Operation, State } from './merge-choice-types'
+import { Item, ItemId, Operation, State } from './mergeChoiceTypes'
 
 export default function createOperation <ListItem extends Item> (props: {
   input?: [ItemId[], ItemId[]]

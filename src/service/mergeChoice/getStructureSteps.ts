@@ -1,5 +1,5 @@
 import sum from './sum'
-import { CountRange } from './merge-choice-types'
+import { CountRange } from './mergeChoiceTypes'
 
 export default function getStructureSteps ({
   structure

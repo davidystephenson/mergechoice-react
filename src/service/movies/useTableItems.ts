@@ -1,7 +1,7 @@
 import useHistoryContext from '../../context/history/useHistoryContext'
 import useMoviesContext from '../../context/movies/useMoviesContext'
 import { Movie, TableItem } from '../../types'
-import { HistoryEvent } from '../mergeChoice/merge-choice-types'
+import { HistoryEvent } from '../mergeChoice/mergeChoiceTypes'
 import isResult from './isResult'
 
 export default function useTableItems (): TableItem[] {

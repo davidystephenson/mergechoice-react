@@ -1,7 +1,7 @@
 import getPoints from './getPoints'
 import setupChoice from './setupChoice'
 import applyRandomChoice from './applyRandomChoice'
-import { Item, State } from './merge-choice-types'
+import { Item, State } from './mergeChoiceTypes'
 import getOperation from './getOperation'
 
 export default function applyChoice <ListItem extends Item> (props: {
@@ -31,7 +31,7 @@ export default function applyChoice <ListItem extends Item> (props: {
   }
   const currentOperation = getOperation({
     operations: props.state.activeOperations,
-    id: props.state.choice.operationMergeChoiceId
+    itemId: props.state.choice.operationMergeChoiceId
   })
   const betterInput = currentOperation.input[props.betterIndex]
   const worseIndex = 1 - props.betterIndex

@@ -1,14 +1,14 @@
-import { ItemId, Item, State } from './merge-choice-types'
+import { ItemId, Item, State } from './mergeChoiceTypes'
 import getItem from './getItem'
 import removeItem from './removeItem'
 import populate from './populate'
 
 export default function resetItem <ListItem extends Item> (props: {
-  id: ItemId
+  itemId: ItemId
   state: State<ListItem>
 }): State<ListItem> {
-  const item = getItem({ id: props.id, items: props.state.items })
-  const removedState = removeItem({ id: props.id, state: props.state })
+  const item = getItem({ itemId: props.itemId, items: props.state.items })
+  const removedState = removeItem({ itemId: props.itemId, state: props.state })
   const population = populate({
     items: [item],
     state: removedState

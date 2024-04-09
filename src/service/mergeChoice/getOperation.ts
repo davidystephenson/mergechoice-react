@@ -1,12 +1,12 @@
-import { Operation, OperationDictionary } from './merge-choice-types'
+import { Operation, OperationDictionary } from './mergeChoiceTypes'
 
 export default function getOperation (props: {
   operations: OperationDictionary
-  id: number
+  itemId: number
 }): Operation {
-  const operation = props.operations[props.id]
+  const operation = props.operations[props.itemId]
   if (operation == null) {
-    throw new Error(`There is no operation ${props.id}`)
+    throw new Error(`There is no operation ${props.itemId}`)
   }
   return operation
 }

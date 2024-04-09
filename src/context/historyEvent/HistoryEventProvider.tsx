@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import { HistoryEventContextValue, Movie } from '../../types'
 import historyEventContext from './historyEventContext'
 import useMoviesContext from '../movies/useMoviesContext'
-import { HistoryEvent } from '../../service/mergeChoice/merge-choice-types'
+import { HistoryEvent } from '../../service/mergeChoice/mergeChoiceTypes'
 
 export default function HistoryEventProvider (props: {
   children: ReactNode

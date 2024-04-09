@@ -2,7 +2,7 @@ import createState from './createState'
 import createActiveChoice from './createActiveChoice'
 import getOperationsSteps from './getOperationsSteps'
 import getOperations from './getOperations'
-import { Item, Population, State } from './merge-choice-types'
+import { Item, Population, State } from './mergeChoiceTypes'
 import getItem from './getItem'
 import arrayToDictionary from './arrayToDictionary'
 import createOperation from './createOperation'
@@ -13,7 +13,7 @@ export default function populate<ListItem extends Item> (props: {
 }): Population<ListItem> {
   const newItems = props.items.filter(item => {
     try {
-      getItem({ id: item.id, items: props.state.items })
+      getItem({ itemId: item.id, items: props.state.items })
       return false
     } catch (error) {
       return true
