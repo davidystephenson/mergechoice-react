@@ -41,16 +41,19 @@ export interface State<ListItem extends Item> {
 export type PreviousState<ListItem extends Item> = Omit<State<ListItem>, 'history'> & {
   history?: Array<HistoryEvent<ListItem>>
 }
+export interface HistoryChoice <ListItem extends Item> {
+  aBetter: boolean
+  aId: ItemId
+  aItem: Calculated<ListItem>
+  bId: ItemId
+  bItem: Calculated<ListItem>
+  operationId: number
+  random: boolean
+  worseIndex: number
+}
 export interface HistoryEvent<ListItem extends Item> extends Identity {
   createdAt: number
-  choice?: {
-    aBetter: boolean
-    aId: ItemId
-    aItem: Calculated<ListItem>
-    bId: ItemId
-    bItem: Calculated<ListItem>
-    random: boolean
-  }
+  choice?: HistoryChoice<ListItem>
   remove?: {
     itemId: ItemId
     item: Calculated<ListItem>

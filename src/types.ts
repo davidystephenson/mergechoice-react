@@ -64,6 +64,7 @@ export interface MoviesContextValue extends State<Movie> {
   sortedMovies: CalculatedMovie[]
   state: State<Movie>
   setQuery: (query: string) => void
+  undo: () => void
 }
 export interface MovieContextValue extends Movie {
   label: string

@@ -35,6 +35,9 @@ export default function chooseOption <ListItem extends Item> (props: {
   }
   const { history, ...previousState } = oldState
   void history
+  console.log('oldState', oldState)
+  console.log('props.betterIndex', props.betterIndex)
+  const worseIndex = 1 - props.betterIndex
   const newHistoryEvent: HistoryEvent<ListItem> = {
     choice: {
       aBetter,
@@ -42,7 +45,9 @@ export default function chooseOption <ListItem extends Item> (props: {
       aItem: calculatedA,
       bId: bItem.id,
       bItem: calculatedB,
-      random: oldState.choice.random
+      operationId: oldState.choice.operationMergeChoiceId,
+      random: oldState.choice.random,
+      worseIndex
     },
     createdAt: Date.now(),
     mergeChoiceId: newState.history.length,

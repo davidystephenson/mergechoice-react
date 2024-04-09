@@ -1,4 +1,4 @@
-import { VStack, HStack, Heading } from '@chakra-ui/react'
+import { VStack, HStack, Heading, Button } from '@chakra-ui/react'
 import OptionProvider from '../context/option/OptionProvider'
 import ChoiceCounterView from './ChoiceCounter'
 import DeferView from './Defer'
@@ -9,9 +9,12 @@ import OptionButtonView from './OptionButton'
 
 export default function ChoiceView (): JSX.Element {
   const moviesContextValue = useMoviesContext()
-
+  function handleUndo (): void {
+    moviesContextValue.undo()
+  }
   return (
     <VStack spacing='0'>
+      <Button onClick={handleUndo}>Undo</Button>
       <HStack mb='5px'>
         <Heading>
           CloudSort

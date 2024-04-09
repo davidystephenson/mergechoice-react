@@ -15,6 +15,8 @@ import { ItemId, State } from '../../service/mergeChoice/mergeChoiceTypes'
 import isResult from '../../service/movies/isResult'
 import resetItem from '../../service/mergeChoice/resetItem'
 import shuffleSlice from '../../service/shuffleSlice/shuffleSlice'
+import undoChoice from '../../service/mergeChoice/undoChoice'
+import debugOperations from '../../service/mergeChoice/debugOperations'
 
 export default function MoviesProvider ({
   children
@@ -24,7 +26,11 @@ export default function MoviesProvider ({
   const [state, setState] = useState<State<Movie>>(() => {
     return getStorage({ key: 'state', defaultValue: createState() })
   })
-  console.log('MoviesProvider state.choice.mergeChoiceId', state.choice?.mergeChoiceId)
+  debugOperations({
+    items: state.items,
+    label: 'render',
+    operations: state.activeOperations
+  })
   const [sortedMovies, setSortedMovies] = useState(() => {
     const sortedMovies = getSortedMovies({ state })
     return sortedMovies
@@ -112,6 +118,18 @@ export default function MoviesProvider ({
       return newState
     })
   }
+  function undo (): void {
+    void updateState(async current => {
+      console.log('current.history', current.history)
+      const lastEvent = current.history[0]
+      console.log('lastEvent', lastEvent)
+      if (lastEvent.choice == null) {
+        throw new Error('There is no choice.')
+      }
+      const newState = undoChoice({ state: current, choice: lastEvent.choice })
+      return newState
+    })
+  }
   const value: MoviesContextValue = {
     ...state,
     choose,
@@ -129,7 +147,8 @@ export default function MoviesProvider ({
     searching,
     setQuery,
     sortedMovies,
-    state
+    state,
+    undo
   }
   return (
     <moviesContext.Provider value={value}>
