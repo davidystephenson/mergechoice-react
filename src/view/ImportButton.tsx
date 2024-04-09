@@ -24,7 +24,7 @@ export default function ImportButtonView (): JSX.Element {
       const year = Number(row[' Year'])
       const movie: Movie = {
         date,
-        id: Math.random(),
+        mergeChoiceId: Math.random(),
         imdbId: row[' IMDB ID'],
         review: row[' Mini Review'],
         score,

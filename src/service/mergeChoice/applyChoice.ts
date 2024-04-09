@@ -1,7 +1,7 @@
 import getPoints from './getPoints'
 import setupChoice from './setupChoice'
 import applyRandomChoice from './applyRandomChoice'
-import { Item, State } from './merge-choice-types'
+import { Item, State } from './mergeChoiceTypes'
 import getOperation from './getOperation'
 
 export default function applyChoice <ListItem extends Item> (props: {
@@ -14,8 +14,8 @@ export default function applyChoice <ListItem extends Item> (props: {
   if (props.state.choice == null) {
     throw new Error('There is no choice.')
   }
-  const aPoints = getPoints({ itemId: props.aItem.id, state: props.state })
-  const bPoints = getPoints({ itemId: props.bItem.id, state: props.state })
+  const aPoints = getPoints({ itemId: props.aItem.mergeChoiceId, state: props.state })
+  const bPoints = getPoints({ itemId: props.bItem.mergeChoiceId, state: props.state })
   if (props.state.choice.random) {
     return applyRandomChoice({
       aBetter: props.aBetter,
@@ -31,7 +31,7 @@ export default function applyChoice <ListItem extends Item> (props: {
   }
   const currentOperation = getOperation({
     operations: props.state.activeOperations,
-    id: props.state.choice.operationMergeChoiceId
+    operationId: props.state.choice.operationMergeChoiceId
   })
   const betterInput = currentOperation.input[props.betterIndex]
   const worseIndex = 1 - props.betterIndex

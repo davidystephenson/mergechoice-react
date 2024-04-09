@@ -1,9 +1,9 @@
 import getRandom from './getRandom'
-import { Item, ItemId, Operation, State } from './merge-choice-types'
+import { Item, Operation, State } from './mergeChoiceTypes'
 
 export default function createOperation <ListItem extends Item> (props: {
-  input?: [ItemId[], ItemId[]]
-  output?: ItemId[]
+  input?: [number[], number[]]
+  output?: number[]
   state: State<ListItem>
 }): Operation {
   const seed = `${props.state.seed}${props.state.operationCount}`

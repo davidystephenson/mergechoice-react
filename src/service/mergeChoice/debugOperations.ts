@@ -1,5 +1,5 @@
 import labelOperation from './labelOperation'
-import { Item, OperationDictionary } from './merge-choice-types'
+import { Item, OperationDictionary } from './mergeChoiceTypes'
 
 export default function debugOperations <ListItem extends Item> ({ label, items, operations }: {
   label: string

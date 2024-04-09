@@ -1,10 +1,10 @@
-import { ItemId, Item, State } from './merge-choice-types'
+import { Item, State } from './mergeChoiceTypes'
 
 export default function rewindState <ListItem extends Item> ({
   historyEventId,
   state
 }: {
-  historyEventId: ItemId
+  historyEventId: number
   state: State<ListItem>
 }): State<ListItem> {
   const historyEvent = state.history.find(event => event.mergeChoiceId === historyEventId)

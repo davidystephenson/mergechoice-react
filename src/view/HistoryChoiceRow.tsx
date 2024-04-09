@@ -10,7 +10,7 @@ export default function HistoryChoiceRowView (): JSX.Element {
   if (historyEventContextValue.choice == null) {
     throw new Error('There is no choice.')
   }
-  const a = historyEventContextValue.choice.aId === movieContextValue.id
+  const a = historyEventContextValue.choice.aId === movieContextValue.mergeChoiceId
   const better = a ? historyEventContextValue.choice.aBetter : !historyEventContextValue.choice.aBetter
   const betterStyles = better ? { fontWeight: 'bold' } : {}
   const aScoreBetter = historyEventContextValue.choice.aItem.score > historyEventContextValue.choice.bItem.score

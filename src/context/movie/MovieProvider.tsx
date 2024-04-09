@@ -22,16 +22,16 @@ export default function MovieProvider (props: {
     if (props.movie == null) {
       throw new Error('There is no movie.')
     }
-    await moviesContextValue.removeMovie({ id: props.movie.id })
+    await moviesContextValue.removeMovie({ id: props.movie.mergeChoiceId })
   }
   async function reset (): Promise<void> {
     if (props.movie == null) {
       throw new Error('There is no movie.')
     }
-    await moviesContextValue.resetMovie({ id: props.movie.id })
+    await moviesContextValue.resetMovie({ id: props.movie.mergeChoiceId })
   }
   const moviePoints = props.points ?? getPoints({
-    itemId: props.movie.id,
+    itemId: props.movie.mergeChoiceId,
     state: moviesContextValue.state
   })
   const value: MovieContextValue = {

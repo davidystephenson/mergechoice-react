@@ -1,19 +1,19 @@
-export type ItemId = number
 export interface Identity {
   mergeChoiceId: number
 }
-export interface Item {
-  id: ItemId
+export interface ItemData {
   name: string
 }
+export type Identified <Data> = Data & Identity
+export type Item = Identified<ItemData>
 export type Calculated<T> = T & { points: number }
 export interface Operation extends Identity {
-  input: ItemId[][]
-  output: ItemId[]
+  input: number[][]
+  output: number[]
   priority: number
 }
 export interface ChoiceData {
-  options: ItemId[]
+  options: number[]
   operationMergeChoiceId?: number | null
   aIndex: number
   bIndex: number
@@ -22,19 +22,20 @@ export interface ChoiceData {
 export type Choice = ChoiceData & Identity
 export type OperationDictionary = Record<number, Operation>
 export interface State<ListItem extends Item> {
-  activeIds: ItemId[]
+  activeIds: number[]
   activeOperations: OperationDictionary
-  betterIds: ItemId[]
+  betterIds: number[]
   betterOperations: OperationDictionary
   choice?: Choice
   choiceCount: number
   complete: boolean
   history: Array<HistoryEvent<ListItem>>
-  items: Record<ItemId, ListItem>
+  itemCount: number
+  items: Record<number, ListItem>
   operationCount: number
-  reserveIds: ItemId[]
+  reserveIds: number[]
   seed: string
-  worseIds: ItemId[]
+  worseIds: number[]
   worseOperations: OperationDictionary
 }
 
@@ -45,14 +46,14 @@ export interface HistoryEvent<ListItem extends Item> extends Identity {
   createdAt: number
   choice?: {
     aBetter: boolean
-    aId: ItemId
+    aId: number
     aItem: Calculated<ListItem>
-    bId: ItemId
+    bId: number
     bItem: Calculated<ListItem>
     random: boolean
   }
   remove?: {
-    id: ItemId
+    id: number
     item: Calculated<ListItem>
   }
   import?: {
@@ -61,7 +62,7 @@ export interface HistoryEvent<ListItem extends Item> extends Identity {
   previousState?: PreviousState<ListItem>
 }
 export interface RemovalFromOperations {
-  emptiedOperationId?: ItemId
+  emptiedOperationId?: number
   operations: OperationDictionary
 }
 export interface CountRange {

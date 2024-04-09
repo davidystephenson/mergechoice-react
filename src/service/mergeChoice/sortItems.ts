@@ -1,12 +1,12 @@
 import compareItems from './compareItems'
-import { ItemId, Item, State } from './merge-choice-types'
+import { Item, State } from './mergeChoiceTypes'
 
 export default function sortItems <ListItem extends Item> ({
   ids,
   state,
   worseFirst = false
 }: {
-  ids: ItemId[]
+  ids: number[]
   state: State<ListItem>
   worseFirst?: boolean
 }): void {

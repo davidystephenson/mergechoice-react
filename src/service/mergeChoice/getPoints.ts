@@ -1,9 +1,9 @@
 import getPointsFromOperations from './getPointsFromOperations'
-import { ItemId, Item, State } from './merge-choice-types'
+import { Item, State } from './mergeChoiceTypes'
 
 export default function getPoints <ListItem extends Item> (props: {
   debug?: boolean
-  itemId: ItemId
+  itemId: number
   state: State<ListItem>
 }): number {
   if (props.debug === true) {

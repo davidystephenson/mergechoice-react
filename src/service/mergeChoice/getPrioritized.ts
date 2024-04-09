@@ -1,4 +1,4 @@
-import { Prioritized } from './merge-choice-types'
+import { Prioritized } from './mergeChoiceTypes'
 
 export default function getPrioritized<Element extends Prioritized> (
   array: Element[]

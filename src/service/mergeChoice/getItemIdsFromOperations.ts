@@ -1,10 +1,10 @@
-import { ItemId, OperationDictionary } from './merge-choice-types'
+import { OperationDictionary } from './mergeChoiceTypes'
 
-export default function getItemIdsFromOperations (props: {
+export default function getnumbersFromOperations (props: {
   operations: OperationDictionary
-}): ItemId[] {
+}): number[] {
   const values = Object.values(props.operations)
-  const itemIds = values.reduce<ItemId[]>((itemIds, operation) => {
+  const itemIds = values.reduce<number[]>((itemIds, operation) => {
     operation.input.forEach(input => {
       itemIds.push(...input)
     })

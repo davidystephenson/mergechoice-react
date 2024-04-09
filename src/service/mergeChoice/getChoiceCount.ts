@@ -2,7 +2,7 @@ import arrayToDictionary from './arrayToDictionary'
 import createOperation from './createOperation'
 import getTotalSteps from './getTotalSteps'
 import getOperations from './getOperations'
-import { Item, State, CountRange } from './merge-choice-types'
+import { Item, State, CountRange } from './mergeChoiceTypes'
 
 export default function getChoiceCountRange <ListItem extends Item> (props: {
   state: State<ListItem>

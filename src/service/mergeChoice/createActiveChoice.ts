@@ -2,7 +2,7 @@ import createChoice from './createChoice'
 import getChoiceOperation from './getChoiceOperation'
 import getOperation from './getOperation'
 import getRandomRange from './getRandomRange'
-import { Choice, ChoiceData, Item, State } from './merge-choice-types'
+import { Choice, ChoiceData, Item, State } from './mergeChoiceTypes'
 
 export default function createActiveChoice <ListItem extends Item> (props: {
   state: State<ListItem>
@@ -10,7 +10,7 @@ export default function createActiveChoice <ListItem extends Item> (props: {
   const choiceOperation = getChoiceOperation({ operations: props.state.activeOperations })
   const currentOperation = getOperation({
     operations: props.state.activeOperations,
-    id: choiceOperation.mergeChoiceId
+    operationId: choiceOperation.mergeChoiceId
   })
   const firstOption = currentOperation.input[0][0]
   if (firstOption == null) {

@@ -1,9 +1,9 @@
-import { ItemId, Identity } from './merge-choice-types'
+import { Identity } from './mergeChoiceTypes'
 
 export default function arrayToDictionary <Element extends Identity> (props: {
   array: Element[]
-}): Record<ItemId, Element> {
-  const dictionary = props.array.reduce<Record<ItemId, Element>>((dictionary, element) => {
+}): Record<number, Element> {
+  const dictionary = props.array.reduce<Record<number, Element>>((dictionary, element) => {
     dictionary[element.mergeChoiceId] = element
     return dictionary
   }, {})

@@ -1,5 +1,5 @@
 import { Movie } from '../../types'
-import { Choice } from '../mergeChoice/merge-choice-types'
+import { Choice } from '../mergeChoice/mergeChoiceTypes'
 
 export default function getDefaultOptionIndex ({
   choice,
@@ -21,7 +21,7 @@ export default function getDefaultOptionIndex ({
       ? firstItem
       : secondItem
   const defaultOptionIndex = choice.options.findIndex(option => {
-    return option === defaultItem?.id
+    return option === defaultItem?.mergeChoiceId
   })
   if (defaultOptionIndex === -1) {
     return undefined

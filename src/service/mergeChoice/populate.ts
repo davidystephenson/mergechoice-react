@@ -2,7 +2,7 @@ import createState from './createState'
 import createActiveChoice from './createActiveChoice'
 import getOperationsSteps from './getOperationsSteps'
 import getOperations from './getOperations'
-import { Item, Population, State } from './merge-choice-types'
+import { Item, Population, State } from './mergeChoiceTypes'
 import getItem from './getItem'
 import arrayToDictionary from './arrayToDictionary'
 import createOperation from './createOperation'
@@ -13,31 +13,32 @@ export default function populate<ListItem extends Item> (props: {
 }): Population<ListItem> {
   const newItems = props.items.filter(item => {
     try {
-      getItem({ id: item.id, items: props.state.items })
+      getItem({ itemId: item.mergeChoiceId, items: props.state.items })
       return false
     } catch (error) {
       return true
     }
   })
 
-  const newIds = newItems.map(item => item.id)
+  const newIds = newItems.map(item => item.mergeChoiceId)
   const condition = !props.state.complete &&
     (props.state.betterIds.length !== 0 || props.state.worseIds.length !== 0 || props.state.choice?.random === true)
   if (condition) {
     newItems.forEach(item => {
-      props.state.items[item.id] = item
+      props.state.items[item.mergeChoiceId] = item
     })
     props.state.reserveIds.push(...newIds)
     return { state: props.state, items: newItems }
   }
   const newState: State<ListItem> = createState()
   newState.choiceCount = props.state.choiceCount
+  newState.itemCount = props.state.itemCount
   newState.operationCount = props.state.operationCount
   for (const id in props.state.items) {
     newState.items[id] = props.state.items[id]
   }
   newItems.forEach(item => {
-    newState.items[item.id] = item
+    newState.items[item.mergeChoiceId] = item
   })
   newState.history = props.state.history
   newState.activeIds = newIds

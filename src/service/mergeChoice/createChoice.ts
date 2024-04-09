@@ -1,4 +1,4 @@
-import { Choice, ChoiceData, Item, State } from './merge-choice-types'
+import { Choice, ChoiceData, Item, State } from './mergeChoiceTypes'
 
 export default function createChoice <ListItem extends Item> (props: {
   choice: ChoiceData

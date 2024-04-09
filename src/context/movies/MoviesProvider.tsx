@@ -11,7 +11,7 @@ import importItems from '../../service/mergeChoice/importItems'
 import rewindState from '../../service/mergeChoice/rewindState'
 import getChoiceCountRange from '../../service/mergeChoice/getChoiceCount'
 import getSortedMovies from '../../service/movies/getSortedMovies'
-import { ItemId, State } from '../../service/mergeChoice/merge-choice-types'
+import { State } from '../../service/mergeChoice/mergeChoiceTypes'
 import isResult from '../../service/movies/isResult'
 import resetItem from '../../service/mergeChoice/resetItem'
 import shuffleSlice from '../../service/shuffleSlice/shuffleSlice'
@@ -24,7 +24,6 @@ export default function MoviesProvider ({
   const [state, setState] = useState<State<Movie>>(() => {
     return getStorage({ key: 'state', defaultValue: createState() })
   })
-  console.log('MoviesProvider state.choice.mergeChoiceId', state.choice?.mergeChoiceId)
   const [sortedMovies, setSortedMovies] = useState(() => {
     const sortedMovies = getSortedMovies({ state })
     return sortedMovies
@@ -86,20 +85,20 @@ export default function MoviesProvider ({
       return newState
     })
   }
-  async function removeMovie ({ id }: { id: ItemId }): Promise<void> {
+  async function removeMovie ({ id }: { id: number }): Promise<void> {
     void updateState(async current => {
-      const newState = removeItem({ id, state: current })
+      const newState = removeItem({ itemId: id, state: current })
       return newState
     })
   }
-  async function resetMovie ({ id }: { id: ItemId }): Promise<void> {
+  async function resetMovie ({ id }: { id: number }): Promise<void> {
     void updateState(async current => {
-      const newState = resetItem({ id, state: current })
+      const newState = resetItem({ itemId: id, state: current })
       return newState
     })
   }
   async function rewind ({ historyEventId }: {
-    historyEventId: ItemId
+    historyEventId: number
   }): Promise<void> {
     void updateState(async current => {
       const newState = rewindState({ state: current, historyEventId })

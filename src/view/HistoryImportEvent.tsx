@@ -16,7 +16,7 @@ export default function HistoryImportEventView (): JSX.Element {
   }
   const rows = open && historyEventContextValue.import.items.map((item) => {
     return (
-      <MovieProvider key={item.id} movie={item} points={0}>
+      <MovieProvider key={item.mergeChoiceId} movie={item} points={0}>
         <HistoryImportRowView />
       </MovieProvider>
     )

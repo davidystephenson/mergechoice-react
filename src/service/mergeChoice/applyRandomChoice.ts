@@ -3,7 +3,7 @@ import createActiveChoice from './createActiveChoice'
 import createOperation from './createOperation'
 import getOperations from './getOperations'
 import getPoints from './getPoints'
-import { Item, State } from './merge-choice-types'
+import { Item, State } from './mergeChoiceTypes'
 
 export default function applyRandomChoice <ListItem extends Item> (props: {
   aBetter: boolean
@@ -37,8 +37,8 @@ export default function applyRandomChoice <ListItem extends Item> (props: {
   })
   const pairedChoice = newState.activeIds.length === 0
   if (pairedChoice) {
-    newState.worseIds.push(unchosenItem.id)
-    newState.betterIds.unshift(chosenItem.id)
+    newState.worseIds.push(unchosenItem.mergeChoiceId)
+    newState.betterIds.unshift(chosenItem.mergeChoiceId)
     const output = [...newState.worseIds, ...newState.betterIds]
     const newOperation = createOperation({ output, state: newState })
     const newOperations = { [newOperation.mergeChoiceId]: newOperation }
@@ -48,8 +48,8 @@ export default function applyRandomChoice <ListItem extends Item> (props: {
       complete: true
     }
   }
-  newState.activeIds.push(chosenItem.id)
-  newState.activeIds.unshift(unchosenItem.id)
+  newState.activeIds.push(chosenItem.mergeChoiceId)
+  newState.activeIds.unshift(unchosenItem.mergeChoiceId)
   const completedOperationArray = newState.activeIds.map(id => {
     const operation = createOperation({ output: [id], state: newState })
     return operation

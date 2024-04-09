@@ -1,5 +1,5 @@
 import getMaximumSteps from './getMaximumSteps'
-import { OperationDictionary } from './merge-choice-types'
+import { OperationDictionary } from './mergeChoiceTypes'
 
 export default function getOperationsSteps ({ operations }: {
   operations: OperationDictionary

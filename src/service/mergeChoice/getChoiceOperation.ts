@@ -1,7 +1,7 @@
 import getOperationsSteps from './getOperationsSteps'
 import getPrioritized from './getPrioritized'
 import getMaximumSteps from './getMaximumSteps'
-import { Operation, OperationDictionary } from './merge-choice-types'
+import { Operation, OperationDictionary } from './mergeChoiceTypes'
 
 export default function getChoiceOperation (props: {
   operations: OperationDictionary

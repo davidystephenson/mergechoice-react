@@ -1,4 +1,4 @@
-import { OperationDictionary } from './merge-choice-types'
+import { OperationDictionary } from './mergeChoiceTypes'
 
 export default function getOperationStructure ({
   operations

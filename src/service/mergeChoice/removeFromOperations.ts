@@ -1,11 +1,11 @@
 import cloneOperation from './cloneOperation'
-import { ItemId, OperationDictionary, RemovalFromOperations } from './merge-choice-types'
+import { OperationDictionary, RemovalFromOperations } from './mergeChoiceTypes'
 
 export default function removeFromOperations (props: {
-  itemId: ItemId
+  itemId: number
   operations: OperationDictionary
 }): RemovalFromOperations {
-  let emptiedOperationId: ItemId | undefined
+  let emptiedOperationId: number | undefined
   const entries = Object.entries(props.operations)
   const newEntries = entries.map((entry) => {
     const [id, operation] = entry
