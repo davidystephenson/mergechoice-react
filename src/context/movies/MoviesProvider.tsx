@@ -126,7 +126,7 @@ export default function MoviesProvider ({
       if (lastEvent.choice == null) {
         throw new Error('There is no choice.')
       }
-      const newState = undoChoice({ state: current, choice: lastEvent.choice })
+      const newState = undoChoice({ state: current, historyChoice: lastEvent.choice })
       return newState
     })
   }

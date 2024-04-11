@@ -3,38 +3,51 @@ import getOperationsSteps from './getOperationsSteps'
 import getOperations from './getOperations'
 import populate from './populate'
 import sortItems from './sortItems'
-import { Item, State } from './mergeChoiceTypes'
+import { ChoiceSetup, Item, State } from './mergeChoiceTypes'
 import getItem from './getItem'
 import createOperation from './createOperation'
 
+// TODO: Pass fresh flag in second order max steps 0 case
 export default function setupChoice <ListItem extends Item> (props: {
   state: State<ListItem>
-}): State<ListItem> {
-  const maxSteps = getOperationsSteps({ operations: props.state.activeOperations })
-  if (maxSteps > 0) {
+}): ChoiceSetup<ListItem> {
+  const maxSteps1 = getOperationsSteps({ operations: props.state.activeOperations })
+  console.log('maxSteps', maxSteps1)
+  if (maxSteps1 > 0) {
+    console.log('basic choice')
     const newChoice = createActiveChoice({
       state: props.state
     })
-    return {
+    const newState = {
       ...props.state,
       choice: newChoice,
       complete: false
     }
+    const choiceSetup = {
+      state: newState,
+      fresh: false
+    }
+    return choiceSetup
   } else {
     const newState = { ...props.state }
     const newOperations = getOperations({
       activeOperations: props.state.activeOperations,
+      debug: true,
       state: newState
     })
-    const maxSteps = getOperationsSteps({ operations: newOperations })
-    if (maxSteps > 0) {
+    const maxSteps2 = getOperationsSteps({ operations: newOperations })
+    if (maxSteps2 > 0) {
       newState.activeOperations = newOperations
       const nextChoice = createActiveChoice({
         state: newState
       })
       newState.choice = nextChoice
       newState.complete = false
-      return newState
+      const choiceSetup = {
+        state: newState,
+        fresh: true
+      }
+      return choiceSetup
     } else {
       sortItems({
         ids: newState.worseIds,
@@ -70,7 +83,11 @@ export default function setupChoice <ListItem extends Item> (props: {
         items: reserveItems,
         state: newState
       })
-      return population.state
+      const choiceSetup = {
+        state: population.state,
+        fresh: false
+      }
+      return choiceSetup
     }
   }
 }

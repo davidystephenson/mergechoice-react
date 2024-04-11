@@ -1,7 +1,7 @@
 import getPoints from './getPoints'
 import setupChoice from './setupChoice'
 import applyRandomChoice from './applyRandomChoice'
-import { Item, State } from './mergeChoiceTypes'
+import { ChoiceSetup, Item, State } from './mergeChoiceTypes'
 import getOperation from './getOperation'
 
 export default function applyChoice <ListItem extends Item> (props: {
@@ -10,14 +10,14 @@ export default function applyChoice <ListItem extends Item> (props: {
   betterIndex: number
   bItem: ListItem
   state: State<ListItem>
-}): State<ListItem> {
+}): ChoiceSetup<ListItem> {
   if (props.state.choice == null) {
     throw new Error('There is no choice.')
   }
   const aPoints = getPoints({ itemId: props.aItem.id, state: props.state })
   const bPoints = getPoints({ itemId: props.bItem.id, state: props.state })
   if (props.state.choice.random) {
-    return applyRandomChoice({
+    const newState = applyRandomChoice({
       aBetter: props.aBetter,
       aItem: props.aItem,
       aPoints,
@@ -25,6 +25,11 @@ export default function applyChoice <ListItem extends Item> (props: {
       bPoints,
       state: props.state
     })
+    const choiceSetup = {
+      state: newState,
+      fresh: false
+    }
+    return choiceSetup
   }
   if (props.state.choice.operationMergeChoiceId == null) {
     throw new Error('There is no currentOperationId')

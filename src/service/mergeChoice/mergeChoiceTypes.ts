@@ -47,6 +47,8 @@ export interface HistoryChoice <ListItem extends Item> {
   aItem: Calculated<ListItem>
   bId: ItemId
   bItem: Calculated<ListItem>
+  fresh: boolean
+  newFirstOutput: ItemId
   operationId: number
   random: boolean
   worseIndex: number
@@ -77,4 +79,8 @@ export interface Population<ListItem extends Item> {
 }
 export interface Prioritized {
   priority: number
+}
+export interface ChoiceSetup<ListItem extends Item> {
+  state: State<ListItem>
+  fresh: boolean
 }

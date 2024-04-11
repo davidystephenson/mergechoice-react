@@ -42,9 +42,10 @@ export default function removeItem <ListItem extends Item> (props: {
 
   const emptiedCurrentOperation = activeRemoval.emptiedOperationId === props.state.choice?.operationMergeChoiceId
   if (emptiedCurrentOperation) {
-    return setupChoice({
+    const choiceSetup = setupChoice({
       state: props.state
     })
+    return choiceSetup.state
   } else if (props.state.choice?.options.includes(props.itemId) === true) {
     props.state.choice = createActiveChoice({
       state: props.state
