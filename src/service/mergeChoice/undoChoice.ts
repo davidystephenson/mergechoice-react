@@ -20,11 +20,8 @@ export default function undoChoice<ListItem extends Item> (props: {
   const betterIndex = 1 - props.historyChoice.worseIndex
   console.log('betterIndex', betterIndex)
   const activeOperations = Object.values(props.state.activeOperations)
-  const operationsAreFresh = activeOperations.every(operation =>
-    operation.output.length === 0 || Math.max(operation.input[0].length, operation.input[1].length) === 0
-  )
-  console.log('operationsAreFresh', operationsAreFresh)
-  if (operationsAreFresh) {
+  console.log('props.historyChoice.fresh', props.historyChoice.fresh)
+  if (props.historyChoice.fresh) {
     const itemIdArrays = activeOperations.flatMap(operation => {
       const result = []
       if (operation.input[0].length > 0) result.push(operation.input[0])
@@ -32,18 +29,18 @@ export default function undoChoice<ListItem extends Item> (props: {
       if (operation.output.length > 0) result.push(operation.output)
       return result
     })
-    const oldOperations = itemIdArrays.map(itemIdArray => createOperation({
+    const halfUndoneOperations = itemIdArrays.map(itemIdArray => createOperation({
       input: [[], []],
       output: itemIdArray,
       state: props.state
     }))
-    const oldActiveOperations: OperationDictionary = {}
-    oldOperations.forEach(operation => {
-      oldActiveOperations[operation.mergeChoiceId] = operation
+    const halfUndoneActiveOperations: OperationDictionary = {}
+    halfUndoneOperations.forEach(operation => {
+      halfUndoneActiveOperations[operation.mergeChoiceId] = operation
     })
     debugOperations({
-      label: 'oldActiveOperations',
-      operations: oldActiveOperations,
+      label: 'halfUndoneActiveOperations',
+      operations: halfUndoneActiveOperations,
       items: props.state.items
     })
   } else {

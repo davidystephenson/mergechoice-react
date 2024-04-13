@@ -26,11 +26,11 @@ export default function MoviesProvider ({
   const [state, setState] = useState<State<Movie>>(() => {
     return getStorage({ key: 'state', defaultValue: createState() })
   })
-  debugOperations({
-    items: state.items,
-    label: 'render',
-    operations: state.activeOperations
-  })
+  // debugOperations({
+  //   items: state.items,
+  //   label: 'render',
+  //   operations: state.activeOperations
+  // })
   const [sortedMovies, setSortedMovies] = useState(() => {
     const sortedMovies = getSortedMovies({ state })
     return sortedMovies
@@ -88,6 +88,11 @@ export default function MoviesProvider ({
     setChoosing(true)
     void updateState(async current => {
       const newState = chooseOption({ state: current, betterIndex })
+      debugOperations({
+        label: 'choose',
+        items: newState.items,
+        operations: newState.activeOperations
+      })
       setChoosing(false)
       return newState
     })
@@ -127,6 +132,11 @@ export default function MoviesProvider ({
         throw new Error('There is no choice.')
       }
       const newState = undoChoice({ state: current, historyChoice: lastEvent.choice })
+      debugOperations({
+        label: 'undo',
+        items: newState.items,
+        operations: newState.activeOperations
+      })
       return newState
     })
   }
