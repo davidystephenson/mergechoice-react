@@ -1,6 +1,7 @@
-// import getOperation from './getOperation'
-import cloneOperation from './cloneOperation'
+import createActiveChoice from './createActiveChoice'
 import createOperation from './createOperation'
+import debugItem from './debugItem'
+import debugOperation from './debugOperation'
 import debugOperations from './debugOperations'
 import getItem from './getItem'
 import getOperation from './getOperation'
@@ -22,6 +23,7 @@ export default function undoChoice<ListItem extends Item> (props: {
   const activeOperations = Object.values(props.state.activeOperations)
   console.log('props.historyChoice.fresh', props.historyChoice.fresh)
   if (props.historyChoice.fresh) {
+    // half undone operations
     const itemIdArrays = activeOperations.flatMap(operation => {
       const result = []
       if (operation.input[0].length > 0) result.push(operation.input[0])
@@ -43,46 +45,70 @@ export default function undoChoice<ListItem extends Item> (props: {
       operations: halfUndoneActiveOperations,
       items: props.state.items
     })
-  } else {
-    const oldOperation = getOperation({
-      operations: props.state.activeOperations,
-      itemId: props.historyChoice.operationId
-    })
-    const oldClone = cloneOperation({ operation: oldOperation })
-    debugOperations({
-      label: 'old operation',
-      operations: {
-        [oldClone.mergeChoiceId]: oldClone
-      },
+    debugItem({
+      label: 'props.historyChoice.newFirstOutput',
+      itemId: props.historyChoice.newFirstOutput,
       items: props.state.items
     })
-    const lastOutput = oldOperation.output.pop()
-    if (lastOutput == null) {
-      throw new Error('There is no lastOutput')
-    }
-    const operationWasFinished = Math.max(oldOperation.input[0].length, oldOperation.input[1].length) === 0
-    console.log('operationWasFinished', operationWasFinished)
-    const worseInput = oldOperation.input[props.historyChoice.worseIndex]
-    worseInput.unshift(lastOutput)
-    if (operationWasFinished) {
-      const worseInput = oldOperation.input[props.historyChoice.worseIndex]
-      console.log('worseInput', worseInput)
-      const betterInput = oldOperation.input[betterIndex]
-      const newLastOutput = oldOperation.output.pop()
-      if (newLastOutput == null) {
-        throw new Error('There is no newLastOutput')
-      }
-      betterInput.unshift(newLastOutput)
-    }
-    const afterClone = cloneOperation({ operation: oldOperation })
-    debugOperations({
-      label: 'operation after',
-      operations: {
-        [afterClone.mergeChoiceId]: afterClone
-      },
-      items: props.state.items
-    })
+    props.state.activeOperations = halfUndoneActiveOperations
   }
+  const activeOperationsArray = Object.values(props.state.activeOperations)
+  const previousOperation = activeOperationsArray.find(operation => operation.output[0] === props.historyChoice.newFirstOutput)
+  if (previousOperation == null) {
+    throw new Error('There is no previous operation')
+  }
+  debugOperation({
+    label: 'previousOperation',
+    operation: previousOperation,
+    items: props.state.items
+  })
+  const oldOperation = getOperation({
+    operations: props.state.activeOperations,
+    operationId: previousOperation.mergeChoiceId
+  })
+  debugOperation({
+    label: 'oldOperation before',
+    operation: oldOperation,
+    items: props.state.items
+  })
+  const operationWasFinished = Math.max(oldOperation.input[0].length, oldOperation.input[1].length) === 0
+  console.log('operationWasFinished', operationWasFinished)
+  const lastOutput = oldOperation.output.pop()
+  if (lastOutput == null) {
+    throw new Error('There is no lastOutput')
+  }
+  const worseInput = oldOperation.input[props.historyChoice.worseIndex]
+  worseInput.unshift(lastOutput)
+  if (operationWasFinished) {
+    const betterInput = oldOperation.input[betterIndex]
+    const newLastOutput = oldOperation.output.pop()
+    if (newLastOutput == null) {
+      throw new Error('There is no newLastOutput')
+    }
+    console.log('newLastOutput', newLastOutput)
+    const worseInput = oldOperation.input[props.historyChoice.worseIndex]
+    const worseInputBefore = [...worseInput]
+    console.log('worseInputBefore', worseInputBefore)
+    betterInput.unshift(newLastOutput)
+    if (worseInput.length === 0) {
+      const nextLastOutput = oldOperation.output.pop()
+      if (nextLastOutput == null) {
+        throw new Error('There is no nextLastOutput')
+      }
+      console.log('nextLastOutput', nextLastOutput)
+      worseInput.unshift(nextLastOutput)
+    }
+  }
+  debugOperation({
+    label: 'oldOperation after',
+    operation: oldOperation,
+    items: props.state.items
+  })
   console.log('newState', props.state)
+  props.state.history.shift()
+  const nextChoice = createActiveChoice({
+    state: props.state
+  })
+  props.state.choice = nextChoice
   return props.state
 }

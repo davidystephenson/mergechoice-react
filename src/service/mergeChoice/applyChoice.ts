@@ -36,7 +36,7 @@ export default function applyChoice <ListItem extends Item> (props: {
   }
   const currentOperation = getOperation({
     operations: props.state.activeOperations,
-    itemId: props.state.choice.operationMergeChoiceId
+    operationId: props.state.choice.operationMergeChoiceId
   })
   const betterInput = currentOperation.input[props.betterIndex]
   const worseIndex = 1 - props.betterIndex

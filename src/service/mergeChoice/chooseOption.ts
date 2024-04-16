@@ -41,7 +41,7 @@ export default function chooseOption <ListItem extends Item> (props: {
   const worseIndex = 1 - props.betterIndex
   const choiceOperation = getOperation({
     operations: oldState.activeOperations,
-    itemId: oldState.choice.operationMergeChoiceId
+    operationId: oldState.choice.operationMergeChoiceId
   })
   const newFirstOutput = choiceOperation.output.length > 0
     ? choiceOperation.output[0]

@@ -10,9 +10,9 @@ export default function DeleteButton (): JSX.Element {
   return (
     <IconButton
       aria-label='delete'
+      colorScheme='red'
       icon={<DeleteIcon />}
       onClick={handleDelete}
-      minW='fit-content'
     />
   )
 }

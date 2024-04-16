@@ -1,12 +1,11 @@
-import { Movie } from '../../types'
-import { Choice } from '../mergeChoice/mergeChoiceTypes'
+import { ItemId, Choice, Item } from './mergeChoiceTypes'
 
 export default function getDefaultOptionIndex ({
   choice,
   movies
 }: {
   choice: Choice | undefined
-  movies: Record<string, Movie>
+  movies: Record<ItemId, Item>
 }): number | undefined {
   if (choice == null || choice.options.length === 0 || choice.random) {
     return undefined

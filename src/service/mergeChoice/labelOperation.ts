@@ -1,17 +1,19 @@
-import getItem from './getItem'
+import cloneOperation from './cloneOperation'
+import labelItem from './labelItem'
 import { Item, Operation } from './mergeChoiceTypes'
 
 export default function labelOperation <ListItem extends Item> (props: {
   items: Record<string, ListItem>
   operation: Operation
 }): unknown {
-  const input1Names = props.operation.input[0].map(itemId => getItem({ itemId, items: props.items }).name)
-  const input2Names = props.operation.input[1].map(itemId => getItem({ itemId, items: props.items }).name)
-  const outputNames = props.operation.output.map(itemId => getItem({ itemId, items: props.items }).name)
+  const clone = cloneOperation({ operation: props.operation })
+  const input1Names = clone.input[0].map(itemId => labelItem({ itemId, items: props.items }))
+  const input2Names = clone.input[1].map(itemId => labelItem({ itemId, items: props.items }))
+  const outputNames = clone.output.map(itemId => labelItem({ itemId, items: props.items }))
   return {
     input: [input1Names, input2Names],
-    mergeChoiceId: props.operation.mergeChoiceId,
+    mergeChoiceId: clone.mergeChoiceId,
     output: outputNames,
-    priority: props.operation.priority
+    priority: clone.priority
   }
 }

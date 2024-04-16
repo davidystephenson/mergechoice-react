@@ -5,6 +5,7 @@ export interface Identity {
 export interface Item {
   id: ItemId
   name: string
+  score: number
 }
 export type Calculated<T> = T & { points: number }
 export interface Operation extends Identity {
