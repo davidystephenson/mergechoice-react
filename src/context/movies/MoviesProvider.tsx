@@ -1,7 +1,7 @@
 import { ReactNode, useState } from 'react'
 import { Movie, MoviesContextValue } from '../../types'
 import moviesContext from './moviesContext'
-import getDefaultOptionIndex from '../../service/movies/getDefaultOptionIndex'
+import getDefaultOptionIndex from '../../service/mergeChoice/getDefaultOptionIndex'
 import getStorage from '../../service/mergeChoice/getStorage'
 import createState from '../../service/mergeChoice/createState'
 import chooseOption from '../../service/mergeChoice/chooseOption'
@@ -17,6 +17,7 @@ import resetItem from '../../service/mergeChoice/resetItem'
 import shuffleSlice from '../../service/shuffleSlice/shuffleSlice'
 import undoChoice from '../../service/mergeChoice/undoChoice'
 import debugOperations from '../../service/mergeChoice/debugOperations'
+import debugHistoryChoice from '../../service/mergeChoice/debugHistoryChoice'
 
 export default function MoviesProvider ({
   children
@@ -89,9 +90,18 @@ export default function MoviesProvider ({
     void updateState(async current => {
       const newState = chooseOption({ state: current, betterIndex })
       debugOperations({
-        label: 'choose',
+        label: 'choose operations',
         items: newState.items,
         operations: newState.activeOperations
+      })
+      const newLatestHistory = newState.history[0]
+      if (newLatestHistory.choice == null) {
+        throw new Error('There is no latest history choice.')
+      }
+      debugHistoryChoice({
+        historyChoice: newLatestHistory.choice,
+        items: newState.items,
+        label: 'choose new latest history'
       })
       setChoosing(false)
       return newState
@@ -126,17 +136,26 @@ export default function MoviesProvider ({
   function undo (): void {
     void updateState(async current => {
       console.log('current.history', current.history)
-      const lastEvent = current.history[0]
-      console.log('lastEvent', lastEvent)
-      if (lastEvent.choice == null) {
-        throw new Error('There is no choice.')
+      const latestHistory = current.history[0]
+      console.log('lastEvent', latestHistory)
+      if (latestHistory.choice == null) {
+        throw new Error('There is no latest history choice.')
       }
-      const newState = undoChoice({ state: current, historyChoice: lastEvent.choice })
+      const newState = undoChoice({ state: current, historyChoice: latestHistory.choice })
       debugOperations({
-        label: 'undo',
+        label: 'undo operations',
         items: newState.items,
         operations: newState.activeOperations
       })
+      const newLatestHistory = newState.history[0]
+      if (newLatestHistory.choice != null) {
+        debugHistoryChoice({
+          historyChoice: newLatestHistory.choice,
+          items: newState.items,
+          label: 'undo latest history choice'
+        })
+      }
+
       return newState
     })
   }

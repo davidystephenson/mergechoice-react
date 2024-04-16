@@ -4,13 +4,14 @@ import getOperation from './getOperation'
 import getRandomRange from './getRandomRange'
 import { Choice, ChoiceData, Item, State } from './mergeChoiceTypes'
 
+// TODO combine choice and current operation
 export default function createActiveChoice <ListItem extends Item> (props: {
   state: State<ListItem>
 }): Choice {
   const choiceOperation = getChoiceOperation({ operations: props.state.activeOperations })
   const currentOperation = getOperation({
     operations: props.state.activeOperations,
-    itemId: choiceOperation.mergeChoiceId
+    operationId: choiceOperation.mergeChoiceId
   })
   const firstOption = currentOperation.input[0][0]
   if (firstOption == null) {
