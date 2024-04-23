@@ -24,11 +24,7 @@ export interface ListTableItem {
 export interface HistoryTableItem {
   event: HistoryEvent<Movie>
 }
-export interface HistoryImportTableItem {
-  event: HistoryEvent<Movie>
-  movie: Movie
-}
-export interface HistoryRemoveTableItem {
+export interface HistoryMovieTableItem {
   event: HistoryEvent<Movie>
   movie: CalculatedMovie
 }
@@ -39,9 +35,13 @@ export interface TableItem {
   historyChoiceB?: HistoryTableItem
   historyHeading?: boolean
   historyImportHeading?: HistoryTableItem
-  historyImportMovie?: HistoryImportTableItem
+  historyImportMovie?: HistoryMovieTableItem
+  historyRandomHeading?: HistoryTableItem
+  historyRandomMovie?: HistoryMovieTableItem
   historyRemoveHeading?: HistoryTableItem
-  historyRemoveMovie?: HistoryRemoveTableItem
+  historyRemoveMovie?: HistoryMovieTableItem
+  historyResetHeading?: HistoryTableItem
+  historyResetMovie?: HistoryMovieTableItem
   movieHeading?: boolean
   movieHeadings?: boolean
   search?: boolean

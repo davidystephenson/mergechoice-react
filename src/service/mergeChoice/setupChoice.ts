@@ -3,18 +3,15 @@ import getOperationsSteps from './getOperationsSteps'
 import getOperations from './getOperations'
 import populate from './populate'
 import sortItems from './sortItems'
-import { ChoiceSetup, Item, State } from './mergeChoiceTypes'
+import { Item, State } from './mergeChoiceTypes'
 import getItem from './getItem'
 import createOperation from './createOperation'
 
-// TODO: Pass fresh flag in second order max steps 0 case
 export default function setupChoice <ListItem extends Item> (props: {
   state: State<ListItem>
-}): ChoiceSetup<ListItem> {
+}): State<ListItem> {
   const maxSteps1 = getOperationsSteps({ operations: props.state.activeOperations })
-  console.log('maxSteps', maxSteps1)
   if (maxSteps1 > 0) {
-    console.log('basic choice')
     const newChoice = createActiveChoice({
       state: props.state
     })
@@ -23,16 +20,11 @@ export default function setupChoice <ListItem extends Item> (props: {
       choice: newChoice,
       complete: false
     }
-    const choiceSetup = {
-      state: newState,
-      fresh: false
-    }
-    return choiceSetup
+    return newState
   } else {
     const newState = { ...props.state }
     const newOperations = getOperations({
       activeOperations: props.state.activeOperations,
-      debug: true,
       state: newState
     })
     const maxSteps2 = getOperationsSteps({ operations: newOperations })
@@ -43,11 +35,7 @@ export default function setupChoice <ListItem extends Item> (props: {
       })
       newState.choice = nextChoice
       newState.complete = false
-      const choiceSetup = {
-        state: newState,
-        fresh: true
-      }
-      return choiceSetup
+      return newState
     } else {
       sortItems({
         ids: newState.worseIds,
@@ -83,11 +71,7 @@ export default function setupChoice <ListItem extends Item> (props: {
         items: reserveItems,
         state: newState
       })
-      const choiceSetup = {
-        state: population.state,
-        fresh: false
-      }
-      return choiceSetup
+      return population.state
     }
   }
 }

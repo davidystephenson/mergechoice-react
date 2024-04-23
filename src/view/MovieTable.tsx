@@ -9,6 +9,7 @@ import SearchView from './Search'
 
 export default function MovieTableView (): JSX.Element {
   const tableItems = useTableItems()
+  console.log('tableItems', tableItems)
   const Scroller: TableComponents['Scroller'] = forwardRef((props, ref) => {
     return <TableContainer {...props} whiteSpace='normal' overflowX='clip' overflowY='clip' ref={ref} />
   })

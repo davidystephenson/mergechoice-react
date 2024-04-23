@@ -46,10 +46,9 @@ export interface HistoryChoice <ListItem extends Item> {
   aBetter: boolean
   aId: ItemId
   aItem: Calculated<ListItem>
+  betterIndex: number
   bId: ItemId
   bItem: Calculated<ListItem>
-  fresh: boolean
-  newFirstOutput: ItemId
   operationId: number
   random: boolean
   worseIndex: number
@@ -57,14 +56,19 @@ export interface HistoryChoice <ListItem extends Item> {
 export interface HistoryEvent<ListItem extends Item> extends Identity {
   createdAt: number
   choice?: HistoryChoice<ListItem>
-  remove?: {
-    itemId: ItemId
-    item: Calculated<ListItem>
-  }
   import?: {
     items: Array<Calculated<ListItem>>
   }
-  previousState?: PreviousState<ListItem>
+  random?: {
+    first: Calculated<ListItem>
+    second: Calculated<ListItem>
+  }
+  remove?: {
+    item: Calculated<ListItem>
+  }
+  reset?: {
+    item: Calculated<ListItem>
+  }
 }
 export interface RemovalFromOperations {
   emptiedOperationId?: ItemId
@@ -80,8 +84,4 @@ export interface Population<ListItem extends Item> {
 }
 export interface Prioritized {
   priority: number
-}
-export interface ChoiceSetup<ListItem extends Item> {
-  state: State<ListItem>
-  fresh: boolean
 }

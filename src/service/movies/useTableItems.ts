@@ -37,10 +37,23 @@ export default function useTableItems (): TableItem[] {
         )
       })
     }
+    if (event.random != null) {
+      tableItems.push(
+        { historyRandomHeading: { event } },
+        { historyRandomMovie: { event, movie: event.random.first } },
+        { historyRandomMovie: { event, movie: event.random.second } }
+      )
+    }
     if (event.remove != null) {
       tableItems.push(
         { historyRemoveHeading: { event } },
         { historyRemoveMovie: { event, movie: event.remove.item } }
+      )
+    }
+    if (event.reset != null) {
+      tableItems.push(
+        { historyResetHeading: { event } },
+        { historyResetMovie: { event, movie: event.reset.item } }
       )
     }
   }

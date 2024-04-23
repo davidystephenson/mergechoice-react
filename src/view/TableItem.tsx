@@ -7,8 +7,12 @@ import HistoryChoiceHeadingRowView from './HistoryChoiceHeadingRow'
 import HistoryHeadingRowView from './HistoryHeadingRow'
 import HistoryImportHeadingView from './HistoryImportHeading'
 import HistoryImportRowView from './HistoryImportRow'
+import HistoryRandomHeadingRowView from './HistoryRandomHeadingRow'
+import HistoryRandomMovieView from './HistoryRandomMovieRow'
 import HistoryRemoveHeadingView from './HistoryRemoveHeading'
 import HistoryRemoveRowView from './HistoryRemoveRow'
+import HistoryResetHeadingRowView from './HistoryResetHeadingRow'
+import HistoryResetMovieRowView from './HistoryResetMovieRow'
 import MovieHeadingRowView from './MovieHeadingRow'
 import MovieHeadingsRowView from './MovieHeadingsRow'
 import MovieListRow from './MovieListRow'
@@ -57,6 +61,22 @@ export default function TableItemView (): JSX.Element {
       <HistoryHeadingRowView />
     )
   }
+  if (tableItem.historyRandomHeading != null) {
+    return (
+      <HistoryEventProvider historyEvent={tableItem.historyRandomHeading.event}>
+        <HistoryRandomHeadingRowView />
+      </HistoryEventProvider>
+    )
+  }
+  if (tableItem.historyRandomMovie != null) {
+    return (
+      <HistoryEventProvider historyEvent={tableItem.historyRandomMovie.event}>
+        <MovieProvider movie={tableItem.historyRandomMovie.movie}>
+          <HistoryRandomMovieView />
+        </MovieProvider>
+      </HistoryEventProvider>
+    )
+  }
   if (tableItem.historyRemoveHeading != null) {
     return (
       <HistoryEventProvider historyEvent={tableItem.historyRemoveHeading.event}>
@@ -72,6 +92,22 @@ export default function TableItemView (): JSX.Element {
           points={tableItem.historyRemoveMovie.movie.points}
         >
           <HistoryRemoveRowView />
+        </MovieProvider>
+      </HistoryEventProvider>
+    )
+  }
+  if (tableItem.historyResetHeading != null) {
+    return (
+      <HistoryEventProvider historyEvent={tableItem.historyResetHeading.event}>
+        <HistoryResetHeadingRowView />
+      </HistoryEventProvider>
+    )
+  }
+  if (tableItem.historyResetMovie != null) {
+    return (
+      <HistoryEventProvider historyEvent={tableItem.historyResetMovie.event}>
+        <MovieProvider movie={tableItem.historyResetMovie.movie}>
+          <HistoryResetMovieRowView />
         </MovieProvider>
       </HistoryEventProvider>
     )

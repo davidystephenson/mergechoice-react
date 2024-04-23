@@ -9,7 +9,7 @@ export default function getOperations <ListItem extends Item> (props: {
   state: State<ListItem>
 }): OperationDictionary {
   if (props.debug === true) {
-    console.log('getOperations props.state', props.state)
+    console.debug('getOperations props.state', props.state)
   }
   const values = Object.values(props.activeOperations)
   const blocks = values.map(operation => operation.output)

@@ -5,7 +5,6 @@ import getDefaultOptionIndex from '../../service/mergeChoice/getDefaultOptionInd
 import getStorage from '../../service/mergeChoice/getStorage'
 import createState from '../../service/mergeChoice/createState'
 import chooseOption from '../../service/mergeChoice/chooseOption'
-import createRandomChoice from '../../service/mergeChoice/createRandomChoice'
 import removeItem from '../../service/mergeChoice/removeItem'
 import importItems from '../../service/mergeChoice/importItems'
 import rewindState from '../../service/mergeChoice/rewindState'
@@ -15,9 +14,8 @@ import { ItemId, State } from '../../service/mergeChoice/mergeChoiceTypes'
 import isResult from '../../service/movies/isResult'
 import resetItem from '../../service/mergeChoice/resetItem'
 import shuffleSlice from '../../service/shuffleSlice/shuffleSlice'
-import undoChoice from '../../service/mergeChoice/undoChoice'
-import debugOperations from '../../service/mergeChoice/debugOperations'
-import debugHistoryChoice from '../../service/mergeChoice/debugHistoryChoice'
+import restoreEvent from '../../service/mergeChoice/restoreEvent'
+import setupRandomChoice from '../../service/mergeChoice/setupRandomChoice'
 
 export default function MoviesProvider ({
   children
@@ -27,6 +25,16 @@ export default function MoviesProvider ({
   const [state, setState] = useState<State<Movie>>(() => {
     return getStorage({ key: 'state', defaultValue: createState() })
   })
+  console.log('render state', state)
+  const initialState = createState<Movie>()
+  const reversed = state.history.slice().reverse()
+  const deduced = reversed.reduce<State<Movie>>((state, event) => {
+    const restoredState = restoreEvent({ event, state })
+    const lastEvent = restoredState.history[0]
+    lastEvent.createdAt = event.createdAt
+    return restoredState
+  }, initialState)
+  console.log('render deduced', deduced)
   // debugOperations({
   //   items: state.items,
   //   label: 'render',
@@ -49,19 +57,12 @@ export default function MoviesProvider ({
     return isResult({ movie, query })
   })
   async function storeState (newState: State<Movie>): Promise<void> {
-    const newHistory = state.history.map(event => {
-      const { previousState, ...rest } = event
-      void previousState
-      return rest
-    })
-    const historyState = {
-      ...newState,
-      history: newHistory
-    }
-    localStorage.setItem('state', JSON.stringify(historyState))
+    console.log('storeState newState', newState)
+    localStorage.setItem('state', JSON.stringify(newState))
   }
   async function updateState (callback: (current: State<Movie>) => Promise<State<Movie>>): Promise<void> {
     const newState = await callback(state)
+    console.log('updateState newState', newState)
     const sortedMovies = getSortedMovies({ state: newState })
     setSortedMovies(sortedMovies)
     setState(newState)
@@ -89,20 +90,7 @@ export default function MoviesProvider ({
     setChoosing(true)
     void updateState(async current => {
       const newState = chooseOption({ state: current, betterIndex })
-      debugOperations({
-        label: 'choose operations',
-        items: newState.items,
-        operations: newState.activeOperations
-      })
-      const newLatestHistory = newState.history[0]
-      if (newLatestHistory.choice == null) {
-        throw new Error('There is no latest history choice.')
-      }
-      debugHistoryChoice({
-        historyChoice: newLatestHistory.choice,
-        items: newState.items,
-        label: 'choose new latest history'
-      })
+      console.log('choose newState', newState)
       setChoosing(false)
       return newState
     })
@@ -129,34 +117,13 @@ export default function MoviesProvider ({
   }
   async function createRandomMovieChoice (): Promise<void> {
     void updateState(async current => {
-      const newState = createRandomChoice({ state: current })
+      const newState = setupRandomChoice({ state: current })
       return newState
     })
   }
   function undo (): void {
     void updateState(async current => {
-      console.log('current.history', current.history)
-      const latestHistory = current.history[0]
-      console.log('lastEvent', latestHistory)
-      if (latestHistory.choice == null) {
-        throw new Error('There is no latest history choice.')
-      }
-      const newState = undoChoice({ state: current, historyChoice: latestHistory.choice })
-      debugOperations({
-        label: 'undo operations',
-        items: newState.items,
-        operations: newState.activeOperations
-      })
-      const newLatestHistory = newState.history[0]
-      if (newLatestHistory.choice != null) {
-        debugHistoryChoice({
-          historyChoice: newLatestHistory.choice,
-          items: newState.items,
-          label: 'undo latest history choice'
-        })
-      }
-
-      return newState
+      return current
     })
   }
   const value: MoviesContextValue = {

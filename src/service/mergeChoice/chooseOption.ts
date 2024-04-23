@@ -1,6 +1,5 @@
 import applyChoice from './applyChoice'
 import getItem from './getItem'
-import getOperation from './getOperation'
 import getPoints from './getPoints'
 import { Item, State, HistoryEvent, Calculated } from './mergeChoiceTypes'
 
@@ -17,52 +16,40 @@ export default function chooseOption <ListItem extends Item> (props: {
   const aBetter = props.betterIndex === props.state.choice.aIndex
   const aItem = getItem({ itemId: aId, items: props.state.items })
   const bItem = getItem({ itemId: bId, items: props.state.items })
-  const choiceSetup = applyChoice({
+  const appliedState = applyChoice({
     aBetter,
     aItem,
     betterIndex: props.betterIndex,
     bItem,
     state: props.state
   })
-  const newAPoints = getPoints({ itemId: aItem.id, state: choiceSetup.state })
+  const newAPoints = getPoints({ itemId: aItem.id, state: appliedState })
   const calculatedA: Calculated<ListItem> = {
     ...aItem,
     points: newAPoints
   }
-  const newBPoints = getPoints({ itemId: bItem.id, state: choiceSetup.state })
+  const newBPoints = getPoints({ itemId: bItem.id, state: appliedState })
   const calculatedB: Calculated<ListItem> = {
     ...bItem,
     points: newBPoints
   }
-  const { history, ...previousState } = oldState
   void history
-  console.log('oldState', oldState)
-  console.log('props.betterIndex', props.betterIndex)
   const worseIndex = 1 - props.betterIndex
-  const choiceOperation = getOperation({
-    operations: oldState.activeOperations,
-    operationId: oldState.choice.operationMergeChoiceId
-  })
-  const newFirstOutput = choiceOperation.output.length > 0
-    ? choiceOperation.output[0]
-    : choiceOperation.input[worseIndex][0]
   const newHistoryEvent: HistoryEvent<ListItem> = {
     choice: {
       aBetter,
       aId: aItem.id,
       aItem: calculatedA,
+      betterIndex: props.betterIndex,
       bId: bItem.id,
       bItem: calculatedB,
-      fresh: choiceSetup.fresh,
-      newFirstOutput,
       operationId: oldState.choice.operationMergeChoiceId,
       random: oldState.choice.random,
       worseIndex
     },
     createdAt: Date.now(),
-    mergeChoiceId: choiceSetup.state.history.length,
-    previousState
+    mergeChoiceId: appliedState.history.length
   }
-  choiceSetup.state.history = [newHistoryEvent, ...choiceSetup.state.history]
-  return choiceSetup.state
+  appliedState.history = [newHistoryEvent, ...appliedState.history]
+  return appliedState
 }
