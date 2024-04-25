@@ -8,7 +8,7 @@ export default function MovieHeadingsRowView (): JSX.Element {
           <Text w='max-content'>Movie</Text>
         </HStack>
       </Th>
-      <Th>Score</Th>
+      <Th>Seed</Th>
       <Th>Points</Th>
     </>
   )

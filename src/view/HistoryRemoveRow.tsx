@@ -20,7 +20,7 @@ export default function HistoryRemoveRowView (): JSX.Element {
       </Td>
       <Td>
         <HStack>
-          <Text>{movieContextValue.score}</Text>
+          <Text>{movieContextValue.seed}</Text>
           <DeleteIcon />
         </HStack>
       </Td>

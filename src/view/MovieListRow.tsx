@@ -19,7 +19,7 @@ export default function MovieListRow ({ endAdornment }: {
     <>
       <Td><MovieLink /></Td>
       <Td>
-        <Text>{movieContextValue.score}</Text>
+        <Text>{movieContextValue.seed}</Text>
       </Td>
       <Td>
         <HStack>

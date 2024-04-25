@@ -20,7 +20,7 @@ export default function HistoryResetMovieRowView (): JSX.Element {
       </Td>
       <Td>
         <HStack>
-          <Text>{movieContextValue.score}</Text>
+          <Text>{movieContextValue.seed}</Text>
           <RepeatIcon />
         </HStack>
       </Td>

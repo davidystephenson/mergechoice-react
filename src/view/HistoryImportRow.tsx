@@ -16,7 +16,7 @@ export default function HistoryImportRowView (): JSX.Element {
         <MovieLink />
       </Td>
       <Td>
-        <Text>{movieContextValue.score}</Text>
+        <Text>{movieContextValue.seed}</Text>
       </Td>
       <Td>
         <HStack>

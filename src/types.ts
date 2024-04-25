@@ -10,7 +10,7 @@ export interface CritickerRow {
   Score: string
 }
 export interface Movie extends Item {
-  score: number
+  seed: number
   date: Date
   imdbId: string
   review: string

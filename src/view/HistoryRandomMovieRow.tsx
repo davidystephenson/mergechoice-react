@@ -11,7 +11,7 @@ export default function HistoryRandomMovieView (): JSX.Element {
         <MovieLink />
       </Td>
       <Td>
-        <Text>{movieContextValue.score}</Text>
+        <Text>{movieContextValue.seed}</Text>
       </Td>
       <Td>
         <HStack>

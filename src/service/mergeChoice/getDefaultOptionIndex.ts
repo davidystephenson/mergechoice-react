@@ -14,9 +14,9 @@ export default function getDefaultOptionIndex ({
     return movies[option]
   })
   const [firstItem, secondItem] = choices
-  const defaultItem = firstItem.score === secondItem.score
+  const defaultItem = firstItem.seed === secondItem.seed || firstItem.seed == null || secondItem.seed == null
     ? undefined
-    : firstItem.score > secondItem.score
+    : firstItem.seed > secondItem.seed
       ? firstItem
       : secondItem
   const defaultOptionIndex = choice.options.findIndex(option => {

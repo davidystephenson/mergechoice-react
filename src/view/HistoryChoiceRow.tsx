@@ -13,8 +13,8 @@ export default function HistoryChoiceRowView (): JSX.Element {
   const a = historyEventContextValue.choice.aId === movieContextValue.id
   const better = a ? historyEventContextValue.choice.aBetter : !historyEventContextValue.choice.aBetter
   const betterStyles = better ? { fontWeight: 'bold' } : {}
-  const aScoreBetter = historyEventContextValue.choice.aItem.score > historyEventContextValue.choice.bItem.score
-  const upset = a ? better !== aScoreBetter : better === aScoreBetter
+  const aSeedBetter = historyEventContextValue.choice.aItem.seed > historyEventContextValue.choice.bItem.seed
+  const upset = a ? better !== aSeedBetter : better === aSeedBetter
   const upsetItem = upset && better
   const upsetStyles = upsetItem ? { fontWeight: 'bold' } : {}
   const iconView = better ? <CheckIcon /> : <SmallCloseIcon />
@@ -24,7 +24,7 @@ export default function HistoryChoiceRowView (): JSX.Element {
         <MovieLink {...betterStyles} />
       </Td>
       <Td>
-        <Text {...upsetStyles}>{movieContextValue.score}</Text>
+        <Text {...upsetStyles}>{movieContextValue.seed}</Text>
       </Td>
       <Td>
         <HStack>

@@ -29,8 +29,8 @@ export default function searchMovie ({
   if (points.includes(lowerQuery)) {
     return 'points'
   }
-  const score = String(movie.score)
-  if (score.includes(lowerQuery)) {
-    return 'score'
+  const seed = String(movie.seed)
+  if (seed.includes(lowerQuery)) {
+    return 'seed'
   }
 }

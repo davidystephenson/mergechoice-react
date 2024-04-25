@@ -20,14 +20,14 @@ export default function ImportButtonView (): JSX.Element {
   }): Promise<void> {
     const movies: Movie[] = data.map((row: CritickerRow) => {
       const date = new Date(row[' Date Rated'])
-      const score = Number(row.Score)
+      const seed = Number(row.Score)
       const year = Number(row[' Year'])
       const movie: Movie = {
         date,
         id: Math.random(),
         imdbId: row[' IMDB ID'],
         review: row[' Mini Review'],
-        score,
+        seed,
         name: row[' Film Name'],
         year,
         url: row[' URL']

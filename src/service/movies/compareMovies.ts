@@ -6,13 +6,13 @@ export default function compareMovies (props: {
   worseFirst?: boolean
 }): number {
   if (props.a.points === props.b.points) {
-    if (props.b.score === props.a.score) {
+    if (props.b.seed === props.a.seed) {
       return props.b.name.localeCompare(props.a.name) * -1
     }
     if (props.worseFirst === true) {
-      return props.a.score - props.b.score
+      return props.a.seed - props.b.seed
     }
-    return props.b.score - props.a.score
+    return props.b.seed - props.a.seed
   }
   if (props.worseFirst === true) {
     return props.a.points - props.b.points
