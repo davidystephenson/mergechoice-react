@@ -8,10 +8,10 @@ export default function getChoiceOperation (props: {
 }): Operation {
   const maxSteps = getOperationsSteps({ operations: props.operations })
   const values = Object.values(props.operations)
-  const maximalIndices = values.filter(operation => {
+  const maximalOperations = values.filter(operation => {
     const steps = getMaximumSteps({ operation })
     return steps === maxSteps
   })
-  const operation = getPrioritized(maximalIndices)
+  const operation = getPrioritized(maximalOperations)
   return operation
 }

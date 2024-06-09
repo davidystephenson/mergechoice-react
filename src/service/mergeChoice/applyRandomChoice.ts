@@ -1,4 +1,5 @@
 import arrayToDictionary from './arrayToDictionary'
+import completeState from './completeState'
 import createActiveChoice from './createActiveChoice'
 import createOperation from './createOperation'
 import getOperations from './getOperations'
@@ -19,7 +20,7 @@ export default function applyRandomChoice <ListItem extends Item> (props: {
   const unchosenPoints = props.aBetter ? props.bPoints : props.aPoints
   const consistent = chosenPoints > unchosenPoints
   if (consistent) {
-    return { ...props.state, complete: true }
+    return completeState({ state: props.state })
   }
   const newState = { ...props.state }
   // TODO single reduce
@@ -42,11 +43,8 @@ export default function applyRandomChoice <ListItem extends Item> (props: {
     const output = [...newState.worseIds, ...newState.betterIds]
     const newOperation = createOperation({ output, state: newState })
     const newOperations = { [newOperation.mergeChoiceId]: newOperation }
-    return {
-      ...props.state,
-      activeOperations: newOperations,
-      complete: true
-    }
+    props.state.activeOperations = newOperations
+    return completeState({ state: props.state })
   }
   newState.activeIds.push(chosenItem.id)
   newState.activeIds.unshift(unchosenItem.id)
@@ -70,8 +68,8 @@ export default function applyRandomChoice <ListItem extends Item> (props: {
     activeOperations: newState.activeOperations,
     state: newState
   })
-  newState.choice = createActiveChoice({
+  const choiceState = createActiveChoice({
     state: newState
   })
-  return newState
+  return choiceState
 }

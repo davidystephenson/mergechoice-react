@@ -1,6 +1,8 @@
 import HistoryEventProvider from '../context/historyEvent/HistoryEventProvider'
 import MovieProvider from '../context/movie/MovieProvider'
 import useTableItemContext from '../context/tableItem/useTableItemContext'
+import ArchiveHeadingRowView from './ArchiveHeadingRow'
+import ArchiveListRowView from './ArchiveListRow'
 import HistoryChoiceARowView from './HistoryChoiceARow'
 import HistoryChoiceBRowView from './HistoryChoiceBRow'
 import HistoryChoiceHeadingRowView from './HistoryChoiceHeadingRow'
@@ -19,6 +21,18 @@ import MovieListRow from './MovieListRow'
 
 export default function TableItemView (): JSX.Element {
   const tableItem = useTableItemContext()
+  if (tableItem.archiveHeading === true) {
+    return (
+      <ArchiveHeadingRowView />
+    )
+  }
+  if (tableItem.archiveList != null) {
+    return (
+      <MovieProvider movie={tableItem.archiveList.movie}>
+        <ArchiveListRowView />
+      </MovieProvider>
+    )
+  }
   if (tableItem.historyChoiceHeading != null) {
     return (
       <HistoryEventProvider historyEvent={tableItem.historyChoiceHeading.event}>

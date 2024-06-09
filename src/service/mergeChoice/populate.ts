@@ -6,6 +6,7 @@ import { Item, Population, State } from './mergeChoiceTypes'
 import getItem from './getItem'
 import arrayToDictionary from './arrayToDictionary'
 import createOperation from './createOperation'
+import completeState from './completeState'
 
 export default function populate<ListItem extends Item> (props: {
   items: ListItem[]
@@ -61,11 +62,11 @@ export default function populate<ListItem extends Item> (props: {
   const maxSteps = getOperationsSteps({ operations: newState.activeOperations })
   if (maxSteps === 0) {
     newState.choice = undefined
-    newState.complete = true
-    return { state: newState, items: newItems }
+    const completedState = completeState({ state: newState })
+    return { state: completedState, items: newItems }
   }
-  newState.choice = createActiveChoice({
+  const choiceState = createActiveChoice({
     state: newState
   })
-  return { state: newState, items: newItems }
+  return { state: choiceState, items: newItems }
 }

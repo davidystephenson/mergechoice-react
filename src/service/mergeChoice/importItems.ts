@@ -1,6 +1,7 @@
 import populate from './populate'
 import { Item, State, HistoryEvent } from './mergeChoiceTypes'
 import setupChoice from './setupChoice'
+import seedChoice from './seedChoice'
 
 export default function importItems <ListItem extends Item> (props: {
   items: ListItem[]
@@ -10,7 +11,6 @@ export default function importItems <ListItem extends Item> (props: {
   if (props.state.choice?.random === true) {
     throw new Error('You cannot import during a random choice')
   }
-  void history
   const population = populate({
     items: props.items,
     state: props.state
@@ -34,5 +34,5 @@ export default function importItems <ListItem extends Item> (props: {
     }
     setupState.history.unshift(historyEvent)
   }
-  return setupState
+  return seedChoice({ state: setupState })
 }

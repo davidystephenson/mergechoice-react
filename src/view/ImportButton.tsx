@@ -5,6 +5,7 @@ import useMoviesContext from '../context/movies/useMoviesContext'
 import { CritickerRow, Movie } from '../types'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { BsCloudUpload } from 'react-icons/bs'
+import getShuffled from '../service/shuffleSlice/getShuffled'
 
 export default function ImportButtonView (): JSX.Element {
   const moviesContextValue = useMoviesContext()
@@ -13,12 +14,10 @@ export default function ImportButtonView (): JSX.Element {
   useHotkeys('i', () => {
     inputRef.current?.click()
   })
-  async function parseCriticker ({
-    data
-  }: {
+  async function parseCriticker (props: {
     data: CritickerRow[]
   }): Promise<void> {
-    const movies: Movie[] = data.map((row: CritickerRow) => {
+    const movies: Movie[] = props.data.map((row: CritickerRow) => {
       const date = new Date(row[' Date Rated'])
       const seed = Number(row.Score)
       const year = Number(row[' Year'])
@@ -28,13 +27,15 @@ export default function ImportButtonView (): JSX.Element {
         imdbId: row[' IMDB ID'],
         review: row[' Mini Review'],
         seed,
+        seeding: true,
         name: row[' Film Name'],
         year,
         url: row[' URL']
       }
       return movie
     })
-    await moviesContextValue.importMovies({ movies, slice: 1 })
+    const shuffled = getShuffled(movies)
+    await moviesContextValue.importMovies({ movies: shuffled })
     setInitializing(false)
   }
   function handleFileChange (e: ChangeEvent<HTMLInputElement>): void {

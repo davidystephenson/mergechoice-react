@@ -4,6 +4,7 @@ export interface Identity {
 }
 export interface Item {
   id: ItemId
+  seeding: boolean
   name: string
   seed?: number
 }
@@ -22,16 +23,18 @@ export interface ChoiceData {
 }
 export type Choice = ChoiceData & Identity
 export type OperationDictionary = Record<number, Operation>
+export type ItemDictionary <ListItem> = Record<ItemId, ListItem>
 export interface State<ListItem extends Item> {
   activeIds: ItemId[]
   activeOperations: OperationDictionary
+  archive: ItemDictionary<ListItem>
   betterIds: ItemId[]
   betterOperations: OperationDictionary
   choice?: Choice
   choiceCount: number
   complete: boolean
   history: Array<HistoryEvent<ListItem>>
-  items: Record<ItemId, ListItem>
+  items: ItemDictionary<ListItem>
   operationCount: number
   reserveIds: ItemId[]
   seed: string
@@ -39,9 +42,6 @@ export interface State<ListItem extends Item> {
   worseOperations: OperationDictionary
 }
 
-export type PreviousState<ListItem extends Item> = Omit<State<ListItem>, 'history'> & {
-  history?: Array<HistoryEvent<ListItem>>
-}
 export interface HistoryChoice <ListItem extends Item> {
   aBetter: boolean
   aId: ItemId
@@ -51,6 +51,7 @@ export interface HistoryChoice <ListItem extends Item> {
   bItem: Calculated<ListItem>
   operationId: number
   random: boolean
+  seeded: boolean
   worseIndex: number
 }
 export interface HistoryEvent<ListItem extends Item> extends Identity {

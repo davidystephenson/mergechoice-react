@@ -57,6 +57,19 @@ export default function useTableItems (): TableItem[] {
       )
     }
   }
+  if (Object.keys(moviesContextValue.archive).length > 0) {
+    tableItems.push({
+      archiveHeading: true
+    })
+  }
+  for (const key in moviesContextValue.archive) {
+    const movie = moviesContextValue.archive[key]
+    tableItems.push({
+      archiveList: {
+        movie
+      }
+    })
+  }
   if (historyContextValue.events.length > 0) {
     tableItems.push({
       historyHeading: true

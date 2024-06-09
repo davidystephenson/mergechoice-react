@@ -18,6 +18,9 @@ export interface Movie extends Item {
   year: number
 }
 export type CalculatedMovie = Calculated<Movie>
+export interface ArchiveTableItem {
+  movie: Movie
+}
 export interface ListTableItem {
   movie: CalculatedMovie
 }
@@ -29,6 +32,8 @@ export interface HistoryMovieTableItem {
   movie: CalculatedMovie
 }
 export interface TableItem {
+  archiveHeading?: boolean
+  archiveList?: ArchiveTableItem
   list?: ListTableItem
   historyChoiceHeading?: HistoryTableItem
   historyChoiceA?: HistoryTableItem
@@ -47,6 +52,7 @@ export interface TableItem {
   search?: boolean
 }
 export interface MoviesContextValue extends State<Movie> {
+  archiveMovie: (props: { itemId: ItemId }) => Promise<void>
   choiceCountRange: CountRange
   choose: ({ betterIndex }: { betterIndex: number }) => Promise<void>
   choosing: boolean
@@ -64,14 +70,17 @@ export interface MoviesContextValue extends State<Movie> {
   sortedMovies: CalculatedMovie[]
   state: State<Movie>
   setQuery: (query: string) => void
+  unarchiveMovie: (props: { itemId: ItemId }) => Promise<void>
   undo: () => void
 }
 export interface MovieContextValue extends Movie {
+  archive: () => Promise<void>
   label: string
   open: () => void
   points: number
   remove: () => Promise<void>
   reset: () => Promise<void>
+  unarchive: () => Promise<void>
   url: string
 }
 export interface OptionContextValue {

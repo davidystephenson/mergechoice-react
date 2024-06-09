@@ -5,6 +5,7 @@ export default function createState <ListItem extends Item> (): State<ListItem> 
   return {
     activeIds: [],
     activeOperations: {},
+    archive: {},
     betterIds: [],
     betterOperations: {},
     choice: {

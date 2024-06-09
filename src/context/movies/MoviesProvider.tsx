@@ -14,8 +14,10 @@ import { ItemId, State } from '../../service/mergeChoice/mergeChoiceTypes'
 import isResult from '../../service/movies/isResult'
 import resetItem from '../../service/mergeChoice/resetItem'
 import shuffleSlice from '../../service/shuffleSlice/shuffleSlice'
-import restoreEvent from '../../service/mergeChoice/restoreEvent'
+// import restoreEvent from '../../service/mergeChoice/restoreEvent'
 import setupRandomChoice from '../../service/mergeChoice/setupRandomChoice'
+import archiveItem from '../../service/mergeChoice/archiveItem'
+import unarchiveItem from '../../service/mergeChoice/unarchiveItem'
 
 export default function MoviesProvider ({
   children
@@ -25,21 +27,17 @@ export default function MoviesProvider ({
   const [state, setState] = useState<State<Movie>>(() => {
     return getStorage({ key: 'state', defaultValue: createState() })
   })
-  console.log('render state', state)
-  const initialState = createState<Movie>()
-  const reversed = state.history.slice().reverse()
-  const deduced = reversed.reduce<State<Movie>>((state, event) => {
-    const restoredState = restoreEvent({ event, state })
-    const lastEvent = restoredState.history[0]
-    lastEvent.createdAt = event.createdAt
-    return restoredState
-  }, initialState)
-  console.log('render deduced', deduced)
-  // debugOperations({
-  //   items: state.items,
-  //   label: 'render',
-  //   operations: state.activeOperations
-  // })
+  // console.log('render state', state)
+  // const initialState = createState<Movie>()
+  // const reversed = state.history.slice().reverse()
+  // const deduced = reversed.reduce<State<Movie>>((state, event) => {
+  //   const restoredState = restoreEvent({ event, state })
+  //   const lastEvent = restoredState.history[0]
+  //   lastEvent.createdAt = event.createdAt
+  //   return restoredState
+  // }, initialState)
+  // void deduced
+  // console.log('render deduced', deduced)
   const [sortedMovies, setSortedMovies] = useState(() => {
     const sortedMovies = getSortedMovies({ state })
     return sortedMovies
@@ -56,13 +54,19 @@ export default function MoviesProvider ({
   const resultMovies = sortedMovies.filter(movie => {
     return isResult({ movie, query })
   })
+  async function archiveMovie (props: {
+    itemId: ItemId
+  }): Promise<void> {
+    void updateState(async current => {
+      const newState = archiveItem({ itemId: props.itemId, state: current })
+      return newState
+    })
+  }
   async function storeState (newState: State<Movie>): Promise<void> {
-    console.log('storeState newState', newState)
     localStorage.setItem('state', JSON.stringify(newState))
   }
   async function updateState (callback: (current: State<Movie>) => Promise<State<Movie>>): Promise<void> {
     const newState = await callback(state)
-    console.log('updateState newState', newState)
     const sortedMovies = getSortedMovies({ state: newState })
     setSortedMovies(sortedMovies)
     setState(newState)
@@ -90,7 +94,6 @@ export default function MoviesProvider ({
     setChoosing(true)
     void updateState(async current => {
       const newState = chooseOption({ state: current, betterIndex })
-      console.log('choose newState', newState)
       setChoosing(false)
       return newState
     })
@@ -121,6 +124,13 @@ export default function MoviesProvider ({
       return newState
     })
   }
+  async function unarchiveMovie (props: { itemId: ItemId }): Promise<void> {
+    void updateState(async current => {
+      const newState = unarchiveItem({ itemId: props.itemId, state: current })
+      return newState
+    })
+  }
+
   function undo (): void {
     void updateState(async current => {
       return current
@@ -128,6 +138,7 @@ export default function MoviesProvider ({
   }
   const value: MoviesContextValue = {
     ...state,
+    archiveMovie,
     choose,
     choiceCountRange,
     choosing,
@@ -144,6 +155,7 @@ export default function MoviesProvider ({
     setQuery,
     sortedMovies,
     state,
+    unarchiveMovie,
     undo
   }
   return (

@@ -2,9 +2,11 @@ import applyChoice from './applyChoice'
 import getItem from './getItem'
 import getPoints from './getPoints'
 import { Item, State, HistoryEvent, Calculated } from './mergeChoiceTypes'
+import seedChoice from './seedChoice'
 
-export default function chooseOption <ListItem extends Item> (props: {
+export default function chooseOption<ListItem extends Item> (props: {
   betterIndex: number
+  seeded?: boolean
   state: State<ListItem>
 }): State<ListItem> {
   if (props.state.choice == null) {
@@ -23,33 +25,35 @@ export default function chooseOption <ListItem extends Item> (props: {
     bItem,
     state: props.state
   })
-  const newAPoints = getPoints({ itemId: aItem.id, state: appliedState })
-  const calculatedA: Calculated<ListItem> = {
-    ...aItem,
-    points: newAPoints
+  if (props.seeded !== true) {
+    const newAPoints = getPoints({ itemId: aItem.id, state: appliedState })
+    const calculatedA: Calculated<ListItem> = {
+      ...aItem,
+      points: newAPoints
+    }
+    const newBPoints = getPoints({ itemId: bItem.id, state: appliedState })
+    const calculatedB: Calculated<ListItem> = {
+      ...bItem,
+      points: newBPoints
+    }
+    const worseIndex = 1 - props.betterIndex
+    const newHistoryEvent: HistoryEvent<ListItem> = {
+      choice: {
+        aBetter,
+        aId: aItem.id,
+        aItem: calculatedA,
+        betterIndex: props.betterIndex,
+        bId: bItem.id,
+        bItem: calculatedB,
+        operationId: oldState.choice.operationMergeChoiceId,
+        random: oldState.choice.random,
+        seeded: props.seeded ?? false,
+        worseIndex
+      },
+      createdAt: Date.now(),
+      mergeChoiceId: appliedState.history.length
+    }
+    appliedState.history = [newHistoryEvent, ...appliedState.history]
   }
-  const newBPoints = getPoints({ itemId: bItem.id, state: appliedState })
-  const calculatedB: Calculated<ListItem> = {
-    ...bItem,
-    points: newBPoints
-  }
-  void history
-  const worseIndex = 1 - props.betterIndex
-  const newHistoryEvent: HistoryEvent<ListItem> = {
-    choice: {
-      aBetter,
-      aId: aItem.id,
-      aItem: calculatedA,
-      betterIndex: props.betterIndex,
-      bId: bItem.id,
-      bItem: calculatedB,
-      operationId: oldState.choice.operationMergeChoiceId,
-      random: oldState.choice.random,
-      worseIndex
-    },
-    createdAt: Date.now(),
-    mergeChoiceId: appliedState.history.length
-  }
-  appliedState.history = [newHistoryEvent, ...appliedState.history]
-  return appliedState
+  return seedChoice({ state: appliedState })
 }

@@ -18,6 +18,12 @@ export default function MovieProvider (props: {
     window.open(url, '_blank')
   }
   const label = `${props.movie.name} (${props.movie.year})`
+  async function archive (): Promise<void> {
+    if (props.movie == null) {
+      throw new Error('There is no movie.')
+    }
+    await moviesContextValue.archiveMovie({ itemId: props.movie.id })
+  }
   async function remove (): Promise<void> {
     if (props.movie == null) {
       throw new Error('There is no movie.')
@@ -30,17 +36,25 @@ export default function MovieProvider (props: {
     }
     await moviesContextValue.resetMovie({ itemId: props.movie.id })
   }
+  async function unarchive (): Promise<void> {
+    if (props.movie == null) {
+      throw new Error('There is no movie.')
+    }
+    await moviesContextValue.unarchiveMovie({ itemId: props.movie.id })
+  }
   const moviePoints = props.points ?? getPoints({
     itemId: props.movie.id,
     state: moviesContextValue.state
   })
   const value: MovieContextValue = {
     ...props.movie,
+    archive,
     label,
     remove,
     reset,
     open,
     points: moviePoints,
+    unarchive,
     url
   }
   return (

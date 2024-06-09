@@ -3,6 +3,7 @@ import useMovieContext from '../context/movie/useMovieContext'
 import MovieLink from './MovieLink'
 import DeleteButton from './DeleteButton'
 import ResetButton from './ResetButton'
+import ArchiveButton from './ArchiveButton'
 
 export default function MovieListRow ({ endAdornment }: {
   cellProps?: TableCellProps
@@ -12,6 +13,7 @@ export default function MovieListRow ({ endAdornment }: {
   const end = endAdornment ?? (
     <>
       <ResetButton />
+      <ArchiveButton />
       <DeleteButton />
     </>
   )

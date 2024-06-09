@@ -1,11 +1,11 @@
-import { ItemId, Choice, Item } from './mergeChoiceTypes'
+import { Choice, Item, ItemDictionary } from './mergeChoiceTypes'
 
 export default function getDefaultOptionIndex ({
   choice,
   movies
 }: {
   choice: Choice | undefined
-  movies: Record<ItemId, Item>
+  movies: ItemDictionary<Item>
 }): number | undefined {
   if (choice == null || choice.options.length === 0 || choice.random) {
     return undefined

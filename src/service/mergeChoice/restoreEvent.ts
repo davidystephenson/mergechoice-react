@@ -10,6 +10,9 @@ export default function restoreEvent<ListItem extends Item> (props: {
   state: State<ListItem>
 }): State<ListItem> {
   if (props.event.choice != null) {
+    if (props.event.choice.seeded) {
+      return props.state
+    }
     const chosenState = chooseOption({
       state: props.state,
       betterIndex: props.event.choice.betterIndex

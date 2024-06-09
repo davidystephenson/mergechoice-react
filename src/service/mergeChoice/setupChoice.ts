@@ -12,15 +12,11 @@ export default function setupChoice <ListItem extends Item> (props: {
 }): State<ListItem> {
   const maxSteps1 = getOperationsSteps({ operations: props.state.activeOperations })
   if (maxSteps1 > 0) {
-    const newChoice = createActiveChoice({
+    const choiceState = createActiveChoice({
       state: props.state
     })
-    const newState = {
-      ...props.state,
-      choice: newChoice,
-      complete: false
-    }
-    return newState
+    choiceState.complete = false
+    return choiceState
   } else {
     const newState = { ...props.state }
     const newOperations = getOperations({
@@ -30,11 +26,10 @@ export default function setupChoice <ListItem extends Item> (props: {
     const maxSteps2 = getOperationsSteps({ operations: newOperations })
     if (maxSteps2 > 0) {
       newState.activeOperations = newOperations
-      const nextChoice = createActiveChoice({
+      const choiceState = createActiveChoice({
         state: newState
       })
-      newState.choice = nextChoice
-      newState.complete = false
+      choiceState.complete = false
       return newState
     } else {
       sortItems({
