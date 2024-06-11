@@ -4,6 +4,7 @@ import getItem from './getItem'
 import { Item, State } from './mergeChoiceTypes'
 
 export default function seedChoice <ListItem extends Item> (props: {
+  debug?: boolean
   state: State<ListItem>
 }): State<ListItem> {
   if (props.state.choice != null) {
@@ -23,10 +24,12 @@ export default function seedChoice <ListItem extends Item> (props: {
       firstItem.seed !== secondItem.seed
     ) {
       const betterIndex = firstItem.seed > secondItem.seed ? 0 : 1
-      debugChoice({
-        choice: props.state.choice,
-        items: props.state.items
-      })
+      if (props.debug === true) {
+        debugChoice({
+          choice: props.state.choice,
+          items: props.state.items
+        })
+      }
       const chosenState = chooseOption({
         betterIndex,
         seeded: true,

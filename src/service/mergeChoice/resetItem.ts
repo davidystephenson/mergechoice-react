@@ -1,10 +1,11 @@
-import { ItemId, Item, State, HistoryEvent } from './mergeChoiceTypes'
+import { ItemId, Item, State } from './mergeChoiceTypes'
 import getItem from './getItem'
 import removeItem from './removeItem'
 import importItems from './importItems'
 import getCalculatedItem from './getCalculatedItem'
+import addEvent from './addEvent'
 
-export default function resetItem <ListItem extends Item> (props: {
+export default function resetItem<ListItem extends Item> (props: {
   itemId: ItemId
   state: State<ListItem>
 }): State<ListItem> {
@@ -23,13 +24,14 @@ export default function resetItem <ListItem extends Item> (props: {
     itemId: item.id,
     state: importedState
   })
-  const historyEvent: HistoryEvent<ListItem> = {
-    createdAt: Date.now(),
-    mergeChoiceId: importedState.history.length,
+  const data = {
     reset: {
       item: importedItem
     }
   }
-  importedState.history.unshift(historyEvent)
+  addEvent({
+    data,
+    state: importedState
+  })
   return importedState
 }

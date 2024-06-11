@@ -3,6 +3,8 @@ import MovieProvider from '../context/movie/MovieProvider'
 import useTableItemContext from '../context/tableItem/useTableItemContext'
 import ArchiveHeadingRowView from './ArchiveHeadingRow'
 import ArchiveListRowView from './ArchiveListRow'
+import HistoryArchiveHeadingView from './HistoryArchiveHeading'
+import HistoryArchiveRowView from './HistoryArchiveRow'
 import HistoryChoiceARowView from './HistoryChoiceARow'
 import HistoryChoiceBRowView from './HistoryChoiceBRow'
 import HistoryChoiceHeadingRowView from './HistoryChoiceHeadingRow'
@@ -15,6 +17,8 @@ import HistoryRemoveHeadingView from './HistoryRemoveHeading'
 import HistoryRemoveRowView from './HistoryRemoveRow'
 import HistoryResetHeadingRowView from './HistoryResetHeadingRow'
 import HistoryResetMovieRowView from './HistoryResetMovieRow'
+import HistoryUnarchiveHeadingView from './HistoryUnarchiveHeading'
+import HistoryUnarchiveRowView from './HistoryUnarchiveRow'
 import MovieHeadingRowView from './MovieHeadingRow'
 import MovieHeadingsRowView from './MovieHeadingsRow'
 import MovieListRow from './MovieListRow'
@@ -31,6 +35,22 @@ export default function TableItemView (): JSX.Element {
       <MovieProvider movie={tableItem.archiveList.movie}>
         <ArchiveListRowView />
       </MovieProvider>
+    )
+  }
+  if (tableItem.historyArchiveHeading != null) {
+    return (
+      <HistoryEventProvider historyEvent={tableItem.historyArchiveHeading.event}>
+        <HistoryArchiveHeadingView />
+      </HistoryEventProvider>
+    )
+  }
+  if (tableItem.historyArchiveMovie != null) {
+    return (
+      <HistoryEventProvider historyEvent={tableItem.historyArchiveMovie.event}>
+        <MovieProvider movie={tableItem.historyArchiveMovie.movie}>
+          <HistoryArchiveRowView />
+        </MovieProvider>
+      </HistoryEventProvider>
     )
   }
   if (tableItem.historyChoiceHeading != null) {
@@ -122,6 +142,22 @@ export default function TableItemView (): JSX.Element {
       <HistoryEventProvider historyEvent={tableItem.historyResetMovie.event}>
         <MovieProvider movie={tableItem.historyResetMovie.movie}>
           <HistoryResetMovieRowView />
+        </MovieProvider>
+      </HistoryEventProvider>
+    )
+  }
+  if (tableItem.historyUnarchiveHeading != null) {
+    return (
+      <HistoryEventProvider historyEvent={tableItem.historyUnarchiveHeading.event}>
+        <HistoryUnarchiveHeadingView />
+      </HistoryEventProvider>
+    )
+  }
+  if (tableItem.historyUnarchiveMovie != null) {
+    return (
+      <HistoryEventProvider historyEvent={tableItem.historyUnarchiveMovie.event}>
+        <MovieProvider movie={tableItem.historyUnarchiveMovie.movie}>
+          <HistoryUnarchiveRowView />
         </MovieProvider>
       </HistoryEventProvider>
     )

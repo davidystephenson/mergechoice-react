@@ -1,7 +1,8 @@
 import populate from './populate'
-import { Item, State, HistoryEvent } from './mergeChoiceTypes'
+import { Item, State } from './mergeChoiceTypes'
 import setupChoice from './setupChoice'
 import seedChoice from './seedChoice'
+import addEvent from './addEvent'
 
 export default function importItems <ListItem extends Item> (props: {
   items: ListItem[]
@@ -25,14 +26,15 @@ export default function importItems <ListItem extends Item> (props: {
     state: population.state
   })
   if (props.silent !== true) {
-    const historyEvent: HistoryEvent<ListItem> = {
-      createdAt: Date.now(),
-      mergeChoiceId: setupState.history.length,
+    const data = {
       import: {
         items: calculated
       }
     }
-    setupState.history.unshift(historyEvent)
+    addEvent({
+      data,
+      state: setupState
+    })
   }
   return seedChoice({ state: setupState })
 }

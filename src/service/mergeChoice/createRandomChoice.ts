@@ -1,3 +1,4 @@
+import addEvent from './addEvent'
 import createChoice from './createChoice'
 import { Item, State, ChoiceData, Calculated } from './mergeChoiceTypes'
 
@@ -16,15 +17,16 @@ export default function createRandomChoice <ListItem extends Item> (props: {
     choice: newChoiceData,
     state: props.state
   })
-  const historyEvent = {
-    createdAt: Date.now(),
-    mergeChoiceId: props.state.history.length,
+  const data = {
     random: {
       first: props.firstItem,
       second: props.secondItem
     }
   }
-  props.state.history.unshift(historyEvent)
+  addEvent({
+    data,
+    state: props.state
+  })
   return {
     ...props.state,
     choice: newChoice,

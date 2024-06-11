@@ -9,6 +9,12 @@ export default function useTableItems (): TableItem[] {
   const moviesContextValue = useMoviesContext()
   const tableItems: TableItem[] = []
   function addEvent (event: HistoryEvent<Movie>): void {
+    if (event.archive != null) {
+      tableItems.push(
+        { historyArchiveHeading: { event } },
+        { historyArchiveMovie: { event, movie: event.archive.item } }
+      )
+    }
     if (event.choice != null) {
       tableItems.push(
         { historyChoiceHeading: { event } },
@@ -54,6 +60,12 @@ export default function useTableItems (): TableItem[] {
       tableItems.push(
         { historyResetHeading: { event } },
         { historyResetMovie: { event, movie: event.reset.item } }
+      )
+    }
+    if (event.unarchive != null) {
+      tableItems.push(
+        { historyUnarchiveHeading: { event } },
+        { historyUnarchiveMovie: { event, movie: event.unarchive.item } }
       )
     }
   }

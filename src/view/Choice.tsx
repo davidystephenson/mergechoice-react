@@ -6,13 +6,11 @@ import OptionView from './Option'
 import useMoviesContext from '../context/movies/useMoviesContext'
 import DeleteButton from './DeleteButton'
 import OptionButtonView from './OptionButton'
-import UndoView from './Undo'
 
 export default function ChoiceView (): JSX.Element {
   const moviesContextValue = useMoviesContext()
   return (
     <VStack spacing='0'>
-      <UndoView />
       <HStack mb='5px'>
         <Heading>
           CloudSort

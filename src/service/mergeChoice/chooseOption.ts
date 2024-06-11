@@ -1,8 +1,9 @@
 import applyChoice from './applyChoice'
 import getItem from './getItem'
 import getPoints from './getPoints'
-import { Item, State, HistoryEvent, Calculated } from './mergeChoiceTypes'
+import { Item, State, Calculated } from './mergeChoiceTypes'
 import seedChoice from './seedChoice'
+import addEvent from './addEvent'
 
 export default function chooseOption<ListItem extends Item> (props: {
   betterIndex: number
@@ -36,8 +37,7 @@ export default function chooseOption<ListItem extends Item> (props: {
       ...bItem,
       points: newBPoints
     }
-    const worseIndex = 1 - props.betterIndex
-    const newHistoryEvent: HistoryEvent<ListItem> = {
+    const data = {
       choice: {
         aBetter,
         aId: aItem.id,
@@ -45,15 +45,14 @@ export default function chooseOption<ListItem extends Item> (props: {
         betterIndex: props.betterIndex,
         bId: bItem.id,
         bItem: calculatedB,
-        operationId: oldState.choice.operationMergeChoiceId,
         random: oldState.choice.random,
-        seeded: props.seeded ?? false,
-        worseIndex
-      },
-      createdAt: Date.now(),
-      mergeChoiceId: appliedState.history.length
+        seeded: props.seeded ?? false
+      }
     }
-    appliedState.history = [newHistoryEvent, ...appliedState.history]
+    addEvent({
+      data,
+      state: appliedState
+    })
   }
   return seedChoice({ state: appliedState })
 }

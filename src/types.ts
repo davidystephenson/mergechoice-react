@@ -35,6 +35,8 @@ export interface TableItem {
   archiveHeading?: boolean
   archiveList?: ArchiveTableItem
   list?: ListTableItem
+  historyArchiveHeading?: HistoryTableItem
+  historyArchiveMovie?: HistoryMovieTableItem
   historyChoiceHeading?: HistoryTableItem
   historyChoiceA?: HistoryTableItem
   historyChoiceB?: HistoryTableItem
@@ -47,6 +49,8 @@ export interface TableItem {
   historyRemoveMovie?: HistoryMovieTableItem
   historyResetHeading?: HistoryTableItem
   historyResetMovie?: HistoryMovieTableItem
+  historyUnarchiveHeading?: HistoryTableItem
+  historyUnarchiveMovie?: HistoryMovieTableItem
   movieHeading?: boolean
   movieHeadings?: boolean
   search?: boolean

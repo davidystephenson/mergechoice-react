@@ -1,8 +1,9 @@
 import createActiveChoice from './createActiveChoice'
 import removeFromOperations from './removeFromOperations'
 import setupChoice from './setupChoice'
-import { Item, State, HistoryEvent, ItemId } from './mergeChoiceTypes'
+import { Item, State, ItemId } from './mergeChoiceTypes'
 import calculateItem from './calculateItem'
+import addEvent from './addEvent'
 
 export default function removeItem<ListItem extends Item> (props: {
   itemId: ItemId
@@ -29,14 +30,15 @@ export default function removeItem<ListItem extends Item> (props: {
     props.state.betterOperations = removeFromOperations({ itemId: props.itemId, operations: props.state.betterOperations }).operations
     props.state.worseOperations = removeFromOperations({ itemId: props.itemId, operations: props.state.worseOperations }).operations
     if (props.silent !== true) {
-      const removeEvent: HistoryEvent<ListItem> = {
-        createdAt: Date.now(),
+      const data = {
         remove: {
           item: calculatedItem
-        },
-        mergeChoiceId: props.state.history.length
+        }
       }
-      props.state.history.unshift(removeEvent)
+      addEvent({
+        data,
+        state: props.state
+      })
     }
 
     const emptiedCurrentOperation = activeRemoval.emptiedOperationId === props.state.choice?.operationMergeChoiceId

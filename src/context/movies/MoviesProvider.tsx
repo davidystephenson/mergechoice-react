@@ -3,41 +3,34 @@ import { Movie, MoviesContextValue } from '../../types'
 import moviesContext from './moviesContext'
 import getDefaultOptionIndex from '../../service/mergeChoice/getDefaultOptionIndex'
 import getStorage from '../../service/mergeChoice/getStorage'
-import createState from '../../service/mergeChoice/createState'
 import chooseOption from '../../service/mergeChoice/chooseOption'
 import removeItem from '../../service/mergeChoice/removeItem'
 import importItems from '../../service/mergeChoice/importItems'
 import rewindState from '../../service/mergeChoice/rewindState'
 import getChoiceCountRange from '../../service/mergeChoice/getChoiceCount'
 import getSortedMovies from '../../service/movies/getSortedMovies'
-import { ItemId, State } from '../../service/mergeChoice/mergeChoiceTypes'
+import { ItemId, State, StoredState } from '../../service/mergeChoice/mergeChoiceTypes'
 import isResult from '../../service/movies/isResult'
 import resetItem from '../../service/mergeChoice/resetItem'
-import shuffleSlice from '../../service/shuffleSlice/shuffleSlice'
-// import restoreEvent from '../../service/mergeChoice/restoreEvent'
 import setupRandomChoice from '../../service/mergeChoice/setupRandomChoice'
 import archiveItem from '../../service/mergeChoice/archiveItem'
 import unarchiveItem from '../../service/mergeChoice/unarchiveItem'
+import deduceState from '../../service/mergeChoice/deduceState'
+import createState from '../../service/mergeChoice/createState'
 
-export default function MoviesProvider ({
-  children
-}: {
+export default function MoviesProvider (props: {
   children: ReactNode
 }): JSX.Element {
   const [state, setState] = useState<State<Movie>>(() => {
-    return getStorage({ key: 'state', defaultValue: createState() })
+    const storedState = getStorage<StoredState<Movie> | undefined>({ key: 'storedState', defaultValue: undefined })
+    if (storedState == null) {
+      const random = Math.random()
+      const seed = String(random)
+      return createState<Movie>({ seed })
+    }
+    const deducedState = deduceState({ history: storedState.history, seed: storedState.seed })
+    return deducedState
   })
-  // console.log('render state', state)
-  // const initialState = createState<Movie>()
-  // const reversed = state.history.slice().reverse()
-  // const deduced = reversed.reduce<State<Movie>>((state, event) => {
-  //   const restoredState = restoreEvent({ event, state })
-  //   const lastEvent = restoredState.history[0]
-  //   lastEvent.createdAt = event.createdAt
-  //   return restoredState
-  // }, initialState)
-  // void deduced
-  // console.log('render deduced', deduced)
   const [sortedMovies, setSortedMovies] = useState(() => {
     const sortedMovies = getSortedMovies({ state })
     return sortedMovies
@@ -63,7 +56,12 @@ export default function MoviesProvider ({
     })
   }
   async function storeState (newState: State<Movie>): Promise<void> {
-    localStorage.setItem('state', JSON.stringify(newState))
+    const storedState = {
+      seed: newState.seed,
+      history: newState.history
+    }
+    const string = JSON.stringify(storedState)
+    localStorage.setItem('storedState', string)
   }
   async function updateState (callback: (current: State<Movie>) => Promise<State<Movie>>): Promise<void> {
     const newState = await callback(state)
@@ -77,10 +75,7 @@ export default function MoviesProvider ({
     slice?: number
   }): Promise<void> {
     void updateState(async current => {
-      const sliced = shuffleSlice({
-        slice: props.slice,
-        items: props.movies
-      })
+      const sliced = props.movies.slice(0, props.slice)
       const newState = importItems({
         items: sliced,
         state: current
@@ -160,7 +155,7 @@ export default function MoviesProvider ({
   }
   return (
     <moviesContext.Provider value={value}>
-      {children}
+      {props.children}
     </moviesContext.Provider>
   )
 }

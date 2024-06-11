@@ -1,52 +1,37 @@
-import chooseOption from './chooseOption'
-import createRandomChoice from './createRandomChoice'
-import importItems from './importItems'
-import { HistoryEvent, State, Item } from './mergeChoiceTypes'
-import removeItem from './removeItem'
-import resetItem from './resetItem'
+import { HistoryEvent, State, Item, Restorers, HistoryDataKey } from './mergeChoiceTypes'
+import restoreArchive from './restoreArchive'
+import restoreChoice from './restoreChoice'
+import restoreImport from './restoreImport'
+import restoreRandom from './restoreRandom'
+import restoreRemove from './restoreRemove'
+import restoreReset from './restoreReset'
+import restoreUnarchive from './restoreUnarchive'
 
 export default function restoreEvent<ListItem extends Item> (props: {
   event: HistoryEvent<ListItem>
   state: State<ListItem>
 }): State<ListItem> {
-  if (props.event.choice != null) {
-    if (props.event.choice.seeded) {
-      return props.state
+  const restorers: Restorers<ListItem> = {
+    archive: restoreArchive,
+    choice: restoreChoice,
+    import: restoreImport,
+    random: restoreRandom,
+    remove: restoreRemove,
+    reset: restoreReset,
+    unarchive: restoreUnarchive
+  }
+  let key: HistoryDataKey<ListItem>
+  for (key in restorers) {
+    const data = props.event[key]
+    if (data != null) {
+      const restorer = restorers[key]
+      const restored = restorer({
+        event: props.event,
+        state: props.state
+      })
+      return restored
     }
-    const chosenState = chooseOption({
-      state: props.state,
-      betterIndex: props.event.choice.betterIndex
-    })
-    return chosenState
   }
-  if (props.event.import != null) {
-    const importedState = importItems({
-      items: props.event.import.items,
-      state: props.state
-    })
-    return importedState
-  }
-  if (props.event.random != null) {
-    const randomState = createRandomChoice({
-      firstItem: props.event.random.first,
-      secondItem: props.event.random.second,
-      state: props.state
-    })
-    return randomState
-  }
-  if (props.event.remove != null) {
-    const removedState = removeItem({
-      itemId: props.event.remove.item.id,
-      state: props.state
-    })
-    return removedState
-  }
-  if (props.event.reset != null) {
-    const resetState = resetItem({
-      itemId: props.event.reset.item.id,
-      state: props.state
-    })
-    return resetState
-  }
+
   throw new Error('Unknown event type')
 }

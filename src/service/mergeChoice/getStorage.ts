@@ -1,13 +1,10 @@
-export default function getStorage <Stored> ({
-  key,
-  defaultValue
-}: {
+export default function getStorage<Stored> (props: {
   defaultValue: Stored
   key: string
 }): Stored {
-  const stateString = localStorage.getItem(key)
+  const stateString = localStorage.getItem(props.key)
   if (stateString == null) {
-    return defaultValue
+    return props.defaultValue
   }
   const state = JSON.parse(stateString)
   return state
