@@ -1,4 +1,5 @@
-import { HistoryEvent, State, Item, Restorers, HistoryDataKey } from './mergeChoiceTypes'
+import mapHistoryData from './mapHistoryData'
+import { HistoryEvent, State, Item, Restorers } from './mergeChoiceTypes'
 import restoreArchive from './restoreArchive'
 import restoreChoice from './restoreChoice'
 import restoreImport from './restoreImport'
@@ -20,18 +21,16 @@ export default function restoreEvent<ListItem extends Item> (props: {
     reset: restoreReset,
     unarchive: restoreUnarchive
   }
-  let key: HistoryDataKey<ListItem>
-  for (key in restorers) {
-    const data = props.event[key]
-    if (data != null) {
-      const restorer = restorers[key]
-      const restored = restorer({
+  const mapped = mapHistoryData({
+    data: restorers,
+    event: props.event,
+    map: ({ value }) => {
+      const restored = value({
         event: props.event,
         state: props.state
       })
       return restored
     }
-  }
-
-  throw new Error('Unknown event type')
+  })
+  return mapped
 }

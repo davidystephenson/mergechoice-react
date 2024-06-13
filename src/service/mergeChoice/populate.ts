@@ -7,6 +7,7 @@ import getItem from './getItem'
 import arrayToDictionary from './arrayToDictionary'
 import createOperation from './createOperation'
 import completeState from './completeState'
+import sortOutputs from './sortOutputs'
 
 export default function populate<ListItem extends Item> (props: {
   items: ListItem[]
@@ -42,9 +43,14 @@ export default function populate<ListItem extends Item> (props: {
   })
   newState.history = props.state.history
   newState.activeIds = newIds
-  const activeOperationArray = newState.activeIds.map(id => {
-    const output = [id]
-    const operation = createOperation({ output, state: newState })
+  const sortedOutputs = sortOutputs({ items: newItems })
+  console.log('sortedOutputs', sortedOutputs)
+  const sortedSeeds = sortedOutputs.map(output => output.map(item => item.seed))
+  console.log('sortedSeeds', sortedSeeds)
+  const activeOperationArray = sortedOutputs.map(output => {
+    const outputIds = output.map(item => item.id)
+    console.log('outputIds', outputIds)
+    const operation = createOperation({ output: outputIds, state: newState })
     return operation
   })
   const activeOperationDictionary = arrayToDictionary({ array: activeOperationArray })
