@@ -45,10 +45,18 @@ export interface State<ListItem extends Item> {
 export interface HistoryItemData<ListItem extends Item> {
   item: Calculated<ListItem>
 }
-export interface HistoryArchiveData<ListItem extends Item> extends HistoryItemData<ListItem> { }
-export interface HistoryRemoveData<ListItem extends Item> extends HistoryItemData<ListItem> { }
-export interface HistoryResetData<ListItem extends Item> extends HistoryItemData<ListItem> { }
-export interface HistoryUnarchiveData<ListItem extends Item> extends HistoryItemData<ListItem> { }
+export interface HistoryArchiveData<ListItem extends Item> extends HistoryItemData<ListItem> {
+  type: 'archive'
+}
+export interface HistoryRemoveData<ListItem extends Item> extends HistoryItemData<ListItem> {
+  type: 'remove'
+}
+export interface HistoryResetData<ListItem extends Item> extends HistoryItemData<ListItem> {
+  type: 'reset'
+}
+export interface HistoryUnarchiveData<ListItem extends Item> extends HistoryItemData<ListItem> {
+  type: 'unarchive'
+}
 export interface HistoryChoiceData<ListItem extends Item> {
   aBetter: boolean
   aId: ItemId
@@ -58,14 +66,26 @@ export interface HistoryChoiceData<ListItem extends Item> {
   bItem: Calculated<ListItem>
   random: boolean
   seeded: boolean
+  type: 'choice'
 }
 export interface HistoryImportData<ListItem extends Item> {
   items: Array<Calculated<ListItem>>
+  type: 'import'
 }
 export interface HistoryRandomData<ListItem extends Item> {
   first: Calculated<ListItem>
   second: Calculated<ListItem>
+  type: 'random'
 }
+export const keys = ['archive', 'choice', 'import', 'random', 'remove', 'reset', 'unarchive'] as const
+export function getKey (key: string): Key {
+  const k = keys.find(k => k === key)
+  if (k == null) {
+    throw new Error('Unknown key')
+  }
+  return k
+}
+type Key = typeof keys[number]
 export interface HistoryDataMapped<ListItem extends Item> {
   archive: HistoryArchiveData<ListItem>
   choice: HistoryChoiceData<ListItem>
@@ -83,15 +103,15 @@ export interface HistoryEvent<ListItem extends Item> extends Identity, Partial<H
   createdAt: number
 }
 
-export type HistoryDataMapping<ListItem extends Item, Mapped> = {
-  [Key in HistoryDataKey<ListItem>]: Mapped
+export type HistoryDataMapper<ListItem extends Item, Key extends HistoryDataKey<ListItem>, Result> = (props: {
+  data: HistoryDataMapped<ListItem>[Key]
+  key: Key
+}) => Result
+export type HistoryDataMappers<ListItem extends Item, Result> = {
+  [Key in HistoryDataKey<ListItem>]: HistoryDataMapper<ListItem, Key, Result>
 }
 
-export type Restorer<ListItem extends Item> = (props: {
-  event: HistoryEvent<ListItem>
-  state: State<ListItem>
-}) => State<ListItem>
-export type Restorers<ListItem extends Item> = HistoryDataMapping<ListItem, Restorer<ListItem>>
+export type Restorers<ListItem extends Item> = HistoryDataMappers<ListItem, State<ListItem>>
 
 export interface RemovalFromOperations {
   emptiedOperationId?: ItemId

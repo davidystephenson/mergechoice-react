@@ -1,15 +1,12 @@
 import importItems from './importItems'
-import { HistoryEvent, Item, State } from './mergeChoiceTypes'
+import { HistoryImportData, Item, State } from './mergeChoiceTypes'
 
 export default function restoreImport<ListItem extends Item> (props: {
-  event: HistoryEvent<ListItem>
+  data: HistoryImportData<ListItem>
   state: State<ListItem>
 }): State<ListItem> {
-  if (props.event.import == null) {
-    throw new Error('There is no import')
-  }
   const importedState = importItems({
-    items: props.event.import.items,
+    items: props.data.items,
     state: props.state
   })
   return importedState

@@ -1,18 +1,33 @@
-import { HistoryDataKey, HistoryDataMapping, HistoryEvent, Item } from './mergeChoiceTypes'
+import { HistoryDataKey, HistoryDataMapper, HistoryDataMappers, HistoryEvent, Item } from './mergeChoiceTypes'
 
-export default function mapHistoryData <ListItem extends Item, Value, Result> (props: {
-  data: HistoryDataMapping<ListItem, Value>
+function matchMapper<ListItem extends Item, Key extends HistoryDataKey<ListItem>, Result> (props: {
   event: HistoryEvent<ListItem>
-  map: (props: { value: Value }) => Result
+  mappers: HistoryDataMappers<ListItem, Result>
+  key: Key
+}): {
+    mapper: HistoryDataMapper<ListItem, Key, Result>
+    data: NonNullable<HistoryEvent<ListItem>[Key]>
+  } | undefined {
+  const mapper = props.mappers[props.key]
+  const data = props.event[props.key]
+  if (data == null) {
+    return undefined
+  }
+  return { mapper, data }
+}
+
+export default function mapHistoryData<ListItem extends Item, Result> (props: {
+  mapping: HistoryDataMappers<ListItem, Result>
+  event: HistoryEvent<ListItem>
 }): Result {
-  let key: HistoryDataKey<ListItem>
-  for (key in props.data) {
-    const data = props.event[key]
-    if (data != null) {
-      const value = props.data[key]
-      const result = props.map({ value })
-      return result
+  let mappingKey: HistoryDataKey<ListItem>
+  for (mappingKey in props.mapping) {
+    const match = matchMapper({ event: props.event, mappers: props.mapping, key: mappingKey })
+    if (match == null) {
+      continue
     }
+    const result = match.mapper({ data: match.data, key: mappingKey })
+    return result
   }
   throw new Error('Unknown event type')
 }

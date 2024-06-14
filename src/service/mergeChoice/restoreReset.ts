@@ -1,15 +1,12 @@
-import { HistoryEvent, Item, State } from './mergeChoiceTypes'
+import { HistoryResetData, Item, State } from './mergeChoiceTypes'
 import resetItem from './resetItem'
 
 export default function restoreReset<ListItem extends Item> (props: {
-  event: HistoryEvent<ListItem>
+  data: HistoryResetData<ListItem>
   state: State<ListItem>
 }): State<ListItem> {
-  if (props.event.reset == null) {
-    throw new Error('There is no reset')
-  }
   const resetState = resetItem({
-    itemId: props.event.reset.item.id,
+    itemId: props.data.item.id,
     state: props.state
   })
   return resetState

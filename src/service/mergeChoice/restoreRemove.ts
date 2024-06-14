@@ -1,15 +1,12 @@
-import { HistoryEvent, Item, State } from './mergeChoiceTypes'
+import { HistoryRemoveData, Item, State } from './mergeChoiceTypes'
 import removeItem from './removeItem'
 
 export default function restoreRemove<ListItem extends Item> (props: {
-  event: HistoryEvent <ListItem>
+  data: HistoryRemoveData <ListItem>
   state: State<ListItem>
 }): State<ListItem> {
-  if (props.event.remove == null) {
-    throw new Error('There is no remove')
-  }
   const removedState = removeItem({
-    itemId: props.event.remove.item.id,
+    itemId: props.data.item.id,
     state: props.state
   })
   return removedState

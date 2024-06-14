@@ -1,16 +1,13 @@
 import createRandomChoice from './createRandomChoice'
-import { HistoryEvent, Item, State } from './mergeChoiceTypes'
+import { HistoryRandomData, Item, State } from './mergeChoiceTypes'
 
 export default function restoreRandom<ListItem extends Item> (props: {
-  event: HistoryEvent<ListItem>
+  data: HistoryRandomData<ListItem>
   state: State<ListItem>
 }): State<ListItem> {
-  if (props.event.random == null) {
-    throw new Error('There is no random')
-  }
   const randomState = createRandomChoice({
-    firstItem: props.event.random.first,
-    secondItem: props.event.random.second,
+    firstItem: props.data.first,
+    secondItem: props.data.second,
     state: props.state
   })
   return randomState
