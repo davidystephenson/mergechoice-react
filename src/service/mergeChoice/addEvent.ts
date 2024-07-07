@@ -1,7 +1,7 @@
-import { HistoryDataMap, HistoryEvent, Item, State } from './mergeChoiceTypes'
+import { HistoryMap, HistoryEvent, Item, State } from './mergeChoiceTypes'
 
 export default function addEvent<ListItem extends Item> (props: {
-  data: HistoryDataMap<ListItem>
+  data: HistoryMap<ListItem>
   state: State<ListItem>
 }): State<ListItem> {
   const newHistoryEvent: HistoryEvent<ListItem> = {

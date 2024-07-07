@@ -1,5 +1,4 @@
-import mapHistoryData from './mapHistoryData'
-import { HistoryEvent, State, Item } from './mergeChoiceTypes'
+import { HistoryEvent, State, Item, HistoryDataKey, HistoryDataTeam, HistoryDataProblem, HistoryDataStrategy } from './mergeChoiceTypes'
 import restoreArchive from './restoreArchive'
 import restoreChoice from './restoreChoice'
 import restoreImport from './restoreImport'
@@ -8,67 +7,62 @@ import restoreRemove from './restoreRemove'
 import restoreReset from './restoreReset'
 import restoreUnarchive from './restoreUnarchive'
 
-export default function restoreEvent<ListItem extends Item> (props: {
+function strategist<
+  ListItem extends Item,
+  Output,
+  Key extends HistoryDataKey<ListItem>
+> (props: HistoryDataProblem<ListItem, Output, Key>): HistoryDataStrategy<ListItem, Key> | undefined {
+  const hearsay = props.team.delivery[props.key]
+  if (hearsay == null) {
+    return undefined
+  }
+  const actor = props.team.actors[props.key]
+  const strategy: HistoryDataStrategy<ListItem, Key> = {
+    actor,
+    hearsay
+  }
+  return strategy
+}
+function marion<
+  ListItem extends Item, Output
+> (props: HistoryDataTeam<ListItem, Output>): Output {
+  let key: HistoryDataKey<ListItem>
+  for (key in props.actors) {
+    const problem: HistoryDataProblem<ListItem, Output, HistoryDataKey<ListItem>> = {
+      key,
+      team: props
+    }
+    const strategy = strategist(problem)
+    if (strategy == null) {
+      continue
+    }
+    const output = props.director(strategy)
+    return output
+  }
+  throw new Error('Unknown event type')
+}
+
+export default function restoreEvent2<ListItem extends Item> (props: {
   event: HistoryEvent<ListItem>
   state: State<ListItem>
 }): State<ListItem> {
-  const restorers = {
-    archive: restoreArchive,
-    choice: restoreChoice,
-    import: restoreImport,
-    random: restoreRandom,
-    remove: restoreRemove,
-    reset: restoreReset,
-    unarchive: restoreUnarchive
-  }
-  const mapped = mapHistoryData({
-    mapping: {
-      archive (archiveProps) {
-        const restorer = restorers[archiveProps.key]
-        return restorer({
-          data: archiveProps.data,
-          state: props.state
-        })
-      },
-      choice (choiceProps) {
-        const restorer = restorers[choiceProps.key]
-        return restorer({
-          data: choiceProps.data,
-          state: props.state
-        })
-      },
-      import (importProps) {
-        return restoreImport({
-          data: importProps.data,
-          state: props.state
-        })
-      },
-      random (randomProps) {
-        return restoreRandom({
-          data: randomProps.data,
-          state: props.state
-        })
-      },
-      remove (removeProps) {
-        return restoreRemove({
-          data: removeProps.data,
-          state: props.state
-        })
-      },
-      reset (resetProps) {
-        return restoreReset({
-          data: resetProps.data,
-          state: props.state
-        })
-      },
-      unarchive (unarchiveProps) {
-        return restoreUnarchive({
-          data: unarchiveProps.data,
-          state: props.state
-        })
-      }
+  const output = marion({
+    actors: {
+      archive: restoreArchive,
+      choice: restoreChoice,
+      import: restoreImport,
+      random: restoreRandom,
+      remove: restoreRemove,
+      reset: restoreReset,
+      unarchive: restoreUnarchive
     },
-    event: props.event
+    delivery: props.event,
+    director: (directorProps) => {
+      return directorProps.actor({
+        data: directorProps.hearsay,
+        state: props.state
+      })
+    }
   })
-  return mapped
+  return output
 }
