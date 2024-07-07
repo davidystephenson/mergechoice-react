@@ -1,5 +1,3 @@
-import { ListItem } from 'react-virtuoso'
-
 export type ItemId = number | string
 export interface Identity {
   mergeChoiceId: number
@@ -116,18 +114,6 @@ export type HistoryDataMarion <ListItem extends Item, Output> = (
 export interface HistoryEvent<ListItem extends Item> extends Identity, HistoryDataDelivery<ListItem> {
   createdAt: number
 }
-
-export type HistoryDataMapper<
-  ListItem extends Item, Key extends HistoryDataKey<ListItem>, Result
-> = (props: {
-  data: HistoryMap<ListItem>[Key]
-  key: Key
-}) => Result
-export type HistoryDataMappers<ListItem extends Item, Result> = {
-  [Key in HistoryDataKey<ListItem>]: HistoryDataMapper<ListItem, Key, Result>
-}
-
-export type Restorers<ListItem extends Item> = HistoryDataMappers<ListItem, State<ListItem>>
 
 export interface RemovalFromOperations {
   emptiedOperationId?: ItemId

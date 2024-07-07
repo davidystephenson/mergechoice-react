@@ -42,7 +42,7 @@ function marion<
   throw new Error('Unknown event type')
 }
 
-export default function restoreEvent2<ListItem extends Item> (props: {
+export default function restoreEvent<ListItem extends Item> (props: {
   event: HistoryEvent<ListItem>
   state: State<ListItem>
 }): State<ListItem> {
