@@ -8,11 +8,11 @@ function matchMapper<ListItem extends Item, Key extends HistoryDataKey<ListItem>
     mapper: HistoryDataMapper<ListItem, Key, Result>
     data: NonNullable<HistoryEvent<ListItem>[Key]>
   } | undefined {
-  const mapper = props.mappers[props.key]
   const data = props.event[props.key]
   if (data == null) {
     return undefined
   }
+  const mapper = props.mappers[props.key]
   return { mapper, data }
 }
 
