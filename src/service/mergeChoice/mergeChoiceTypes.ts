@@ -83,20 +83,20 @@ export interface HistoryDataFeedback<ListItem extends Item, Key extends HistoryD
   state: State<ListItem>
 }
 export type HistoryDataActor <
-  ListItem extends Item, Key extends HistoryDataKey<ListItem>
-> = (props: HistoryDataFeedback<ListItem, Key>) => State<ListItem>
-export type HistoryDataActors<ListItem extends Item> = {
-  [Key in HistoryDataKey<ListItem>]: HistoryDataActor<ListItem, Key>
+  ListItem extends Item, Output, Key extends HistoryDataKey<ListItem>
+> = (props: HistoryDataFeedback<ListItem, Key>) => Output
+export type HistoryDataActors<ListItem extends Item, Output> = {
+  [Key in HistoryDataKey<ListItem>]: HistoryDataActor<ListItem, Output, Key>
 }
-export interface HistoryDataStrategy <ListItem extends Item, Key extends HistoryDataKey<ListItem>> {
-  actor: HistoryDataActor<ListItem, Key>
+export interface HistoryDataStrategy <ListItem extends Item, Output, Key extends HistoryDataKey<ListItem>> {
+  actor: HistoryDataActor<ListItem, Output, Key>
   hearsay: HistoryDataHearsay<ListItem, Key>
 }
 export type HistoryDataDirector <
   ListItem extends Item, Output
-> = <Key extends HistoryDataKey<ListItem>> (props: HistoryDataStrategy<ListItem, Key>) => Output
+> = <Key extends HistoryDataKey<ListItem>> (props: HistoryDataStrategy<ListItem, Output, Key>) => Output
 export interface HistoryDataTeam <ListItem extends Item, Output> {
-  actors: HistoryDataActors<ListItem>
+  actors: HistoryDataActors<ListItem, Output>
   delivery: HistoryDataDelivery<ListItem>
   director: HistoryDataDirector<ListItem, Output>
 }
@@ -106,7 +106,7 @@ export interface HistoryDataProblem <ListItem extends Item, Output, Key extends 
 }
 export type HistoryDataStrategist = <
   ListItem extends Item, Output, Key extends HistoryDataKey<ListItem>
-> (props: HistoryDataProblem<ListItem, Output, Key>) => HistoryDataStrategy<ListItem, Key>
+> (props: HistoryDataProblem<ListItem, Output, Key>) => HistoryDataStrategy<ListItem, Output, Key>
 export type HistoryDataMarion <ListItem extends Item, Output> = (
   props: HistoryDataTeam<ListItem, Output>
 ) => Output

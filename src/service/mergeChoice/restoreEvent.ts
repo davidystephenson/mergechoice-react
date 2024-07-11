@@ -11,13 +11,13 @@ function strategist<
   ListItem extends Item,
   Output,
   Key extends HistoryDataKey<ListItem>
-> (props: HistoryDataProblem<ListItem, Output, Key>): HistoryDataStrategy<ListItem, Key> | undefined {
+> (props: HistoryDataProblem<ListItem, Output, Key>): HistoryDataStrategy<ListItem, Output, Key> | undefined {
   const hearsay = props.team.delivery[props.key]
   if (hearsay == null) {
     return undefined
   }
   const actor = props.team.actors[props.key]
-  const strategy: HistoryDataStrategy<ListItem, Key> = {
+  const strategy: HistoryDataStrategy<ListItem, Output, Key> = {
     actor,
     hearsay
   }
@@ -28,7 +28,7 @@ function marion<
 > (props: HistoryDataTeam<ListItem, Output>): Output {
   let key: HistoryDataKey<ListItem>
   for (key in props.actors) {
-    const problem: HistoryDataProblem<ListItem, Output, HistoryDataKey<ListItem>> = {
+    const problem = {
       key,
       team: props
     }
