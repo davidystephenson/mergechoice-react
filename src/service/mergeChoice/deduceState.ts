@@ -1,6 +1,6 @@
 import createState from './createState'
 import { HistoryEvent, Item, State } from './mergeChoiceTypes'
-import restoreEvent from './restoreEvent'
+import restoreEventState from './restoreEventState'
 
 export default function deduceState<ListItem extends Item> (props: {
   history: Array<HistoryEvent<ListItem>>
@@ -9,7 +9,7 @@ export default function deduceState<ListItem extends Item> (props: {
   const initial = createState<ListItem>({ seed: props.seed })
   const reversed = props.history.slice().reverse()
   const deduced = reversed.reduce<State<ListItem>>((state, event) => {
-    const restoredState = restoreEvent({ event, state })
+    const restoredState = restoreEventState({ event, state })
     const lastEvent = restoredState.history[0]
     lastEvent.createdAt = event.createdAt
     return restoredState

@@ -22,7 +22,9 @@ export default function MoviesProvider (props: {
   children: ReactNode
 }): JSX.Element {
   const [state, setState] = useState<State<Movie>>(() => {
-    const storedState = getStorage<StoredState<Movie> | undefined>({ key: 'storedState', defaultValue: undefined })
+    const storedState = getStorage<StoredState<Movie> | undefined>({
+      key: 'storedState', defaultValue: undefined
+    })
     if (storedState == null) {
       const random = Math.random()
       const seed = String(random)
@@ -125,7 +127,6 @@ export default function MoviesProvider (props: {
       return newState
     })
   }
-
   function undo (): void {
     void updateState(async current => {
       return current

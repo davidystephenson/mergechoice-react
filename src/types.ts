@@ -105,7 +105,7 @@ export interface HistoryContextValue {
   restEvents: Array<HistoryEvent<Movie>>
   toggleExpanded: () => void
 }
-export interface HistoryEventContextValue extends HistoryEvent<Movie> {
+export type HistoryEventContextValue = HistoryEvent<Movie> & {
   rewind: () => Promise<void>
   timestamp: string
 }

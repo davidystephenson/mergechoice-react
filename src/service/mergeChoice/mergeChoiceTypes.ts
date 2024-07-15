@@ -66,7 +66,7 @@ export interface HistoryRandomData<ListItem extends Item> {
   first: Calculated<ListItem>
   second: Calculated<ListItem>
 }
-export interface HistoryMapped<ListItem extends Item> {
+export interface Parts<ListItem extends Item> {
   archive: HistoryArchiveData<ListItem>
   choice: HistoryChoiceData<ListItem>
   import: HistoryImportData<ListItem>
@@ -75,45 +75,13 @@ export interface HistoryMapped<ListItem extends Item> {
   reset: HistoryResetData<ListItem>
   unarchive: HistoryUnarchiveData<ListItem>
 }
-export type HistoryDataKey<ListItem extends Item> = keyof HistoryMapped<ListItem>
-export type HistoryDataDelivery<ListItem extends Item> = Partial<HistoryMapped<ListItem>>
-export type HistoryDataHearsay<ListItem extends Item, Key extends HistoryDataKey<ListItem>> = NonNullable<HistoryDataDelivery<ListItem>[Key]>
-export interface HistoryDataFeedback<ListItem extends Item, Key extends HistoryDataKey<ListItem>> {
-  data: HistoryDataHearsay<ListItem, Key>
-  state: State<ListItem>
-}
-export type HistoryDataActor <
-  ListItem extends Item, Output, Key extends HistoryDataKey<ListItem>
-> = (props: HistoryDataFeedback<ListItem, Key>) => Output
-export type HistoryDataActors<ListItem extends Item, Output> = {
-  [Key in HistoryDataKey<ListItem>]: HistoryDataActor<ListItem, Output, Key>
-}
-export interface HistoryDataStrategy <ListItem extends Item, Output, Key extends HistoryDataKey<ListItem>> {
-  actor: HistoryDataActor<ListItem, Output, Key>
-  hearsay: HistoryDataHearsay<ListItem, Key>
-}
-export type HistoryDataDirector <
-  ListItem extends Item, Output
-> = <Key extends HistoryDataKey<ListItem>> (props: HistoryDataStrategy<ListItem, Output, Key>) => Output
-export interface HistoryDataTeam <ListItem extends Item, Output> {
-  actors: HistoryDataActors<ListItem, Output>
-  delivery: HistoryDataDelivery<ListItem>
-  director: HistoryDataDirector<ListItem, Output>
-}
-export interface HistoryDataProblem <ListItem extends Item, Output, Key extends HistoryDataKey<ListItem>> {
-  key: Key
-  team: HistoryDataTeam<ListItem, Output>
-}
-export type HistoryDataStrategist = <
-  ListItem extends Item, Output, Key extends HistoryDataKey<ListItem>
-> (props: HistoryDataProblem<ListItem, Output, Key>) => HistoryDataStrategy<ListItem, Output, Key>
-export type HistoryDataMarion <ListItem extends Item, Output> = (
-  props: HistoryDataTeam<ListItem, Output>
-) => Output
-
-export interface HistoryEvent<ListItem extends Item> extends Identity, HistoryDataDelivery<ListItem> {
+export type PartKey<ListItem extends Item> = keyof Parts<ListItem>
+export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> & U[keyof U]
+export type Part <ListItem extends Item> = AtLeastOne<Parts<ListItem>>
+export interface HistoryEventBase extends Identity {
   createdAt: number
 }
+export type HistoryEvent<ListItem extends Item> = HistoryEventBase & Part<ListItem>
 
 export interface RemovalFromOperations {
   emptiedOperationId?: ItemId
