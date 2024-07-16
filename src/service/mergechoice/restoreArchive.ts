@@ -2,7 +2,7 @@ import archiveItem from './archiveItem'
 import { EpisodeArchive, Item, State } from './mergeChoiceTypes'
 
 export default function restoreArchive <ListItem extends Item> (props: {
-  input:EpisodeArchivea<ListItem>
+  input: EpisodeArchive<ListItem>
   state: State<ListItem>
 }): State<ListItem> {
   const resetState = archiveItem({

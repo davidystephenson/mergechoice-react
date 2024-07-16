@@ -2,7 +2,7 @@ import createRandomChoice from './createRandomChoice'
 import { EpisodeRandom, Item, State } from './mergeChoiceTypes'
 
 export default function restoreRandom<ListItem extends Item> (props: {
-  input:EpisodeRandoma<ListItem>
+  input: EpisodeRandom<ListItem>
   state: State<ListItem>
 }): State<ListItem> {
   const randomState = createRandomChoice({

@@ -2,7 +2,7 @@ import { EpisodeReset, Item, State } from './mergeChoiceTypes'
 import resetItem from './resetItem'
 
 export default function restoreReset<ListItem extends Item> (props: {
-  input:EpisodeReseta<ListItem>
+  input: EpisodeReset<ListItem>
   state: State<ListItem>
 }): State<ListItem> {
   const resetState = resetItem({

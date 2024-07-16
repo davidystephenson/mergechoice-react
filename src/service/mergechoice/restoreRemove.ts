@@ -2,7 +2,7 @@ import { EpisodeRemove, Item, State } from './mergeChoiceTypes'
 import removeItem from './removeItem'
 
 export default function restoreRemove<ListItem extends Item> (props: {
-  input:EpisodeRemovea<ListItem>
+  input: EpisodeRemove<ListItem>
   state: State<ListItem>
 }): State<ListItem> {
   const removedState = removeItem({

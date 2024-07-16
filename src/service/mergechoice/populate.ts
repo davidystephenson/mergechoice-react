@@ -44,12 +44,8 @@ export default function populate<ListItem extends Item> (props: {
   newState.history = props.state.history
   newState.activeIds = newIds
   const sortedOutputs = sortOutputs({ items: newItems })
-  // console.log('sortedOutputs', sortedOutputs)
-  // const sortedSeeds = sortedOutputs.map(output => output.map(item => item.seed))
-  // console.log('sortedSeeds', sortedSeeds)
   const activeOperationArray = sortedOutputs.map(output => {
     const outputIds = output.map(item => item.id)
-    // console.log('outputIds', outputIds)
     const operation = createOperation({ output: outputIds, state: newState })
     return operation
   })
