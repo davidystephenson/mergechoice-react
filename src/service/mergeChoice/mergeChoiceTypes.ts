@@ -33,7 +33,7 @@ export interface State<ListItem extends Item> {
   choice?: Choice
   choiceCount: number
   complete: boolean
-  history: Array<HistoryEvent<ListItem>>
+  history: Array<Episode<ListItem>>
   items: ItemDictionary<ListItem>
   operationCount: number
   reserveIds: ItemId[]
@@ -78,10 +78,10 @@ export interface Parts<ListItem extends Item> {
 export type PartKey<ListItem extends Item> = keyof Parts<ListItem>
 export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> & U[keyof U]
 export type Part <ListItem extends Item> = AtLeastOne<Parts<ListItem>>
-export interface HistoryEventBase extends Identity {
+export interface EpisodeBase extends Identity {
   createdAt: number
 }
-export type HistoryEvent<ListItem extends Item> = HistoryEventBase & Part<ListItem>
+export type Episode<ListItem extends Item> = EpisodeBase & Part<ListItem>
 
 export interface RemovalFromOperations {
   emptiedOperationId?: ItemId

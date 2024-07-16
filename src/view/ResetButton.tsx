@@ -10,6 +10,7 @@ export default function ResetButton (): JSX.Element {
   return (
     <IconButton
       aria-label='reset'
+      colorScheme='red'
       icon={<RepeatIcon />}
       onClick={handleReset}
       minW='fit-content'

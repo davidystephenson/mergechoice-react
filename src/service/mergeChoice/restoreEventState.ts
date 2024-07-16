@@ -1,4 +1,4 @@
-import { PartKey, Part, State, HistoryEvent, Item } from './mergeChoiceTypes'
+import { PartKey, Part, State, Episode, Item } from './mergeChoiceTypes'
 import restoreArchive from './restoreArchive'
 import restoreChoice from './restoreChoice'
 import restoreImport from './restoreImport'
@@ -104,7 +104,7 @@ const marion = <T extends Item, O>(props: {
 
 export function marionEvent<ListItem extends Item, Output> (props: {
   actors: Actors<ListItem, Output>
-  part: HistoryEvent<ListItem>
+  part: Episode<ListItem>
   director: Director<ListItem, Output>
 }): Output {
   const output = marion({
@@ -117,7 +117,7 @@ export function marionEvent<ListItem extends Item, Output> (props: {
 
 export function marionEventState<ListItem extends Item> (props: {
   actors: Actors<ListItem, State<ListItem>>
-  part: HistoryEvent<ListItem>
+  part: Episode<ListItem>
   director: Director<ListItem, State<ListItem>>
 }): State<ListItem> {
   const mapped = marion({
@@ -129,7 +129,7 @@ export function marionEventState<ListItem extends Item> (props: {
 }
 
 export default function restoreEventState<ListItem extends Item> (restoreStateProps: {
-  event: HistoryEvent<ListItem>
+  event: Episode<ListItem>
   state: State<ListItem>
 }): State<ListItem> {
   const restoredState = marionEventState({

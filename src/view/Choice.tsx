@@ -1,11 +1,12 @@
-import { VStack, HStack, Heading } from '@chakra-ui/react'
+import { HStack, Heading, VStack } from '@chakra-ui/react'
+import useMoviesContext from '../context/movies/useMoviesContext'
 import OptionProvider from '../context/option/OptionProvider'
 import ChoiceCounterView from './ChoiceCounter'
 import DeferView from './Defer'
-import OptionView from './Option'
-import useMoviesContext from '../context/movies/useMoviesContext'
 import DeleteButton from './DeleteButton'
+import OptionView from './Option'
 import OptionButtonView from './OptionButton'
+import ResetView from './Reset'
 
 export default function ChoiceView (): JSX.Element {
   const moviesContextValue = useMoviesContext()
@@ -16,6 +17,7 @@ export default function ChoiceView (): JSX.Element {
           CloudSort
         </Heading>
         <ChoiceCounterView />
+        <ResetView />
       </HStack>
       <HStack flexWrap='wrap' justifyContent='center'>
         <OptionProvider

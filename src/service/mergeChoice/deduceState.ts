@@ -1,9 +1,9 @@
 import createState from './createState'
-import { HistoryEvent, Item, State } from './mergeChoiceTypes'
+import { Episode, Item, State } from './mergeChoiceTypes'
 import restoreEventState from './restoreEventState'
 
 export default function deduceState<ListItem extends Item> (props: {
-  history: Array<HistoryEvent<ListItem>>
+  history: Array<Episode<ListItem>>
   seed: string
 }): State<ListItem> {
   const initial = createState<ListItem>({ seed: props.seed })

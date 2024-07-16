@@ -1,9 +1,9 @@
 import { Movie } from '../../types'
-import { HistoryEvent } from '../mergeChoice/mergeChoiceTypes'
+import { Episode } from '../mergeChoice/mergeChoiceTypes'
 import isResult from './isResult'
 
 export default function isEventResult (props: {
-  event: HistoryEvent<Movie>
+  event: Episode<Movie>
   query: string
 }): boolean {
   if (props.query === '') {

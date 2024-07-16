@@ -1,14 +1,14 @@
 import useHistoryContext from '../../context/history/useHistoryContext'
 import useMoviesContext from '../../context/movies/useMoviesContext'
 import { Movie, TableItem } from '../../types'
-import { HistoryEvent } from '../mergeChoice/mergeChoiceTypes'
+import { Episode } from '../mergeChoice/mergeChoiceTypes'
 import isResult from './isResult'
 
 export default function useTableItems (): TableItem[] {
   const historyContextValue = useHistoryContext()
   const moviesContextValue = useMoviesContext()
   const tableItems: TableItem[] = []
-  function addEvent (event: HistoryEvent<Movie>): void {
+  function addEvent (event: Episode<Movie>): void {
     if (event.archive != null) {
       tableItems.push(
         { historyArchiveHeading: { event } },

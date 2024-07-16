@@ -1,4 +1,4 @@
-import { Calculated, CountRange, HistoryEvent, ItemId, Item, State } from './service/mergeChoice/mergeChoiceTypes'
+import { Calculated, CountRange, Episode, ItemId, Item, State } from './service/mergeChoice/mergeChoiceTypes'
 
 export interface CritickerRow {
   ' Date Rated': string
@@ -25,10 +25,10 @@ export interface ListTableItem {
   movie: CalculatedMovie
 }
 export interface HistoryTableItem {
-  event: HistoryEvent<Movie>
+  event: Episode<Movie>
 }
 export interface HistoryMovieTableItem {
-  event: HistoryEvent<Movie>
+  event: Episode<Movie>
   movie: CalculatedMovie
 }
 export interface TableItem {
@@ -62,7 +62,7 @@ export interface MoviesContextValue extends State<Movie> {
   choosing: boolean
   createRandomMovieChoice: () => Promise<void>
   defaultOptionIndex: number | undefined
-  history: Array<HistoryEvent<Movie>>
+  history: Array<Episode<Movie>>
   importMovies: (porps: { movies: Movie[], slice?: number }) => Promise<void>
   query: string
   random: boolean
@@ -95,17 +95,17 @@ export interface OptionContextValue {
 }
 export interface HistoryContextValue {
   closeEvent: (itemId: ItemId) => void
-  events: Array<HistoryEvent<Movie>>
+  events: Array<Episode<Movie>>
   expanded: boolean
-  firstEvent: HistoryEvent<Movie> | undefined
+  firstEvent: Episode<Movie> | undefined
   isSingle: boolean
   toggleEvent: (itemId: ItemId) => void
   openIds: ItemId[]
-  resultEvents: Array<HistoryEvent<Movie>>
-  restEvents: Array<HistoryEvent<Movie>>
+  resultEvents: Array<Episode<Movie>>
+  restEvents: Array<Episode<Movie>>
   toggleExpanded: () => void
 }
-export type HistoryEventContextValue = HistoryEvent<Movie> & {
+export type HistoryEventContextValue = Episode<Movie> & {
   rewind: () => Promise<void>
   timestamp: string
 }

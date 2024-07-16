@@ -28,7 +28,11 @@ export default function sortOutputs <ListItem extends Item> (props: {
     const seedB = Number(b[0])
     return seedA - seedB
   })
-  const outputs: ListItem[][] = [nonSeedingItems]
+  console.log('nonSeedingItems', nonSeedingItems)
+  const outputs: ListItem[][] = []
+  if (nonSeedingItems.length !== 0) {
+    outputs.push(nonSeedingItems)
+  }
   while (sortedItems.length < seedingItems.length) {
     const output: ListItem[] = []
     entries.forEach(entry => {
