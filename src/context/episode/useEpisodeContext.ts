@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { EpisodeContextValue } from '../../types'
-import episodeContext from './historyEventContext'
+import episodeContext from './episodeContext'
 
 export default function useEpisodeContext (): EpisodeContextValue {
   const value = useContext(episodeContext)

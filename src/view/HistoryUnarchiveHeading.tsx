@@ -1,7 +1,7 @@
 import { UnlockIcon } from '@chakra-ui/icons'
-import EpisodeHeadingRowView from './HistoryEventHeadingRow'
+import EpisodeHeadingRowView from './EpisodeHeadingRow'
 import RewindButtonView from './RewindButtonView'
-import useEpisodeContext from '../context/historyEvent/useHistoryEventContext'
+import useEpisodeContext from '../context/episode/useEpisodeContext'
 import { HStack, Heading } from '@chakra-ui/react'
 
 export default function HistoryUnarchiveHeadingView (): JSX.Element {

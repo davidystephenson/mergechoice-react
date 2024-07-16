@@ -1,4 +1,4 @@
-import addEpisode from './addEvent'
+import addEpisode from './addEpisode'
 import getItem from './getItem'
 import getPoints from './getPoints'
 import { Calculated, Item, ItemId, State } from './mergeChoiceTypes'

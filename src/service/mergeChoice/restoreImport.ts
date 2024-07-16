@@ -1,8 +1,8 @@
 import importItems from './importItems'
-import { HistoryImportData, Item, State } from './mergeChoiceTypes'
+import { EpisodeImport, Item, State } from './mergeChoiceTypes'
 
 export default function restoreImport<ListItem extends Item> (props: {
-  input: HistoryImportData<ListItem>
+  input: EpisodeImport<ListItem>
   state: State<ListItem>
 }): State<ListItem> {
   const importedState = importItems({

@@ -1,4 +1,4 @@
-import addEpisode from './addEvent'
+import addEpisode from './addEpisode'
 import createChoice from './createChoice'
 import { Item, State, ChoiceData, Calculated } from './mergeChoiceTypes'
 

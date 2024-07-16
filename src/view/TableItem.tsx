@@ -1,4 +1,4 @@
-import EpisodeProvider from '../context/historyEvent/HistoryEventProvider'
+import EpisodeProvider from '../context/episode/episodeProvider'
 import MovieProvider from '../context/movie/MovieProvider'
 import useTableItemContext from '../context/tableItem/useTableItemContext'
 import ArchiveHeadingRowView from './ArchiveHeadingRow'

@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 import { EpisodeContextValue, Movie } from '../../types'
-import episodeContext from './historyEventContext'
+import episodeContext from './episodeContext'
 import useMoviesContext from '../movies/useMoviesContext'
 import { Episode } from '../../service/mergeChoice/mergeChoiceTypes'
 

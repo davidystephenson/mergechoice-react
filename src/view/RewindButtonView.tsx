@@ -1,6 +1,6 @@
 import { ArrowLeftIcon } from '@chakra-ui/icons'
 import { IconButton } from '@chakra-ui/react'
-import useEpisodeContext from '../context/historyEvent/useHistoryEventContext'
+import useEpisodeContext from '../context/episode/useEpisodeContext'
 
 export default function RewindButtonView (): JSX.Element {
   const episodeContextValue = useEpisodeContext()

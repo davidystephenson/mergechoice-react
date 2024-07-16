@@ -1,7 +1,7 @@
 import { HStack, Heading } from '@chakra-ui/react'
 import RewindButtonView from './RewindButtonView'
-import useEpisodeContext from '../context/historyEvent/useHistoryEventContext'
-import EpisodeHeadingRowView from './HistoryEventHeadingRow'
+import useEpisodeContext from '../context/episode/useEpisodeContext'
+import EpisodeHeadingRowView from './EpisodeHeadingRow'
 import { RepeatIcon } from '@chakra-ui/icons'
 
 export default function HistoryResetHeadingRowView (): JSX.Element {

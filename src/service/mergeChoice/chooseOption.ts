@@ -3,7 +3,7 @@ import getItem from './getItem'
 import getPoints from './getPoints'
 import { Item, State, Calculated } from './mergeChoiceTypes'
 import seedChoice from './seedChoice'
-import addEpisode from './addEvent'
+import addEpisode from './addEpisode'
 
 export default function chooseOption<ListItem extends Item> (props: {
   betterIndex: number

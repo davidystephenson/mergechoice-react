@@ -1,8 +1,8 @@
 import chooseOption from './chooseOption'
-import { HistoryChoiceData, Item, State } from './mergeChoiceTypes'
+import { EpisodeChoice, Item, State } from './mergeChoiceTypes'
 
 export default function restoreChoice<ListItem extends Item> (props: {
-  input: HistoryChoiceData<ListItem>
+  input:EpisodeChoicea<ListItem>
   state: State<ListItem>
 }): State<ListItem> {
   if (props.input.seeded) {

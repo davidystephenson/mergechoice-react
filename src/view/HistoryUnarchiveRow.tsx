@@ -1,7 +1,7 @@
 import { Text, Td, HStack } from '@chakra-ui/react'
 import MovieLink from './MovieLink'
 import useMovieContext from '../context/movie/useMovieContext'
-import useEpisodeContext from '../context/historyEvent/useHistoryEventContext'
+import useEpisodeContext from '../context/episode/useEpisodeContext'
 import { UnlockIcon } from '@chakra-ui/icons'
 
 export default function HistoryUnarchiveRowView (): JSX.Element {

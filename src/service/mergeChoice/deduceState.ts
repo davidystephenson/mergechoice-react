@@ -1,6 +1,6 @@
 import createState from './createState'
 import { Episode, Item, State } from './mergeChoiceTypes'
-import restoreEpisodeState from './restoreEventState'
+import restoreEpisodeState from './restoreEpisodeState'
 
 export default function deduceState<ListItem extends Item> (props: {
   history: Array<Episode<ListItem>>
