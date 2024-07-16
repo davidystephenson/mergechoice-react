@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import { Movie, MovieContextValue } from '../../types'
 import movieContext from './movieContext'
 import useMoviesContext from '../movies/useMoviesContext'
-import getPoints from '../../service/mergeChoice/getPoints'
+import getPoints from '../../service/mergechoice/getPoints'
 
 export default function MovieProvider (props: {
   children: ReactNode

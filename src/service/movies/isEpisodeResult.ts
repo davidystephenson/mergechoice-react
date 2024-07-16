@@ -1,5 +1,5 @@
 import { Movie } from '../../types'
-import { Episode } from '../mergeChoice/mergeChoiceTypes'
+import { Episode } from '../mergechoice/mergeChoiceTypes'
 import isResult from './isResult'
 
 export default function isEpisodeResult (props: {

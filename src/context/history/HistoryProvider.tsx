@@ -3,7 +3,7 @@ import useMoviesContext from '../movies/useMoviesContext'
 import historyContext from './historyContext'
 import { HistoryContextValue } from '../../types'
 import isEpisodeResult from '../../service/movies/isEpisodeResult'
-import { ItemId } from '../../service/mergeChoice/mergeChoiceTypes'
+import { ItemId } from '../../service/mergechoice/mergeChoiceTypes'
 
 export default function HistoryProvider (props: {
   children: ReactNode

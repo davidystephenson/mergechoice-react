@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import { EpisodeContextValue, Movie } from '../../types'
 import episodeContext from './episodeContext'
 import useMoviesContext from '../movies/useMoviesContext'
-import { Episode } from '../../service/mergeChoice/mergeChoiceTypes'
+import { Episode } from '../../service/mergechoice/mergeChoiceTypes'
 
 export default function EpisodeProvider (props: {
   children: ReactNode

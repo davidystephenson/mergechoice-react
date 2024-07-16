@@ -1,4 +1,4 @@
-import { Calculated, CountRange, Episode, ItemId, Item, State } from './service/mergeChoice/mergeChoiceTypes'
+import { Calculated, CountRange, Episode, ItemId, Item, State } from './service/mergechoice/mergeChoiceTypes'
 
 export interface CritickerRow {
   ' Date Rated': string
