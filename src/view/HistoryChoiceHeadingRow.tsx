@@ -1,32 +1,32 @@
 import { Icon, HStack, Heading } from '@chakra-ui/react'
 import { GiPerspectiveDiceSixFacesRandom } from 'react-icons/gi'
 import RewindButtonView from './RewindButtonView'
-import useHistoryEventContext from '../context/historyEvent/useHistoryEventContext'
-import HistoryEventHeadingRowView from './HistoryEventHeadingRow'
+import useEpisodeContext from '../context/historyEvent/useHistoryEventContext'
+import EpisodeHeadingRowView from './HistoryEventHeadingRow'
 
 export default function HistoryChoiceHeadingRowView (): JSX.Element {
-  const historyEventContextValue = useHistoryEventContext()
-  if (historyEventContextValue.choice == null) {
+  const episodeContextValue = useEpisodeContext()
+  if (episodeContextValue.choice == null) {
     throw new Error('There is no choice.')
   }
-  const randomIcon = historyEventContextValue.choice.random && (
+  const randomIcon = episodeContextValue.choice.random && (
     <Icon as={GiPerspectiveDiceSixFacesRandom} />
   )
   return (
     <>
-      <HistoryEventHeadingRowView
+      <EpisodeHeadingRowView
         borderBottom='1px solid lightgray'
         paddingTop={0}
         paddingBottom={0}
       >
         <HStack>
           <Heading size='xs'>
-            {historyEventContextValue.timestamp}
+            {episodeContextValue.timestamp}
           </Heading>
           {randomIcon}
         </HStack>
         <RewindButtonView />
-      </HistoryEventHeadingRowView>
+      </EpisodeHeadingRowView>
     </>
   )
 }

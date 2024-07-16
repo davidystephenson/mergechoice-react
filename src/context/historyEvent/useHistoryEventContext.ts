@@ -1,11 +1,11 @@
 import { useContext } from 'react'
-import { HistoryEventContextValue } from '../../types'
-import historyEventContext from './historyEventContext'
+import { EpisodeContextValue } from '../../types'
+import episodeContext from './historyEventContext'
 
-export default function useHistoryEventContext (): HistoryEventContextValue {
-  const value = useContext(historyEventContext)
+export default function useEpisodeContext (): EpisodeContextValue {
+  const value = useContext(episodeContext)
   if (value === null) {
-    throw new Error('useHistoryEventContext must be used within a HistoryEventContextProvider')
+    throw new Error('useEpisodeContext must be used within a EpisodeContextProvider')
   }
   return value
 }

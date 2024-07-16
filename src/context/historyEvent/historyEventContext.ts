@@ -1,5 +1,5 @@
 import { createContext } from 'react'
-import { HistoryEventContextValue } from '../../types'
+import { EpisodeContextValue } from '../../types'
 
-const historyEventContext = createContext<HistoryEventContextValue | null>(null)
-export default historyEventContext
+const episodeContext = createContext<EpisodeContextValue | null>(null)
+export default episodeContext

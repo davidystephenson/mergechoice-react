@@ -1,5 +1,5 @@
 import { ChangeEvent, useRef, useState } from 'react'
-import { Button, HStack, Icon, Text } from '@chakra-ui/react'
+import { Button, HStack, Icon, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Text } from '@chakra-ui/react'
 import Papa from 'papaparse'
 import useMoviesContext from '../context/movies/useMoviesContext'
 import { CritickerRow, Movie } from '../types'
@@ -11,6 +11,10 @@ export default function ImportButtonView (): JSX.Element {
   const moviesContextValue = useMoviesContext()
   const [initializing, setInitializing] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
+  const [slice, setSlice] = useState('3')
+  function handleSliceChange (value: string): void {
+    setSlice(value)
+  }
   useHotkeys('i', () => {
     inputRef.current?.click()
   })
@@ -34,7 +38,8 @@ export default function ImportButtonView (): JSX.Element {
       }
       return movie
     })
-    const shuffled = getShuffled(movies).slice(0, 3)
+    const sliceNumber = Number(slice)
+    const shuffled = getShuffled(movies).slice(0, sliceNumber)
     await moviesContextValue.importMovies({ movies: shuffled })
     setInitializing(false)
   }
@@ -63,7 +68,7 @@ export default function ImportButtonView (): JSX.Element {
     inputRef.current?.click()
   }
   return (
-    <>
+    <HStack>
       <Button
         isLoading={initializing}
         onClick={handleClick}
@@ -82,6 +87,19 @@ export default function ImportButtonView (): JSX.Element {
         ref={inputRef}
         onChange={handleFileChange}
       />
-    </>
+      <NumberInput
+        onChange={handleSliceChange}
+        placeholder='slice'
+        size='xs'
+        value={slice}
+        width='100px'
+      >
+        <NumberInputField />
+        <NumberInputStepper>
+          <NumberIncrementStepper />
+          <NumberDecrementStepper />
+        </NumberInputStepper>
+      </NumberInput>
+    </HStack>
   )
 }

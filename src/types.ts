@@ -25,10 +25,10 @@ export interface ListTableItem {
   movie: CalculatedMovie
 }
 export interface HistoryTableItem {
-  event: Episode<Movie>
+  episode: Episode<Movie>
 }
 export interface HistoryMovieTableItem {
-  event: Episode<Movie>
+  episode: Episode<Movie>
   movie: CalculatedMovie
 }
 export interface TableItem {
@@ -69,7 +69,7 @@ export interface MoviesContextValue extends State<Movie> {
   removeMovie: ({ itemId }: { itemId: ItemId }) => Promise<void>
   resetMovie: ({ itemId }: { itemId: ItemId }) => Promise<void>
   resultMovies: CalculatedMovie[]
-  rewind: ({ historyEventId }: { historyEventId: ItemId }) => Promise<void>
+  rewind: ({ episodeId }: { episodeId: ItemId }) => Promise<void>
   searching: boolean
   sortedMovies: CalculatedMovie[]
   state: State<Movie>
@@ -94,18 +94,18 @@ export interface OptionContextValue {
   optionIndex: number
 }
 export interface HistoryContextValue {
-  closeEvent: (itemId: ItemId) => void
-  events: Array<Episode<Movie>>
+  closeEpisode: (itemId: ItemId) => void
+  episodes: Array<Episode<Movie>>
   expanded: boolean
-  firstEvent: Episode<Movie> | undefined
+  firstEpisode: Episode<Movie> | undefined
   isSingle: boolean
-  toggleEvent: (itemId: ItemId) => void
+  toggleEpisode: (itemId: ItemId) => void
   openIds: ItemId[]
-  resultEvents: Array<Episode<Movie>>
-  restEvents: Array<Episode<Movie>>
+  resultEpisodes: Array<Episode<Movie>>
+  restEpisodes: Array<Episode<Movie>>
   toggleExpanded: () => void
 }
-export type HistoryEventContextValue = Episode<Movie> & {
+export type EpisodeContextValue = Episode<Movie> & {
   rewind: () => Promise<void>
   timestamp: string
 }

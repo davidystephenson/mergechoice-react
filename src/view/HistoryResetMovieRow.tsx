@@ -1,13 +1,13 @@
 import { Text, Td, HStack } from '@chakra-ui/react'
 import MovieLink from './MovieLink'
 import useMovieContext from '../context/movie/useMovieContext'
-import useHistoryEventContext from '../context/historyEvent/useHistoryEventContext'
+import useEpisodeContext from '../context/historyEvent/useHistoryEventContext'
 import { RepeatIcon } from '@chakra-ui/icons'
 
 export default function HistoryResetMovieRowView (): JSX.Element {
-  const historyEventContextValue = useHistoryEventContext()
+  const episodeContextValue = useEpisodeContext()
   const movieContextValue = useMovieContext()
-  if (historyEventContextValue.reset == null) {
+  if (episodeContextValue.reset == null) {
     throw new Error('There is no reset choice')
   }
   return (

@@ -107,11 +107,11 @@ export default function MoviesProvider (props: {
       return newState
     })
   }
-  async function rewind ({ historyEventId }: {
-    historyEventId: ItemId
+  async function rewind ({ episodeId }: {
+    episodeId: ItemId
   }): Promise<void> {
     void updateState(async current => {
-      const newState = rewindState({ state: current, historyEventId })
+      const newState = rewindState({ state: current, episodeId: episodeId })
       return newState
     })
   }

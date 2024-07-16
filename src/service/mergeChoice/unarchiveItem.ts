@@ -1,4 +1,4 @@
-import addEvent from './addEvent'
+import addEpisode from './addEvent'
 import importItems from './importItems'
 import { Item, ItemId, State } from './mergeChoiceTypes'
 
@@ -28,7 +28,7 @@ export default function unarchiveItem<ListItem extends Item> (props: {
       item: calculated
     }
   }
-  addEvent({
+  addEpisode({
     data,
     state: importedState
   })

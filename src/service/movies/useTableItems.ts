@@ -8,30 +8,30 @@ export default function useTableItems (): TableItem[] {
   const historyContextValue = useHistoryContext()
   const moviesContextValue = useMoviesContext()
   const tableItems: TableItem[] = []
-  function addEvent (event: Episode<Movie>): void {
-    if (event.archive != null) {
+  function addEpisode (episode: Episode<Movie>): void {
+    if (episode.archive != null) {
       tableItems.push(
-        { historyArchiveHeading: { event } },
-        { historyArchiveMovie: { event, movie: event.archive.item } }
+        { historyArchiveHeading: { episode } },
+        { historyArchiveMovie: { episode, movie: episode.archive.item } }
       )
     }
-    if (event.choice != null) {
+    if (episode.choice != null) {
       tableItems.push(
-        { historyChoiceHeading: { event } },
-        { historyChoiceA: { event } },
-        { historyChoiceB: { event } }
+        { historyChoiceHeading: { episode } },
+        { historyChoiceA: { episode } },
+        { historyChoiceB: { episode } }
       )
       return
     }
-    if (event.import != null) {
+    if (episode.import != null) {
       tableItems.push(
-        { historyImportHeading: { event } }
+        { historyImportHeading: { episode } }
       )
-      const open = event.import.items.length === 1 || historyContextValue.openIds.includes(event.mergeChoiceId)
+      const open = episode.import.items.length === 1 || historyContextValue.openIds.includes(episode.mergeChoiceId)
       if (!open) {
         return
       }
-      event.import.items.forEach(item => {
+      episode.import.items.forEach(item => {
         if (moviesContextValue.searching) {
           const match = isResult({ movie: item, query: moviesContextValue.query })
           if (!match) {
@@ -39,33 +39,33 @@ export default function useTableItems (): TableItem[] {
           }
         }
         tableItems.push(
-          { historyImportMovie: { event, movie: item } }
+          { historyImportMovie: { episode, movie: item } }
         )
       })
     }
-    if (event.random != null) {
+    if (episode.random != null) {
       tableItems.push(
-        { historyRandomHeading: { event } },
-        { historyRandomMovie: { event, movie: event.random.first } },
-        { historyRandomMovie: { event, movie: event.random.second } }
+        { historyRandomHeading: { episode } },
+        { historyRandomMovie: { episode, movie: episode.random.first } },
+        { historyRandomMovie: { episode, movie: episode.random.second } }
       )
     }
-    if (event.remove != null) {
+    if (episode.remove != null) {
       tableItems.push(
-        { historyRemoveHeading: { event } },
-        { historyRemoveMovie: { event, movie: event.remove.item } }
+        { historyRemoveHeading: { episode } },
+        { historyRemoveMovie: { episode, movie: episode.remove.item } }
       )
     }
-    if (event.reset != null) {
+    if (episode.reset != null) {
       tableItems.push(
-        { historyResetHeading: { event } },
-        { historyResetMovie: { event, movie: event.reset.item } }
+        { historyResetHeading: { episode } },
+        { historyResetMovie: { episode, movie: episode.reset.item } }
       )
     }
-    if (event.unarchive != null) {
+    if (episode.unarchive != null) {
       tableItems.push(
-        { historyUnarchiveHeading: { event } },
-        { historyUnarchiveMovie: { event, movie: event.unarchive.item } }
+        { historyUnarchiveHeading: { episode } },
+        { historyUnarchiveMovie: { episode, movie: episode.unarchive.item } }
       )
     }
   }
@@ -82,17 +82,17 @@ export default function useTableItems (): TableItem[] {
       }
     })
   }
-  if (historyContextValue.events.length > 0) {
+  if (historyContextValue.episodes.length > 0) {
     tableItems.push({
       historyHeading: true
     })
   }
-  if (historyContextValue.firstEvent != null) {
-    addEvent(historyContextValue.firstEvent)
+  if (historyContextValue.firstEpisode != null) {
+    addEpisode(historyContextValue.firstEpisode)
   }
   if (historyContextValue.expanded) {
-    historyContextValue.restEvents.forEach(event => {
-      addEvent(event)
+    historyContextValue.restEpisodes.forEach(episode => {
+      addEpisode(episode)
     })
   }
   tableItems.push({

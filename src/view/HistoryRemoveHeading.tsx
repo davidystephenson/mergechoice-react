@@ -1,20 +1,20 @@
 import { DeleteIcon } from '@chakra-ui/icons'
 import { HStack, Heading } from '@chakra-ui/react'
-import HistoryEventHeadingRowView from './HistoryEventHeadingRow'
+import EpisodeHeadingRowView from './HistoryEventHeadingRow'
 import RewindButtonView from './RewindButtonView'
-import useHistoryEventContext from '../context/historyEvent/useHistoryEventContext'
+import useEpisodeContext from '../context/historyEvent/useHistoryEventContext'
 
 export default function HistoryRemoveHeadingView (): JSX.Element {
-  const historyEventContextValue = useHistoryEventContext()
+  const episodeContextValue = useEpisodeContext()
   return (
-    <HistoryEventHeadingRowView>
+    <EpisodeHeadingRowView>
       <HStack>
         <Heading size='xs'>
-          {historyEventContextValue.timestamp}
+          {episodeContextValue.timestamp}
         </Heading>
         <DeleteIcon />
       </HStack>
       <RewindButtonView />
-    </HistoryEventHeadingRowView>
+    </EpisodeHeadingRowView>
   )
 }

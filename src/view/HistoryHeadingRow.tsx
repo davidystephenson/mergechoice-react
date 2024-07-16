@@ -10,15 +10,15 @@ export default function HistoryHeadingRowView (): JSX.Element {
   function handleClick (): void {
     history.toggleExpanded()
   }
-  const minimumTotal = movies.choiceCountRange.minimum + history.resultEvents.length
-  const maximumTotal = movies.choiceCountRange.maximum + history.resultEvents.length
-  const minimumRatio = history.resultEvents.length / minimumTotal
-  const maximumRatio = history.resultEvents.length / maximumTotal
+  const minimumTotal = movies.choiceCountRange.minimum + history.resultEpisodes.length
+  const maximumTotal = movies.choiceCountRange.maximum + history.resultEpisodes.length
+  const minimumRatio = history.resultEpisodes.length / minimumTotal
+  const maximumRatio = history.resultEpisodes.length / maximumTotal
   const minimumPercent = Math.round(minimumRatio * 100)
   const maximumPercent = Math.round(maximumRatio * 100)
   return (
     <HeadingRowView onClick={handleClick} cursor='pointer'>
-      <Heading size='sm'>History ({history.resultEvents.length}, {minimumPercent}%, {maximumPercent}%)</Heading>
+      <Heading size='sm'>History ({history.resultEpisodes.length}, {minimumPercent}%, {maximumPercent}%)</Heading>
       <HistoryButtonView />
     </HeadingRowView>
   )

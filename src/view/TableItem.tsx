@@ -1,4 +1,4 @@
-import HistoryEventProvider from '../context/historyEvent/HistoryEventProvider'
+import EpisodeProvider from '../context/historyEvent/HistoryEventProvider'
 import MovieProvider from '../context/movie/MovieProvider'
 import useTableItemContext from '../context/tableItem/useTableItemContext'
 import ArchiveHeadingRowView from './ArchiveHeadingRow'
@@ -39,55 +39,55 @@ export default function TableItemView (): JSX.Element {
   }
   if (tableItem.historyArchiveHeading != null) {
     return (
-      <HistoryEventProvider historyEvent={tableItem.historyArchiveHeading.event}>
+      <EpisodeProvider episode={tableItem.historyArchiveHeading.episode}>
         <HistoryArchiveHeadingView />
-      </HistoryEventProvider>
+      </EpisodeProvider>
     )
   }
   if (tableItem.historyArchiveMovie != null) {
     return (
-      <HistoryEventProvider historyEvent={tableItem.historyArchiveMovie.event}>
+      <EpisodeProvider episode={tableItem.historyArchiveMovie.episode}>
         <MovieProvider movie={tableItem.historyArchiveMovie.movie}>
           <HistoryArchiveRowView />
         </MovieProvider>
-      </HistoryEventProvider>
+      </EpisodeProvider>
     )
   }
   if (tableItem.historyChoiceHeading != null) {
     return (
-      <HistoryEventProvider historyEvent={tableItem.historyChoiceHeading.event}>
+      <EpisodeProvider episode={tableItem.historyChoiceHeading.episode}>
         <HistoryChoiceHeadingRowView />
-      </HistoryEventProvider>
+      </EpisodeProvider>
     )
   }
   if (tableItem.historyChoiceA != null) {
     return (
-      <HistoryEventProvider historyEvent={tableItem.historyChoiceA.event}>
+      <EpisodeProvider episode={tableItem.historyChoiceA.episode}>
         <HistoryChoiceARowView />
-      </HistoryEventProvider>
+      </EpisodeProvider>
     )
   }
   if (tableItem.historyChoiceB != null) {
     return (
-      <HistoryEventProvider historyEvent={tableItem.historyChoiceB.event}>
+      <EpisodeProvider episode={tableItem.historyChoiceB.episode}>
         <HistoryChoiceBRowView />
-      </HistoryEventProvider>
+      </EpisodeProvider>
     )
   }
   if (tableItem.historyImportHeading != null) {
     return (
-      <HistoryEventProvider historyEvent={tableItem.historyImportHeading.event}>
+      <EpisodeProvider episode={tableItem.historyImportHeading.episode}>
         <HistoryImportHeadingView />
-      </HistoryEventProvider>
+      </EpisodeProvider>
     )
   }
   if (tableItem.historyImportMovie != null) {
     return (
-      <HistoryEventProvider historyEvent={tableItem.historyImportMovie.event}>
+      <EpisodeProvider episode={tableItem.historyImportMovie.episode}>
         <MovieProvider movie={tableItem.historyImportMovie.movie}>
           <HistoryImportRowView />
         </MovieProvider>
-      </HistoryEventProvider>
+      </EpisodeProvider>
     )
   }
   if (tableItem.historyHeading === true) {
@@ -97,69 +97,69 @@ export default function TableItemView (): JSX.Element {
   }
   if (tableItem.historyRandomHeading != null) {
     return (
-      <HistoryEventProvider historyEvent={tableItem.historyRandomHeading.event}>
+      <EpisodeProvider episode={tableItem.historyRandomHeading.episode}>
         <HistoryRandomHeadingRowView />
-      </HistoryEventProvider>
+      </EpisodeProvider>
     )
   }
   if (tableItem.historyRandomMovie != null) {
     return (
-      <HistoryEventProvider historyEvent={tableItem.historyRandomMovie.event}>
+      <EpisodeProvider episode={tableItem.historyRandomMovie.episode}>
         <MovieProvider movie={tableItem.historyRandomMovie.movie}>
           <HistoryRandomMovieView />
         </MovieProvider>
-      </HistoryEventProvider>
+      </EpisodeProvider>
     )
   }
   if (tableItem.historyRemoveHeading != null) {
     return (
-      <HistoryEventProvider historyEvent={tableItem.historyRemoveHeading.event}>
+      <EpisodeProvider episode={tableItem.historyRemoveHeading.episode}>
         <HistoryRemoveHeadingView />
-      </HistoryEventProvider>
+      </EpisodeProvider>
     )
   }
   if (tableItem.historyRemoveMovie != null) {
     return (
-      <HistoryEventProvider historyEvent={tableItem.historyRemoveMovie.event}>
+      <EpisodeProvider episode={tableItem.historyRemoveMovie.episode}>
         <MovieProvider
           movie={tableItem.historyRemoveMovie.movie}
           points={tableItem.historyRemoveMovie.movie.points}
         >
           <HistoryRemoveRowView />
         </MovieProvider>
-      </HistoryEventProvider>
+      </EpisodeProvider>
     )
   }
   if (tableItem.historyResetHeading != null) {
     return (
-      <HistoryEventProvider historyEvent={tableItem.historyResetHeading.event}>
+      <EpisodeProvider episode={tableItem.historyResetHeading.episode}>
         <HistoryResetHeadingRowView />
-      </HistoryEventProvider>
+      </EpisodeProvider>
     )
   }
   if (tableItem.historyResetMovie != null) {
     return (
-      <HistoryEventProvider historyEvent={tableItem.historyResetMovie.event}>
+      <EpisodeProvider episode={tableItem.historyResetMovie.episode}>
         <MovieProvider movie={tableItem.historyResetMovie.movie}>
           <HistoryResetMovieRowView />
         </MovieProvider>
-      </HistoryEventProvider>
+      </EpisodeProvider>
     )
   }
   if (tableItem.historyUnarchiveHeading != null) {
     return (
-      <HistoryEventProvider historyEvent={tableItem.historyUnarchiveHeading.event}>
+      <EpisodeProvider episode={tableItem.historyUnarchiveHeading.episode}>
         <HistoryUnarchiveHeadingView />
-      </HistoryEventProvider>
+      </EpisodeProvider>
     )
   }
   if (tableItem.historyUnarchiveMovie != null) {
     return (
-      <HistoryEventProvider historyEvent={tableItem.historyUnarchiveMovie.event}>
+      <EpisodeProvider episode={tableItem.historyUnarchiveMovie.episode}>
         <MovieProvider movie={tableItem.historyUnarchiveMovie.movie}>
           <HistoryUnarchiveRowView />
         </MovieProvider>
-      </HistoryEventProvider>
+      </EpisodeProvider>
     )
   }
   if (tableItem.list != null) {

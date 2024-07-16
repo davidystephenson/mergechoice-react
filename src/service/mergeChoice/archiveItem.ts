@@ -1,4 +1,4 @@
-import addEvent from './addEvent'
+import addEpisode from './addEvent'
 import getItem from './getItem'
 import getPoints from './getPoints'
 import { Calculated, Item, ItemId, State } from './mergeChoiceTypes'
@@ -19,7 +19,7 @@ export default function archiveItem<ListItem extends Item> (props: {
       item: calculated
     }
   }
-  addEvent({
+  addEpisode({
     data,
     state: props.state
   })

@@ -3,7 +3,7 @@ import getItem from './getItem'
 import getPoints from './getPoints'
 import { Item, State, Calculated } from './mergeChoiceTypes'
 import seedChoice from './seedChoice'
-import addEvent from './addEvent'
+import addEpisode from './addEvent'
 
 export default function chooseOption<ListItem extends Item> (props: {
   betterIndex: number
@@ -49,7 +49,7 @@ export default function chooseOption<ListItem extends Item> (props: {
         seeded: props.seeded ?? false
       }
     }
-    addEvent({
+    addEpisode({
       data,
       state: appliedState
     })

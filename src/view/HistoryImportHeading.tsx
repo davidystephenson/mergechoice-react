@@ -3,23 +3,23 @@ import { BsCloudUpload } from 'react-icons/bs'
 import ExpandButtonView from './ExpandButtonView'
 import HeadingRowView from './HeadingRow'
 import RewindButtonView from './RewindButtonView'
-import useHistoryEventContext from '../context/historyEvent/useHistoryEventContext'
+import useEpisodeContext from '../context/historyEvent/useHistoryEventContext'
 import useHistoryContext from '../context/history/useHistoryContext'
 import useMoviesContext from '../context/movies/useMoviesContext'
 import isResult from '../service/movies/isResult'
 
 export default function HistoryImportHeadingView (): JSX.Element {
   const historyContextValue = useHistoryContext()
-  const historyEventContextValue = useHistoryEventContext()
+  const episodeContextValue = useEpisodeContext()
   const moviesContextValue = useMoviesContext()
-  if (historyEventContextValue.import == null) {
+  if (episodeContextValue.import == null) {
     throw new Error('There is no import.')
   }
-  const open = historyContextValue.openIds.includes(historyEventContextValue.mergeChoiceId)
+  const open = historyContextValue.openIds.includes(episodeContextValue.mergeChoiceId)
   function handleOpenClick (): void {
-    historyContextValue.toggleEvent(historyEventContextValue.mergeChoiceId)
+    historyContextValue.toggleEpisode(episodeContextValue.mergeChoiceId)
   }
-  const matches = historyEventContextValue.import.items.filter(item => {
+  const matches = episodeContextValue.import.items.filter(item => {
     return isResult({ movie: item, query: moviesContextValue.query })
   })
   return (
@@ -30,7 +30,7 @@ export default function HistoryImportHeadingView (): JSX.Element {
     >
       <HStack>
         <Heading size='xs'>
-          {historyEventContextValue.timestamp}
+          {episodeContextValue.timestamp}
         </Heading>
         <Icon as={BsCloudUpload} />
         <Text>({matches.length})</Text>

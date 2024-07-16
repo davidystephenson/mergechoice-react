@@ -59,50 +59,7 @@ const marion = <T extends Item, O>(props: {
   throw new Error('No match found')
 }
 
-// function restoreArchive<ListItem extends Item> (props: {
-//   data: HistoryArchiveData<ListItem>
-//   state: State<ListItem>
-// }): State<ListItem> {
-//   const resetState = archiveItem({
-//     itemId: props.data.item.id,
-//     state: props.state
-//   })
-//   return resetState
-// }
-
-// const restorers = { archive: restoreArchive }
-
-// function restoreEventOld<ListItem extends Item> (props: {
-//   event: HistoryEvent<ListItem>
-//   state: State<ListItem>
-// }): State<ListItem> {
-//   const mapped = marion({
-//     actors: { archive: restoreArchive },
-//     part: props.event,
-//     director: ({ actor, input }): State<ListItem> => actor({ data: input, state: props.state })
-//   })
-//   return mapped
-// }
-
-// function deduceStateOld<ListItem extends Item> (props: {
-//   history: Array<HistoryEvent<ListItem>>
-//   seed: string
-// }): State<ListItem> {
-//   const initial = createState<ListItem>({ seed: props.seed })
-//   const reversed = props.history.slice().reverse()
-//   const deduced = reversed.reduce<State<ListItem>>((state, event) => {
-//     const restoredState = restoreEvent({
-//       event,
-//       state
-//     })
-//     const lastEvent = restoredState.history[0]
-//     lastEvent.createdAt = event.createdAt
-//     return restoredState
-//   }, initial)
-//   return deduced
-// }
-
-export function marionEvent<ListItem extends Item, Output> (props: {
+export function marionEpisode<ListItem extends Item, Output> (props: {
   actors: Actors<ListItem, Output>
   part: Episode<ListItem>
   director: Director<ListItem, Output>
@@ -115,7 +72,7 @@ export function marionEvent<ListItem extends Item, Output> (props: {
   return output
 }
 
-export function marionEventState<ListItem extends Item> (props: {
+export function marionEpisodeState<ListItem extends Item> (props: {
   actors: Actors<ListItem, State<ListItem>>
   part: Episode<ListItem>
   director: Director<ListItem, State<ListItem>>
@@ -128,11 +85,11 @@ export function marionEventState<ListItem extends Item> (props: {
   return mapped
 }
 
-export default function restoreEventState<ListItem extends Item> (restoreStateProps: {
-  event: Episode<ListItem>
+export default function restoreEpisodeState<ListItem extends Item> (restoreStateProps: {
+  episode: Episode<ListItem>
   state: State<ListItem>
 }): State<ListItem> {
-  const restoredState = marionEventState({
+  const restoredState = marionEpisodeState({
     actors: {
       archive: restoreArchive,
       choice: restoreChoice,
@@ -142,7 +99,7 @@ export default function restoreEventState<ListItem extends Item> (restoreStatePr
       reset: restoreReset,
       unarchive: restoreUnarchive
     },
-    part: restoreStateProps.event,
+    part: restoreStateProps.episode,
     director: ({ actor, input }): State<ListItem> => actor({ data: input, state: restoreStateProps.state })
   })
   return restoredState

@@ -27,7 +27,7 @@ export default function SearchView (): JSX.Element {
     inputRef.current?.blur()
     setAutoFocus(false)
   }, [])
-  useHotkeys('ctrl+f', () => {
+  useHotkeys('ctrl+f', (event) => {
     event?.preventDefault()
     inputRef.current?.focus()
     setAutoFocus(true)

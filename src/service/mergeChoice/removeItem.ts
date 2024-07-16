@@ -3,7 +3,7 @@ import removeFromOperations from './removeFromOperations'
 import setupChoice from './setupChoice'
 import { Item, State, ItemId } from './mergeChoiceTypes'
 import calculateItem from './calculateItem'
-import addEvent from './addEvent'
+import addEpisode from './addEvent'
 
 export default function removeItem<ListItem extends Item> (props: {
   itemId: ItemId
@@ -35,7 +35,7 @@ export default function removeItem<ListItem extends Item> (props: {
           item: calculatedItem
         }
       }
-      addEvent({
+      addEpisode({
         data,
         state: props.state
       })

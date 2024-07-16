@@ -1,4 +1,4 @@
-import addEvent from './addEvent'
+import addEpisode from './addEvent'
 import createChoice from './createChoice'
 import { Item, State, ChoiceData, Calculated } from './mergeChoiceTypes'
 
@@ -23,7 +23,7 @@ export default function createRandomChoice <ListItem extends Item> (props: {
       second: props.secondItem
     }
   }
-  addEvent({
+  addEpisode({
     data,
     state: props.state
   })

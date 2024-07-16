@@ -1,16 +1,16 @@
-import useHistoryEventContext from '../context/historyEvent/useHistoryEventContext'
+import useEpisodeContext from '../context/historyEvent/useHistoryEventContext'
 import MovieProvider from '../context/movie/MovieProvider'
 import HistoryChoiceRowView from './HistoryChoiceRow'
 
 export default function HistoryChoiceBRowView (): JSX.Element {
-  const historyEventContextValue = useHistoryEventContext()
-  if (historyEventContextValue.choice == null) {
+  const episodeContextValue = useEpisodeContext()
+  if (episodeContextValue.choice == null) {
     throw new Error('There is no choice.')
   }
   return (
     <MovieProvider
-      movie={historyEventContextValue.choice.bItem}
-      points={historyEventContextValue.choice.bItem.points}
+      movie={episodeContextValue.choice.bItem}
+      points={episodeContextValue.choice.bItem.points}
     >
       <HistoryChoiceRowView />
     </MovieProvider>

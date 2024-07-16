@@ -2,7 +2,7 @@ import { TableCellProps } from '@chakra-ui/react'
 import HeadingRowView from './HeadingRow'
 import { ReactNode } from 'react'
 
-export default function HistoryEventHeadingRowView ({
+export default function EpisodeHeadingRowView ({
   children,
   ...restProps
 }: {

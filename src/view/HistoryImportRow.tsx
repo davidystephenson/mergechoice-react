@@ -1,14 +1,14 @@
 import { Text, Td, Icon, HStack } from '@chakra-ui/react'
 import MovieLink from './MovieLink'
 import useMovieContext from '../context/movie/useMovieContext'
-import useHistoryEventContext from '../context/historyEvent/useHistoryEventContext'
+import useEpisodeContext from '../context/historyEvent/useHistoryEventContext'
 import { BsCloudUpload } from 'react-icons/bs'
 
 export default function HistoryImportRowView (): JSX.Element {
-  const historyEventContextValue = useHistoryEventContext()
+  const episodeContextValue = useEpisodeContext()
   const movieContextValue = useMovieContext()
-  if (historyEventContextValue.import == null) {
-    throw new Error('HistoryImportCellsView must be used with an import event.')
+  if (episodeContextValue.import == null) {
+    throw new Error('HistoryImportCellsView must be used with an import episode.')
   }
   return (
     <>
