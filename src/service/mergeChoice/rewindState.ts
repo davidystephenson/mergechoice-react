@@ -2,11 +2,11 @@ import deduceState from './deduceState'
 import { ItemId, Item, State } from './mergeChoiceTypes'
 
 export default function rewindState <ListItem extends Item> (props: {
-  episodeId: ItemId
+  episodeid: ItemId
   state: State<ListItem>
 }): State<ListItem> {
   const index = props.state.history.findIndex(
-    episode => episode.mergeChoiceId === props.episodeId
+    episode => episode.mergeChoiceId === props.episodeid
   )
   if (index === -1) {
     throw new Error('There is no episode')

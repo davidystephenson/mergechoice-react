@@ -21,6 +21,7 @@ export default function populate<ListItem extends Item> (props: {
       return true
     }
   })
+
   const newIds = newItems.map(item => item.id)
   const condition = !props.state.complete &&
     (props.state.betterIds.length !== 0 || props.state.worseIds.length !== 0 || props.state.choice?.random === true)
@@ -43,35 +44,22 @@ export default function populate<ListItem extends Item> (props: {
   newState.history = props.state.history
   newState.activeIds = newIds
   const sortedOutputs = sortOutputs({ items: newItems })
-  console.log('sortedOutputs', sortedOutputs)
-  const sortedSeeds = sortedOutputs.map(output => output.map(item => item.seed))
-  console.log('sortedSeeds', sortedSeeds)
+  // console.log('sortedOutputs', sortedOutputs)
+  // const sortedSeeds = sortedOutputs.map(output => output.map(item => item.seed))
+  // console.log('sortedSeeds', sortedSeeds)
   const activeOperationArray = sortedOutputs.map(output => {
     const outputIds = output.map(item => item.id)
-    console.log('outputIds', outputIds)
+    // console.log('outputIds', outputIds)
     const operation = createOperation({ output: outputIds, state: newState })
     return operation
   })
-  console.log('activeOperationArray', activeOperationArray)
   const activeOperationDictionary = arrayToDictionary({ array: activeOperationArray })
-  console.log('activeOperationDictionary', activeOperationDictionary)
   newState.activeOperations = activeOperationDictionary
-  console.log('newState.activeOperations', newState.activeOperations)
   newState.activeIds.push(...props.state.activeIds)
-  // /* Inserted start */
-  // const maxStepsFirst = getOperationsSteps({ operations: newState.activeOperations })
-  // console.log('maxStepsFirst', maxStepsFirst)
-  // if (maxStepsFirst === 0) {
-  //   newState.choice = undefined
-  //   const completedState = completeState({ state: newState })
-  //   return { state: completedState, items: newItems }
-  // }
-  // /* Inserted end */
   const newActiveOperations = getOperations({
     activeOperations: newState.activeOperations,
     state: newState
   })
-  console.log('newActiveOperations', newActiveOperations)
   newState.activeOperations = newActiveOperations
   newState.activeOperations = {
     ...newState.activeOperations,

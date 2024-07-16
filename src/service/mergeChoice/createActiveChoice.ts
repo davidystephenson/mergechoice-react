@@ -7,7 +7,6 @@ export default function createActiveChoice <ListItem extends Item> (props: {
   state: State<ListItem>
 }): State<ListItem> {
   const choiceOperation = getChoiceOperation({ operations: props.state.activeOperations })
-  console.log('choiceOperation', choiceOperation)
   const firstOption = choiceOperation.input[0][0]
   if (firstOption == null) {
     throw new Error('There is no first option.')

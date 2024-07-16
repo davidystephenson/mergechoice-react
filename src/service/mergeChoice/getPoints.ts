@@ -7,7 +7,7 @@ export default function getPoints <ListItem extends Item> (props: {
   state: State<ListItem>
 }): number {
   if (props.debug === true) {
-    console.debug('getPoints state', props.state)
+    console.debug('state', props.state)
   }
   const betterItem = props.state.betterIds.some(betterId => betterId === props.itemId)
   if (betterItem) {

@@ -1,7 +1,7 @@
-import { Episode, Item, Part, State } from './mergeChoiceTypes'
+import { HistoryDataPart, Episode, Item, State } from './mergeChoiceTypes'
 
 export default function addEpisode<ListItem extends Item> (props: {
-  data: Part<ListItem>
+  data: HistoryDataPart<ListItem>
   state: State<ListItem>
 }): State<ListItem> {
   const newEpisode: Episode<ListItem> = {
