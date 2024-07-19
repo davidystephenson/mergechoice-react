@@ -6,6 +6,13 @@ import { Item, State } from './mergeChoiceTypes'
 export default function setupRandomChoice <ListItem extends Item> (props: {
   state: State<ListItem>
 }): State<ListItem> {
+  if (!props.state.complete) {
+    throw new Error('The state must be complete to create a random choice')
+  }
+  const items = Object.values(props.state.items)
+  if (items.length < 2) {
+    throw new Error('There must be at least two active items to create a random choice')
+  }
   const seed = `${props.state.seed}${props.state.choiceCount}`
   const firstSeed = `first${seed}`
   const firstId = getRandomElement({
@@ -16,9 +23,10 @@ export default function setupRandomChoice <ListItem extends Item> (props: {
     itemId: firstId,
     state: props.state
   })
+  const otherIds = props.state.activeIds.filter(id => id !== firstId)
   const secondSeed = `second${seed}`
   const secondId = getRandomElement({
-    array: props.state.activeIds,
+    array: otherIds,
     seed: secondSeed
   })
   const secondItem = getCalculatedItem({
