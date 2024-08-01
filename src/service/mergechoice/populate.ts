@@ -33,6 +33,7 @@ export default function populate<ListItem extends Item> (props: {
     return { state: props.state, items: newItems }
   }
   const newState: State<ListItem> = createState({ seed: props.state.seed })
+  newState.archive = props.state.archive
   newState.choiceCount = props.state.choiceCount
   newState.operationCount = props.state.operationCount
   for (const id in props.state.items) {

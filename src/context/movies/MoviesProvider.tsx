@@ -7,7 +7,6 @@ import chooseOption from '../../service/mergechoice/chooseOption'
 import removeItem from '../../service/mergechoice/removeItem'
 import importItems from '../../service/mergechoice/importItems'
 import rewindState from '../../service/mergechoice/rewindState'
-import getChoiceCountRange from '../../service/mergechoice/getChoiceCount'
 import getSortedMovies from '../../service/movies/getSortedMovies'
 import { ItemId, State, StoredState } from '../../service/mergechoice/mergeChoiceTypes'
 import isResult from '../../service/movies/isResult'
@@ -17,6 +16,7 @@ import archiveItem from '../../service/mergechoice/archiveItem'
 import unarchiveItem from '../../service/mergechoice/unarchiveItem'
 import deduceState from '../../service/mergechoice/deduceState'
 import createState from '../../service/mergechoice/createState'
+import getChoiceCountRange from '../../service/mergechoice/getChoiceCountRange'
 
 export default function MoviesProvider (props: {
   children: ReactNode

@@ -9,7 +9,7 @@ export default function importItems <ListItem extends Item> (props: {
   silent?: boolean
   state: State<ListItem>
 }): State<ListItem> {
-  if (props.state.choice?.random === true) {
+  if (props.state.choice?.random === true && !props.state.complete) {
     throw new Error('You cannot import during a random choice')
   }
   const clones = structuredClone(props.items)

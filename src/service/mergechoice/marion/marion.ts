@@ -1,7 +1,7 @@
 import { UnknownParts, Actors } from './marionTypes'
 
 class AuditionError extends Error { }
-const audition = <Complement, O, P extends UnknownParts, K extends keyof P>(props: {
+const audition = <Complement, O, P extends UnknownParts, K extends keyof UnknownParts>(props: {
   actors: Actors<Complement, O, P>
   complement: Complement
   part: P
@@ -28,7 +28,7 @@ export const marion = <Complement, Output, P extends UnknownParts,>(props: {
         actors: props.actors,
         complement: props.complement,
         part: props.part,
-        key
+        key: key as keyof UnknownParts
       })
       return result
     } catch (error) {

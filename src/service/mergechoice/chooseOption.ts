@@ -13,6 +13,9 @@ export default function chooseOption<ListItem extends Item> (props: {
   if (props.state.choice == null) {
     throw new Error('There is no choice.')
   }
+  if (props.state.complete) {
+    throw new Error('The state is complete')
+  }
   const oldState = JSON.parse(JSON.stringify(props.state))
   const aId = props.state.choice.options[props.state.choice.aIndex]
   const bId = props.state.choice.options[props.state.choice.bIndex]

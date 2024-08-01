@@ -42,7 +42,6 @@ export default function MovieProvider (props: {
     }
     await moviesContextValue.unarchiveMovie({ itemId: props.movie.id })
   }
-  console.log('props.points:', props.points)
   const moviePoints = props.points ?? getPoints({
     itemId: props.movie.id,
     state: moviesContextValue.state

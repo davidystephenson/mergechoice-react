@@ -11,7 +11,7 @@ export default function sortMovies (props: {
 }): CalculatedMovie[] {
   const calculatedMovies = props.ids.map((itemId) => {
     const movie = getItem({ itemId, items: props.state.items })
-    const points = getPoints({ itemId, state: props.state, debug: true })
+    const points = getPoints({ itemId, state: props.state })
     return {
       ...movie,
       points
